@@ -1,19 +1,18 @@
 .container {
-  display: flex;
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  display: flex; /* Display elements horizontally */
 }
 
 ul {
-  list-style: none;
+  list-style: none; /* Remove default bullets */
 }
 
 li {
   display: inline-block;
-  margin-right: 10px;
-  vertical-align: middle;
+  margin-right: 10px; /* Add space between the list items */
+  vertical-align: middle; /* Align list items vertically */
 }
 
 .logo {
   max-width: 100px; /* Adjust the value as per your requirements */
-  height: auto;
+  height: auto; /* To ensure image doesn't get pixelated */
 }
