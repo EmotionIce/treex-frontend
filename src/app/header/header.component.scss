@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.logo {
+  max-width: 100px; /* Adjust the value as per your requirements */
+  height: auto;
+}
