@@ -1,0 +1,41 @@
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>477</x><y>459</y><w>306</w><h>135</h></coordinates><panel_attributes>Element
+--
+- id: UUID
+- content: string
+- parent: Element
+- chooseManualPreview: boolean
+- manualPreview: String
+- notice: String
+--
+/+ changeParent(oldParent: Parent, newParent: Parent): bool/</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>351</x><y>702</y><w>189</w><h>54</h></coordinates><panel_attributes>Child
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>774</x><y>702</y><w>144</w><h>81</h></coordinates><panel_attributes>Parent
+--
+- children: List&lt;Element&gt;
+--
+/+ addChild(child: Element)/
+/+ removeChild(chilld: UUID)/</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>441</x><y>585</y><w>432</w><h>135</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>220;10;220;70;10;70;10;130;10;70;460;70;460;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>459</y><w>261</w><h>108</h></coordinates><panel_attributes>Root
+--
+_-instance: Root = null_
+- children: List&lt;UUID&gt;
+--
+- Root()
++ createRoot(): Root
++ searchByID(): Element
++ getElementsOfLayer(e: Element): List&lt;Element&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>252</x><y>486</y><w>243</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=*
+hat children &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>774</x><y>486</y><w>216</w><h>234</h></coordinates><panel_attributes>lt=-
+m1=*
+m2=1
+&lt; hat children</panel_attributes><additional_attributes>10;10;140;10;140;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1323</x><y>459</y><w>333</w><h>171</h></coordinates><panel_attributes>BackendService
+--
+- baseUrl: string
+--
++ Reload()
++ GitPush()
++ MoveElement(e: Element, p: Parent)
++ EditSummary(e: Element, s: string)
++ EditCommenty(e: Element, s: string)
++ EditContent(e: Element, s: string)
++ LoadFromFolder(destination: string)
++ LoadFromGit(url: string, user: string, pass: string)</panel_attributes><additional_attributes></additional_attributes></element></diagram>
