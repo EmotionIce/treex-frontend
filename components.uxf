@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>477</x><y>459</y><w>306</w><h>135</h></coordinates><panel_attributes>Element
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>529</x><y>184</y><w>272</w><h>120</h></coordinates><panel_attributes>Element
 --
 - id: UUID
 - content: string
@@ -6,14 +6,17 @@
 - chooseManualPreview: boolean
 - manualPreview: String
 - notice: String
+- displayTypeName: string
 --
-/+ changeParent(oldParent: Parent, newParent: Parent): bool/</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>351</x><y>702</y><w>189</w><h>54</h></coordinates><panel_attributes>Child
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>774</x><y>702</y><w>144</w><h>81</h></coordinates><panel_attributes>Parent
++ changeParent(oldParent: Parent, newParent: Parent): bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>417</x><y>400</y><w>168</w><h>40</h></coordinates><panel_attributes>/Child/
+--
+--
+/+ display(): void/</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>793</x><y>400</y><w>128</w><h>72</h></coordinates><panel_attributes>/Parent/
 --
 - children: List&lt;Element&gt;
 --
 /+ addChild(child: Element)/
-/+ removeChild(chilld: UUID)/</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>441</x><y>585</y><w>432</w><h>135</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>220;10;220;70;10;70;10;130;10;70;460;70;460;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>459</y><w>261</w><h>108</h></coordinates><panel_attributes>Root
+/+ removeChild(chilld: UUID)/</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>497</x><y>296</y><w>384</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>220;10;220;70;10;70;10;130;10;70;460;70;460;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>105</x><y>184</y><w>232</w><h>96</h></coordinates><panel_attributes>Root
 --
 _-instance: Root = null_
 - children: List&lt;UUID&gt;
@@ -21,21 +24,44 @@ _-instance: Root = null_
 - Root()
 + createRoot(): Root
 + searchByID(): Element
-+ getElementsOfLayer(e: Element): List&lt;Element&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>252</x><y>486</y><w>243</w><h>45</h></coordinates><panel_attributes>lt=-
++ getElementsOfLayer(e: Element): List&lt;Element&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>329</x><y>208</y><w>216</w><h>40</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=*
-hat children &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>774</x><y>486</y><w>216</w><h>234</h></coordinates><panel_attributes>lt=-
+hat children &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>793</x><y>208</y><w>192</w><h>208</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
-&lt; hat children</panel_attributes><additional_attributes>10;10;140;10;140;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1323</x><y>459</y><w>333</w><h>171</h></coordinates><panel_attributes>BackendService
+&lt; hat children</panel_attributes><additional_attributes>10;10;140;10;140;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1041</x><y>184</y><w>240</w><h>136</h></coordinates><panel_attributes>BackendService
 --
 - baseUrl: string
 --
-+ Reload()
++ Reload(): object
 + GitPush()
 + MoveElement(e: Element, p: Parent)
 + EditSummary(e: Element, s: string)
 + EditCommenty(e: Element, s: string)
 + EditContent(e: Element, s: string)
-+ LoadFromFolder(destination: string)
-+ LoadFromGit(url: string, user: string, pass: string)</panel_attributes><additional_attributes></additional_attributes></element></diagram>
++ LoadFromFolder(destination: string): object
++ LoadFromGit(url: string, user: string, pass: string): object</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1337</x><y>184</y><w>184</w><h>64</h></coordinates><panel_attributes>ImportHandler
+--
+private jsonData: object
+--
++ generateTree(jsonData: object): Root
++ setData(jsonData: object)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>673</x><y>544</y><w>80</w><h>24</h></coordinates><panel_attributes>Part</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>761</x><y>544</y><w>80</w><h>24</h></coordinates><panel_attributes>Chapter</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>849</x><y>544</y><w>80</w><h>24</h></coordinates><panel_attributes>Section</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>937</x><y>544</y><w>80</w><h>24</h></coordinates><panel_attributes>Subsection</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1025</x><y>544</y><w>80</w><h>24</h></coordinates><panel_attributes>Subsubsection</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1113</x><y>544</y><w>80</w><h>24</h></coordinates><panel_attributes>Paragraph</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1201</x><y>544</y><w>80</w><h>24</h></coordinates><panel_attributes>Subparagraph</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>705</x><y>464</y><w>112</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>120;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>793</x><y>464</y><w>40</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;10;10;100</additional_attributes></element><element><id>Relation</id><coordinates><x>825</x><y>464</y><w>80</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;80;100</additional_attributes></element><element><id>Relation</id><coordinates><x>841</x><y>464</y><w>152</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;170;100</additional_attributes></element><element><id>Relation</id><coordinates><x>857</x><y>464</y><w>224</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;260;100</additional_attributes></element><element><id>Relation</id><coordinates><x>881</x><y>464</y><w>288</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;340;100</additional_attributes></element><element><id>Relation</id><coordinates><x>905</x><y>464</y><w>352</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;420;100</additional_attributes></element><element><id>UMLClass</id><coordinates><x>201</x><y>544</y><w>80</w><h>80</h></coordinates><panel_attributes>Figure
+--
+- graphic: string
+- label: string
+- caption: string
+--
++ display(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>289</x><y>544</y><w>80</w><h>40</h></coordinates><panel_attributes>Formula
+--
+--
++ display(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>377</x><y>544</y><w>80</w><h>40</h></coordinates><panel_attributes>Algorithm
+--
+--
++ display(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>465</x><y>544</y><w>80</w><h>40</h></coordinates><panel_attributes>FileInput
+--
+--
++ display(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>553</x><y>544</y><w>80</w><h>40</h></coordinates><panel_attributes>Text
+--
+--
++ display(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>233</x><y>432</y><w>216</w><h>128</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>250;10;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>321</x><y>432</y><w>144</w><h>128</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>409</x><y>432</y><w>72</w><h>128</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>70;10;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>481</x><y>432</y><w>32</w><h>128</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;20;140</additional_attributes></element><element><id>Relation</id><coordinates><x>513</x><y>432</y><w>96</w><h>128</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;100;140</additional_attributes></element></diagram>
