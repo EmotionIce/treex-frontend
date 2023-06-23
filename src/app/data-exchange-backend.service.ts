@@ -6,12 +6,12 @@ import { HttpClient } from '@angular/common/http'
 })
 export class DataExchangeBackendService {
 
-  private interactionUrl = 'http://localhost:420/api'; //dunno what actual url will be
+  private interactionUrl = 'http://localhost:8080/api'; //actual url will be 8080 apparently
   constructor(private http: HttpClient) { }
 
-moveElement(element: number, newParent: number) { //actually 2 strings?
+moveElement(element: number, newParent: number, previousElement: number) {
   const url = this.interactionUrl + '/move-element';
-  let moveElementData = { element, newParent };
+  let moveElementData = { element, newParent, previousElement };
 
   return this.http.post(url, moveElementData);
   }
