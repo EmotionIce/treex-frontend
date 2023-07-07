@@ -1,6 +1,7 @@
 import { Element } from './element';
+import { Root } from './root';
 
-class Child extends Element {
+export class Child extends Element {
   // Inherits id, content, comment, summary, and parent from Element class
   // Inherits changeParent method from Element class
 
@@ -13,7 +14,7 @@ class Child extends Element {
     content: string,
     comment: string,
     summary: string,
-    parent: Element
+    parent: Element | Root | null = null
   ) {
     super(id, content, comment, summary, parent);
   }

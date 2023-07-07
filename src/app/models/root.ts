@@ -1,7 +1,7 @@
 import { Element } from './element';
 import { Parent } from './parent';
 
-class Root {
+export class Root {
   private static instance: Root;
   private children: Element[] = [];
 
@@ -12,6 +12,19 @@ class Root {
       Root.instance = new Root();
     }
     return Root.instance;
+  }
+
+  public addChild(child: Element): void {
+    this.children.push(child);
+  }
+
+  public removeChild(childId: string): boolean {
+    const index = this.children.findIndex((child) => child.getId() === childId);
+    if (index > -1) {
+      this.children.splice(index, 1);
+      return true;
+    }
+    return false;
   }
 
   public searchByID(id: string): Element | null {
@@ -58,20 +71,25 @@ class Root {
 
     // Start the traversal from every child of the root
     for (let child of this.children) {
-      traverse(child, 0);
+      traverse(child, 1);
     }
 
     // Return the result
     return result;
   }
 
-  private getDepth(e: Element | null): number {
+  private getDepth(e: Element | Root | null): number {
     let depth = 0;
 
-    if (e === null) return depth;
-    while (e.getParent()) {
-      depth++;
-      e = e.getParent()!;
+    if (e === null || e === this) return depth;
+
+    while (e !== this) {
+      if (e instanceof Element) {
+        depth++;
+        e = e.getParent();
+      } else {
+        break;
+      }
     }
     return depth;
   }
