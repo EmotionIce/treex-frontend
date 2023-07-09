@@ -1,0 +1,66 @@
+.element-container {
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 1000px;
+    position: relative;
+    cursor: move;
+    background-color: grey;
+}
+
+
+.element-container h3 {
+    border-bottom: 1px solid #ccc;
+}
+
+.element-container p {
+    border-bottom: 1px solid #ccc; /*line below the content */
+    margin-bottom: 10px; /*  some spacing between content and button */
+  }
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+
+.edit-button {
+    background-color: #007bff; /* Change button background color */
+  color: white; /* Change button text color */
+  padding: 5px 10px; /* Adjust button padding */
+  border: none; /* Remove button border */
+  border-radius: 3px; /* Add button border radius */
+  margin-right: 10px; /* Optional: Add margin between buttons */
+
+}
+.comment-buton {
+    background-color: #28a745; /* Change button background color */
+    color: white; /* Change button text color */
+    padding: 5px 10px; /* Adjust button padding */
+    border: none; /* Remove button border */
+    border-radius: 3px; /* Add button border radius */
+    margin-right: 10px;
+}
+.summary-button {
+    background-color: #28a745; /* Change button background color */
+    color: white; /* Change button text color */
+    padding: 5px 10px; /* Adjust button padding */
+    border: none; /* Remove button border */
+    border-radius: 3px; /* Add button border radius */
+    margin-left: 10px;
+  }
+
+  /*.editor-part {
+    position: relative;
+    overflow-y:auto; */
+   /* height: calc(100vh - <20000px>); 
+  } */
+  .editor-container {
+    width: 70% !important;
+    overflow-y: auto;
+    height: 100% !important;
+    margin-left: 10px !important;
+    padding: 10px !important;
+  }

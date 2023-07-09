@@ -1,0 +1,12 @@
+/*.navigation-part {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+  } */
+  .navigation-container {
+    overflow-y: auto;
+    width: 30% !important;
+    height: 100% !important;
+    margin-right: 10px !important;
+    padding: 10px !important;
+  }

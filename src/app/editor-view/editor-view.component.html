@@ -1,5 +1,18 @@
 <app-header></app-header>
+
 <div class="container">
-  <app-editor-navigation></app-editor-navigation>
-  <app-editor-layer></app-editor-layer>
+  <div class="editor-view">
+    <div class="navigation-part">
+      <!-- Display the navigation part component here -->
+      <app-navigation-part></app-navigation-part>
+    </div>
+    <div class="parent-button">
+      <button class="green-button">Parent Button</button>
+    </div>
+    <div class="editor-part">
+      <!-- Display the editor part component here -->
+      <app-editor-part></app-editor-part>
+    </div>
+    
+  </div>
 </div>
