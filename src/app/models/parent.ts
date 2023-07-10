@@ -15,8 +15,9 @@ export abstract class Parent extends Element {
     this.children = [];
   }
 
-  public addChild(child: Element): void {
+  public addChild(child: Element): boolean {
     this.children.push(child);
+    return true;
   }
 
   public removeChild(childId: string): boolean {
