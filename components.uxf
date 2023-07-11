@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>15</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>1335</x><y>23</y><w>555</w><h>195</h></coordinates><panel_attributes>/Element/
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>712</x><y>0</y><w>296</w><h>104</h></coordinates><panel_attributes>/Element/
 --
 - id: string
 - content: string
@@ -7,13 +7,13 @@
 - parent: Element
 --
 + changeParent(newParent: Parent): bool
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1065</x><y>413</y><w>165</w><h>45</h></coordinates><panel_attributes>Child</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2010</x><y>428</y><w>315</w><h>150</h></coordinates><panel_attributes>/Parent/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>568</x><y>208</y><w>88</w><h>24</h></coordinates><panel_attributes>Child</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1072</x><y>216</y><w>168</w><h>80</h></coordinates><panel_attributes>/Parent/
 --
 - children: List&lt;Element&gt;
 --
 /+ addChild(child: Element)/
 /+ removeChild(chilldId: string)/
-/+ getPrevious(e: Element): Element/</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1140</x><y>203</y><w>1035</w><h>255</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>310;10;310;90;10;90;10;140;10;90;670;90;670;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>540</x><y>23</y><w>435</w><h>180</h></coordinates><panel_attributes>Root
+/+ getPrevious(e: Element): Element/</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>608</x><y>96</y><w>552</w><h>136</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>310;10;310;90;10;90;10;140;10;90;670;90;670;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>288</x><y>0</y><w>232</w><h>96</h></coordinates><panel_attributes>Root
 --
 _-instance: Root = null_
 - children: List&lt;Element&gt;
@@ -21,13 +21,13 @@ _-instance: Root = null_
 - Root()
 + createRoot(): Root
 + searchByID(id: string): Element
-+ getElementsOfLayer(e: Element): List&lt;Element&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>960</x><y>68</y><w>405</w><h>75</h></coordinates><panel_attributes>lt=-
++ getElementsOfLayer(e: Element): List&lt;Element&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>512</x><y>24</y><w>216</w><h>40</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=*
-hat children &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1875</x><y>68</y><w>495</w><h>390</h></coordinates><panel_attributes>lt=-
+hat children &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1000</x><y>24</y><w>264</w><h>208</h></coordinates><panel_attributes>lt=-
 m1=*
 m2=1
-&lt; hat children</panel_attributes><additional_attributes>10;10;230;10;230;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>510</x><y>1463</y><w>615</w><h>300</h></coordinates><panel_attributes>BackendService
+&lt; hat children</panel_attributes><additional_attributes>10;10;230;10;230;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>272</x><y>768</y><w>328</w><h>160</h></coordinates><panel_attributes>BackendService
 --
 - baseUrl: string
 --
@@ -40,7 +40,7 @@ m2=1
 + EditContent(e: Element, s: string)
 + LoadFromFolder(destination: string): Object
 + LoadFromGit(url: string, user: string, pass: string): Object
-+ DeleteElement(e: Element, cascading: bool): Object</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1230</x><y>1463</y><w>495</w><h>255</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
++ DeleteElement(e: Element, cascading: bool): Object</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>656</x><y>768</y><w>264</w><h>136</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
 ImportComponent
 --
 - jsonData: Object
@@ -48,17 +48,17 @@ ImportComponent
 - pass: string
 --
 + importDirectory(dir: string): Root
-+ importGit(url: string, user: string, pass: string): Root</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1140</x><y>443</y><w>45</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>1110</x><y>1523</y><w>150</w><h>45</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>1973</y><w>615</w><h>210</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
++ importGit(url: string, user: string, pass: string): Root</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>608</x><y>224</y><w>24</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>592</x><y>800</y><w>80</w><h>24</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;80;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>1040</y><w>328</w><h>112</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
 TreeViewComponent
 --
 - jsonTree: Object
 --
 + MoveElementTree(e: Element, p: Parent, pc: Element): Array&lt;Object&gt;
-OnElementHover(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>405</x><y>1748</y><w>225</w><h>255</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>130;10;130;120;10;120;10;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>630</x><y>1973</y><w>510</w><h>210</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
+OnElementHover(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>216</x><y>920</y><w>120</w><h>136</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>130;10;130;120;10;120;10;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>336</x><y>1040</y><w>272</w><h>112</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
 /Part/
 --
 - elements: LayerElementComponent
-- root: Root</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>585</x><y>1748</y><w>270</w><h>255</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;120;160;120;160;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2580</x><y>1838</y><w>405</w><h>210</h></coordinates><panel_attributes>UserSettings
+- root: Root</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>312</x><y>920</y><w>144</w><h>136</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;120;160;120;160;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1376</x><y>968</y><w>216</w><h>112</h></coordinates><panel_attributes>UserSettings
 --
 __- instance: UserSettings__
 - settings: {[key: string]: Setting} = {}
@@ -66,34 +66,34 @@ __- instance: UserSettings__
 + getInstance(): UserSettings
 + addSetting(key: string, setting: Setting): void
 + toggleSetting(key: string): void
-+ saveSettings(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3030</x><y>1943</y><w>195</w><h>105</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
++ saveSettings(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1616</x><y>1024</y><w>104</w><h>56</h></coordinates><panel_attributes>&lt;&lt;interface&gt;&gt;
 Setting
 --
 --
-toggleSetting(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2355</x><y>2408</y><w>210</w><h>75</h></coordinates><panel_attributes>HideLeavesTree
+toggleSetting(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1256</x><y>1272</y><w>112</w><h>40</h></coordinates><panel_attributes>HideLeavesTree
 --
-hideLeavesTree: bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2610</x><y>2408</y><w>210</w><h>75</h></coordinates><panel_attributes>DeleteCascading
+hideLeavesTree: bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1392</x><y>1272</y><w>112</w><h>40</h></coordinates><panel_attributes>DeleteCascading
 --
-DeleteCascading: bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2865</x><y>2408</y><w>210</w><h>75</h></coordinates><panel_attributes>HideComment
+DeleteCascading: bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1528</x><y>1272</y><w>112</w><h>40</h></coordinates><panel_attributes>HideComment
 --
-HideComment: bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>3120</x><y>2408</y><w>210</w><h>75</h></coordinates><panel_attributes>HideSummaries
+HideComment: bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1664</x><y>1272</y><w>112</w><h>40</h></coordinates><panel_attributes>HideSummaries
 --
-HideSummaries: bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2415</x><y>2033</y><w>345</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>210;10;210;110;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>2685</x><y>2033</y><w>75</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>30;10;30;110;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>2715</x><y>2033</y><w>270</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;110;160;250</additional_attributes></element><element><id>Relation</id><coordinates><x>2715</x><y>2033</y><w>540</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;110;340;250</additional_attributes></element><element><id>Relation</id><coordinates><x>2505</x><y>2033</y><w>630</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>400;10;400;110;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>2700</x><y>2033</y><w>435</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>270;10;270;110;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>3090</x><y>2033</y><w>195</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;110;110;250</additional_attributes></element><element><id>Relation</id><coordinates><x>2970</x><y>2033</y><w>165</w><h>405</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>90;10;90;110;10;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1815</x><y>1463</y><w>360</w><h>105</h></coordinates><panel_attributes>JsonDataHandler
+HideSummaries: bool</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1288</x><y>1072</y><w>184</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>210;10;210;110;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1432</x><y>1072</y><w>40</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>30;10;30;110;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1448</x><y>1072</y><w>144</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;110;160;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1448</x><y>1072</y><w>288</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;110;340;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1336</x><y>1072</y><w>336</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>400;10;400;110;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1440</x><y>1072</y><w>232</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>270;10;270;110;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1648</x><y>1072</y><w>104</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;110;110;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1584</x><y>1072</y><w>88</w><h>216</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>90;10;90;110;10;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>968</x><y>768</y><w>192</w><h>56</h></coordinates><panel_attributes>JsonDataHandler
 --
 - jsonData: Object
 --
-+ generateTree(jsonData: Object): Root</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1710</x><y>1508</y><w>135</w><h>45</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>70;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>630</x><y>2183</y><w>210</w><h>105</h></coordinates><panel_attributes>Dieer Services istTeil,
++ generateTree(jsonData: Object): Root</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>912</x><y>792</y><w>72</w><h>24</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>70;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>336</x><y>1152</y><w>112</w><h>56</h></coordinates><panel_attributes>Dieer Services istTeil,
 des MVC, einer
 Angular-Komponente
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1125</x><y>1553</y><w>750</w><h>495</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>480;10;480;310;10;310</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1230</x><y>1718</y><w>210</w><h>105</h></coordinates><panel_attributes>Dieer Services istTeil,
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>600</x><y>816</y><w>400</w><h>264</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>480;10;480;310;10;310</additional_attributes></element><element><id>UMLNote</id><coordinates><x>656</x><y>904</y><w>112</w><h>56</h></coordinates><panel_attributes>Dieer Services istTeil,
 des MVC, einer
 Angular-Komponente
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>0</x><y>2183</y><w>210</w><h>105</h></coordinates><panel_attributes>Dieer Services istTeil,
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>0</x><y>1152</y><w>112</w><h>56</h></coordinates><panel_attributes>Dieer Services istTeil,
 des MVC, einer
 Angular-Komponente
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>540</x><y>203</y><w>105</w><h>45</h></coordinates><panel_attributes>Singleton
-bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>2580</x><y>2048</y><w>105</w><h>45</h></coordinates><panel_attributes>Singleton
-bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2610</x><y>1478</y><w>285</w><h>210</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>288</x><y>96</y><w>56</w><h>24</h></coordinates><panel_attributes>Singleton
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>1376</x><y>1080</y><w>56</w><h>24</h></coordinates><panel_attributes>Singleton
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1392</x><y>776</y><w>152</w><h>112</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
 SettingsComponent
 --
 - userSettings: UserSettings
@@ -102,46 +102,48 @@ SettingsComponent
 + toggleHideSummaries(): void
 + toggleHideLeavesTree(): void
 + toggleDeleteCascading(): void
-+ saveSettings(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2715</x><y>1673</y><w>45</w><h>195</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>2895</x><y>1583</y><w>210</w><h>105</h></coordinates><panel_attributes>Dieer Services istTeil,
++ saveSettings(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1448</x><y>880</y><w>24</w><h>104</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;110;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>1544</x><y>832</y><w>112</w><h>56</h></coordinates><panel_attributes>Dieer Services istTeil,
 des MVC, einer
 Angular-Komponente
-bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1020</x><y>563</y><w>270</w><h>75</h></coordinates><panel_attributes>Blockelement
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>544</x><y>288</y><w>144</w><h>40</h></coordinates><panel_attributes>Blockelement
 --
-- options: String = null</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1440</x><y>758</y><w>435</w><h>120</h></coordinates><panel_attributes>Sectioning
+- options: String = null</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>768</x><y>392</y><w>232</w><h>64</h></coordinates><panel_attributes>Sectioning
 --
 - MAX_HEIGHT: int = 7
 --
 + checkPossibleMove(levelDifference: int): bool
-+ getStartPart(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1950</x><y>758</y><w>315</w><h>105</h></coordinates><panel_attributes>input
++ getStartPart(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1040</x><y>392</y><w>168</w><h>56</h></coordinates><panel_attributes>input
 --
 - startPart: String = \input{content}
 --
-+ getStartPart(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2370</x><y>773</y><w>225</w><h>135</h></coordinates><panel_attributes>Environment
++ getStartPart(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1264</x><y>400</y><w>120</w><h>72</h></coordinates><panel_attributes>Environment
 --
-- label: List&lt;Label&gt;
-- caption: List&lt;Caption&gt;
+- label: Array&lt;Label&gt;
+- caption: Array&lt;Caption&gt;
 - startPart: String
-- endPart: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1635</x><y>563</y><w>510</w><h>225</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>320;10;320;70;10;70;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>2100</x><y>563</y><w>45</w><h>225</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>2100</x><y>563</y><w>435</w><h>240</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70;270;70;270;140</additional_attributes></element><element><id>Relation</id><coordinates><x>2580</x><y>788</y><w>330</w><h>75</h></coordinates><panel_attributes>lt=-
+- endPart: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>872</x><y>288</y><w>272</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>320;10;320;70;10;70;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1120</x><y>288</y><w>24</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1120</x><y>288</y><w>232</w><h>128</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70;270;70;270;140</additional_attributes></element><element><id>Relation</id><coordinates><x>1376</x><y>408</y><w>176</w><h>40</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=0..n
-&lt; has</panel_attributes><additional_attributes>10;20;200;20</additional_attributes></element><element><id>Relation</id><coordinates><x>2580</x><y>863</y><w>330</w><h>75</h></coordinates><panel_attributes>lt=-
+&lt; has</panel_attributes><additional_attributes>10;20;200;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1376</x><y>448</y><w>176</w><h>40</h></coordinates><panel_attributes>lt=-
 m1=1
 m2=0..n
-&lt; has</panel_attributes><additional_attributes>10;20;200;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>2880</x><y>743</y><w>210</w><h>105</h></coordinates><panel_attributes>Caption
+&lt; has</panel_attributes><additional_attributes>10;20;200;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1536</x><y>376</y><w>112</w><h>64</h></coordinates><panel_attributes>Caption
+--
+- content: string
+--
++ getContent(): string
++ setContent(): string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1536</x><y>456</y><w>112</w><h>64</h></coordinates><panel_attributes>Label
 --
 - content: String
 --
-+ getStartPart(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2880</x><y>863</y><w>210</w><h>105</h></coordinates><panel_attributes>Label
---
-- content: String
---
-+ getStartPart(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1845</x><y>1133</y><w>405</w><h>90</h></coordinates><panel_attributes>Equation
++ getContent(): string
++ setContent(): string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>984</x><y>592</y><w>216</w><h>48</h></coordinates><panel_attributes>Equation
 --
 - startPart: String = \begin{equation}[options]
-- endPart: String = \end{equation}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2670</x><y>1133</y><w>195</w><h>75</h></coordinates><panel_attributes>Algorithm
+- endPart: String = \end{equation}</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1424</x><y>592</y><w>104</w><h>40</h></coordinates><panel_attributes>Algorithm
 --
-- type: AlgorithmType</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>2280</x><y>1133</y><w>375</w><h>120</h></coordinates><panel_attributes>Figure
+- type: AlgorithmType</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1216</x><y>592</y><w>200</w><h>64</h></coordinates><panel_attributes>Figure
 --
 - startPart: String = \begin{figure}[options]
 - endPart: String = \end{figure}
-- graphic: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>2025</x><y>893</y><w>480</w><h>270</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>300;10;300;120;10;120;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>2460</x><y>893</y><w>330</w><h>270</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;120;200;120;200;160</additional_attributes></element><element><id>Relation</id><coordinates><x>2460</x><y>893</y><w>45</w><h>270</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element></diagram>
+- graphic: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1080</x><y>464</y><w>256</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>300;10;300;120;10;120;10;160</additional_attributes></element><element><id>Relation</id><coordinates><x>1312</x><y>464</y><w>176</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;120;200;120;200;160</additional_attributes></element><element><id>Relation</id><coordinates><x>1312</x><y>464</y><w>24</w><h>144</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;160</additional_attributes></element></diagram>

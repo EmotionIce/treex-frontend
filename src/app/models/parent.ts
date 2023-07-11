@@ -1,4 +1,5 @@
 import { Element } from './element';
+import { Root } from './root';
 
 export abstract class Parent extends Element {
   private children: Element[];
@@ -8,14 +9,15 @@ export abstract class Parent extends Element {
     content: string,
     comment: string,
     summary: string,
-    parent: Element
+    parent: Element | Root | null = null
   ) {
     super(id, content, comment, summary, parent);
     this.children = [];
   }
 
-  public addChild(child: Element): void {
+  public addChild(child: Element): boolean {
     this.children.push(child);
+    return true;
   }
 
   public removeChild(childId: string): boolean {

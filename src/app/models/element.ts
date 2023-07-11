@@ -1,18 +1,19 @@
 import { Parent } from './parent';
+import { Root } from './root';
 
 export abstract class Element {
   private id: string;
   private content: string;
   private comment: string;
   private summary: string;
-  private parent: Element | null;
+  private parent: Element | Root | null;
 
   constructor(
     id: string,
     content: string,
     comment: string,
     summary: string,
-    parent: Element | null = null
+    parent: Element | Root | null = null
   ) {
     this.id = id;
     this.content = content;
@@ -37,7 +38,7 @@ export abstract class Element {
     return this.summary;
   }
 
-  public getParent(): Element | null {
+  public getParent(): Element | Root | null {
     return this.parent;
   }
 
@@ -53,12 +54,8 @@ export abstract class Element {
     this.summary = summary;
   }
 
-  public changeParent(newParent: Parent): boolean {
-    if (newParent instanceof Element) {
-      this.parent = newParent;
-      return true;
-    }
-    return false;
+  public changeParent(newParent: Root | Parent): void {
+    this.parent = newParent;
   }
 
   // This method is optional and will be overridden in the Parent subclass
