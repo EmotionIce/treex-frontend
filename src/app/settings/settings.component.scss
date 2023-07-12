@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  background-color: #333; // Dark background
+  color: #fff; // White text
+  width: 100%;
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+.mat-form-field {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 20px !important; // Adjust this value to increase/decrease spacing
+
+  &.mat-form-field-underline .mat-form-field-ripple {
+    background-color: #fff !important; // White underline
+  }
+}
+
+.mat-checkbox {
+  width: 100%;
+  max-width: 300px;
+  margin-bottom: 200px !important; // Adjust this value to increase/decrease spacing
+}
+
+.settings-container {
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.margin-element.mat-card {
+  margin-bottom: 20px;
+}
