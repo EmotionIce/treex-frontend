@@ -14,8 +14,14 @@ import { ElementTitleComponent } from './element-title/element-title.component';
 import { ElementContentComponent } from './element-content/element-content.component';
 import { EditorPartComponent } from './editor-part/editor-part.component';
 import { NavigationPartComponent} from './navigation-part/navigation-part.component';
+import { SettingsComponent } from './settings/settings.component';
+import { FormsModule } from '@angular/forms'; // add this line
 
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -30,12 +36,18 @@ import { MatButtonModule } from '@angular/material/button';
     ElementContentComponent,
     EditorPartComponent,
     NavigationPartComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    FormsModule,
+    MatCardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

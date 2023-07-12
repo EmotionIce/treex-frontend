@@ -1,0 +1,50 @@
+<app-header></app-header>
+
+<div class="settings-container">
+  <h2>User Settings</h2>
+
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-form-field appearance="fill">
+        <mat-label>Theme</mat-label>
+        <mat-select [(value)]="settings.theme" (selectionChange)="updateSettings()">
+          <mat-option value="light">Light</mat-option>
+          <mat-option value="dark">Dark</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </section>
+  </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-checkbox [(ngModel)]="settings.hideLeavesTree" (change)="updateSettings()">
+        Hide Leaves in Tree
+      </mat-checkbox>
+    </section>
+  </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-checkbox [(ngModel)]="settings.deleteCascading" (change)="updateSettings()">
+        Delete Cascading
+      </mat-checkbox>
+    </section>
+  </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-checkbox [(ngModel)]="settings.hideComments" (change)="updateSettings()">
+        Hide Comments
+      </mat-checkbox>
+    </section>
+  </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-checkbox [(ngModel)]="settings.hideSummaries" (change)="updateSettings()">
+        Hide Summaries
+      </mat-checkbox>
+    </section>
+  </div>
+</div>
