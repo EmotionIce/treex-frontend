@@ -38,6 +38,9 @@ class Root {
     return null;
   }
 
+  /*
+   * Returns an array of all elements in the root that are on the same layer as the target element
+   */
   public getElementsOfLayer(e: Element): Element[] {
     // Initialize result array
     let result: Element[] = [];
@@ -74,5 +77,10 @@ class Root {
       e = e.getParent()!;
     }
     return depth;
+  }
+
+  // Returns the root's children
+  getChildren(): Element[] {
+    return this.children;
   }
 }
