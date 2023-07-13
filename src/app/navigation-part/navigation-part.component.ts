@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Element } from '../models/element';
 
 @Component({
   selector: 'app-navigation-part',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./navigation-part.component.scss']
 })
 export class NavigationPartComponent {
+  @Input() displayedNavElements: Element[] = [];
 
+  // Rest of the component code
 }

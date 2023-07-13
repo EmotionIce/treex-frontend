@@ -27,40 +27,38 @@
 }
 
 .edit-button {
-    background-color: #007bff; /* Change button background color */
-  color: white; /* Change button text color */
-  padding: 5px 10px; /* Adjust button padding */
-  border: none; /* Remove button border */
-  border-radius: 3px; /* Add button border radius */
-  margin-right: 10px; /* Optional: Add margin between buttons */
+    background-color: #007bff; 
+  color: white; 
+  padding: 5px 10px; 
+  border: none; 
+  border-radius: 3px; 
+  margin-right: 10px; 
 
 }
 .comment-buton {
-    background-color: #28a745; /* Change button background color */
-    color: white; /* Change button text color */
-    padding: 5px 10px; /* Adjust button padding */
-    border: none; /* Remove button border */
-    border-radius: 3px; /* Add button border radius */
+    background-color: #28a745; 
+    color: white; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 3px; 
     margin-right: 10px;
 }
 .summary-button {
-    background-color: #28a745; /* Change button background color */
-    color: white; /* Change button text color */
-    padding: 5px 10px; /* Adjust button padding */
-    border: none; /* Remove button border */
-    border-radius: 3px; /* Add button border radius */
+    background-color: #28a745; 
+    color: white; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 3px; 
+    margin-right: 10px;
+  }
+  .child-button {
+    background-color: #28a745; 
+    color: red; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 3px; 
     margin-left: 10px;
+
   }
 
-  /*.editor-part {
-    position: relative;
-    overflow-y:auto; */
-   /* height: calc(100vh - <20000px>); 
-  } */
-  .editor-container {
-    width: 70% !important;
-    overflow-y: auto;
-    height: 100% !important;
-    margin-left: 10px !important;
-    padding: 10px !important;
-  }
+ 

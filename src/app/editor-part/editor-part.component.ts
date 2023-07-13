@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Element } from '../models/element';
 
 @Component({
   selector: 'app-editor-part',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./editor-part.component.scss']
 })
 export class EditorPartComponent {
+  @Input() displayedEditorElements: Element[] = [];
 
+  // Rest of the component code
 }
+

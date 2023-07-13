@@ -1,18 +1,25 @@
+
+
 <app-header></app-header>
 
-<div class="container">
-  <div class="editor-view">
-    <div class="navigation-part">
-      <!-- Display the navigation part component here -->
-      <app-navigation-part></app-navigation-part>
-    </div>
+<div class="editor-view">
+  <div class="navigation-part">
+    <app-navigation-part [displayedNavElements]="displayedNavElements"></app-navigation-part>
+  </div>
+
+  <div class="button-container">
     <div class="parent-button">
       <button class="green-button">Parent Button</button>
     </div>
+
     <div class="editor-part">
-      <!-- Display the editor part component here -->
-      <app-editor-part></app-editor-part>
+      <app-editor-part [displayedEditorElements]="displayedEditorElements"></app-editor-part>
+
     </div>
-    
+
+    <div class="child-button">
+      <button class="red-button">Child Button</button>
+    </div>
   </div>
 </div>
+

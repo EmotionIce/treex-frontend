@@ -1,8 +1,20 @@
 <p>editor-part works!</p>
 <div class="editor-part">
     <h2>Editor</h2>
+    <div *ngFor="let element of displayedEditorElements" class="element-container">
+        <h3>{{ element?.getContent() }}</h3>
+        <p>{{ element?.getComment() }}</p>
+        <div class="button-container">
+          <button *ngIf="element && element.getChildren && element.getChildren().length > 0" class="child-button">Child Button</button>
+          <button class="edit-button">Editieren</button>
+          <button class="comment-button">Komentieren</button>
+          <button class="summary-button">Zusammenfassen</button>
+        </div>
+      </div>
     
-    <!-- Display a list of editable elements -->
+
+
+
     <div class="element-container">
         <h3>Section 1</h3>
         <p>Section 1 und vorallem ein sehr langer text der dafür da ist zu verstehen und zu prüfen wie und ob der test aus der box
@@ -12,6 +24,7 @@
                 <button class="edit-button">Editieren</button>
                 <button class="comment-button">Komentieren</button>
                 <button class="summary-button">Zusammenfassen</button>
+                <button class="child-button">Kinder anzeigen</button>
 
             </div>
       </div>
