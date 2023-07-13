@@ -1,7 +1,8 @@
-import { Settings } from './settings';
+import { SettingsService, Settings } from './settings';
 
 describe('Settings', () => {
   it('should create an instance', () => {
-    expect(new Settings()).toBeTruthy();
+    let settingsService = new SettingsService();
+    expect(settingsService.getSettings()).toBeTruthy();
   });
 });
