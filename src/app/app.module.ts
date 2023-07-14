@@ -22,6 +22,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 
+import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,8 +49,9 @@ import { MatCardModule } from '@angular/material/card';
     MatSelectModule,
     FormsModule,
     MatCardModule,
+    DiagramModule
   ],
-  providers: [],
+  providers: [DataBindingService, SnappingService, ComplexHierarchicalTreeService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
