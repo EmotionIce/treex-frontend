@@ -7,6 +7,7 @@ import { DataManager} from '@syncfusion/ej2-data';
 
 export interface ElementInfo{
     Title: string
+    Parent: string
 }
 
 @Component({
@@ -39,6 +40,24 @@ export class TreeViewComponent {
         {Title: "Kapitel 3.21", Parent: "Kapitel 3", AllowChildren: "false"},
         {Title: "Kapitel 3.22", Parent: "Kapitel 3", AllowChildren: "false"}
     ];
+
+    /*
+    
+    public treeData: object[] = [
+        {id: "0", Title: "Einleitung", AllowChildren: "true", Summary: "...", content:... },
+        {Title: "Kapitel 1.1", Parent: "Einleitung", AllowChildren: "true"},
+        {Title: "Kapitel 1.1.1", Parent: "Kapitel 1.1", AllowChildren: "true"},
+        {Title: "Kapitel 1.1.2", Parent: "Kapitel 1.1", AllowChildren: "true"},
+        {Title: "Kapitel 1.1.3", Parent: "Kapitel 1.1", AllowChildren: "true"},
+        {Title: "Kapitel 2", Parent: "Einleitung", AllowChildren: "true"},
+        {Title: "Kapitel 3", Parent: "Einleitung", AllowChildren: "true"},
+        {Title: "Kapitel 3.1", Parent: "Kapitel 3", AllowChildren: "false"},
+        {Title: "Kapitel 3.2", Parent: "Kapitel 3", AllowChildren: "false"},
+        {Title: "Kapitel 3.21", Parent: "Kapitel 3", AllowChildren: "false"},s
+        {Title: "Kapitel 3.22", Parent: "Kapitel 3", AllowChildren: "false"}
+    ];
+
+    */
 
     public jsonDatasourceSettings: Object = {
         id: "Title",
@@ -83,10 +102,43 @@ export class TreeViewComponent {
             shape: "ArrowUp"
         }
 
+        // When loading tree: only show children of root
+        if((defaultnode.data as ElementInfo).Parent == null){
+            defaultnode.isExpanded = true;
+        } else {
+            defaultnode.isExpanded = false;
+        }
+
+        //alert(defaultnode.id)
         defaultnode.style = {fill: '#048785', strokeColor: 'Transparent', strokeWidth: 2}
 
         return defaultnode;
     }
+
+    // enable the editing options to the TreeView
+    public allowEditing: boolean = true;
+
+
+    public collapseAll(){
+        //this.getNodeDefaults()
+    }
+
+    public clicked(node: NodeModel){
+        if((node.data as ElementInfo).Title == "Einleitung"){
+            alert("huray");
+        }
+    }
+
+    public emptyAlert(){
+        alert("")
+    }
+
+    public onOpenDialog = function (event: any): void {
+        let nodeID = event.element.id
+        if(nodeID != undefined){
+        alert('Node id:' + event.element.id+"___element ID:" + (event.element.data as ElementInfo).Title);
+      }
+    };
 
     public getConnectorDefaults(defaultconnector: ConnectorModel) : ConnectorModel{
         defaultconnector.type = 'Orthogonal';

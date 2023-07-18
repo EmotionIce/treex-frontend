@@ -1,6 +1,9 @@
 <app-header></app-header>
 <p>tree-view works!</p>
 
+<div>
+    <button class= "collapseButton" (dblclick) = "emptyAlert()">Baum einklappen/ausklappen</button>
+</div>
 
 <ejs-diagram
 width = "100%" height = "850px" 
@@ -8,5 +11,7 @@ width = "100%" height = "850px"
 [layout] = "layoutSettings"
 [getNodeDefaults] = "getNodeDefaults"
 [getConnectorDefaults] = "getConnectorDefaults"
-[snapSettings] = "RemoveGridLines">
+[snapSettings] = "RemoveGridLines"
+(click)="onOpenDialog($event)"
+>
 </ejs-diagram>
