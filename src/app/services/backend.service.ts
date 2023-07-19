@@ -51,6 +51,11 @@ export class BackendService {
     return this.http.get < Array < Object >> (`${this.baseUrl}/loadTree`);
   }
 
+  public LoadFullData(): Observable < Array < Object >> {
+    return this.http.get < Array < Object >> (`${this.baseUrl}/loadFullData`);
+  }
+
+
   public MoveElementTree(e: Element, p: Parent, pc: Element): Observable < Array < Object >> {
     let moveData: Object = {
       "element": e.getId(),
@@ -166,19 +171,5 @@ export class BackendService {
     // Return an observable with a user-facing error message.
     return throwError(() => new Error('Something bad happened; please try again later.'));
   }
-
-
-  /* calling code for that would look like:
-  this.DataExchangeBackendService.moveElement(element, newParent).subscribe(
-    response => { let newTree = response.data.newTree
-      // Handle  response from the backend
-    },
-    error => {
-      // Handle errors
-    }
-  );
-
-  this would create an observa
-  */
 
 }
