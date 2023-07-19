@@ -22,6 +22,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { ErrorPopupComponent } from './error-popup/error-popup.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatCardModule } from '@angular/material/card';
     ElementTitleComponent,
     ElementContentComponent,
     SettingsComponent,
+    ErrorPopupComponent,
   ],
   imports: [
     BrowserModule,

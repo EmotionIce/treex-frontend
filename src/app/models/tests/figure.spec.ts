@@ -1,5 +1,6 @@
 import { Figure } from '../environments/figure';
 import { Environment } from '../environment';
+import { Caption } from '../caption';
 
 describe('Figure', () => {
   let parent: Environment;
@@ -20,5 +21,11 @@ describe('Figure', () => {
 
   it('should have the correct file location', () => {
     expect(figure.getFileLocation()).toBe('path/to/file');
+  });
+
+  it('should add caption correctly', () => {
+    let caption: Caption = new Caption('the test caption');
+    figure.addCaption(caption);
+    expect(figure.getCaptions()).toContain(caption);
   });
 });

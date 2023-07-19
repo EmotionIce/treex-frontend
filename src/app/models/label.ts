@@ -1,15 +1,16 @@
-export class Label {
-  private content: string;
+import { Child } from './child';
+import { Element } from './element';
+import { Root } from './root';
 
-  constructor(content: string) {
-    this.content = content;
-  }
+export class Label extends Element {
 
-  getContent(): string {
-    return this.content;
-  }
-
-  setContent(content: string): void {
-    this.content = content;
-  }
+    constructor(
+      id: string,
+      content: string,
+      comment: string,
+      summary: string,
+      parent: Element | Root | null = null
+    ) {
+        super(id, content, comment, summary, parent);
+    }
 }

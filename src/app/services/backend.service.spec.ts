@@ -122,8 +122,9 @@ describe('BackendService', () => {
     let url = 'https://github.com/user/repo.git';
     let user = 'username';
     let pass = 'password';
+    let path = 'path/to/file';
 
-    service.LoadFromGit(url, user, pass).subscribe({
+    service.LoadFromGit(url, user, pass, path).subscribe({
       next: (response: any) => {
         let gitData = response.data.gitData;
         // Handle  response from the backend

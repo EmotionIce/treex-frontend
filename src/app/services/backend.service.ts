@@ -143,11 +143,12 @@ export class BackendService {
       );
   }
 
-  public LoadFromGit(url: string, user: string, pass: string): Observable < Object > {
+  public LoadFromGit(url: string, user: string, pass: string, path: string): Observable < Object > {
     let gitData: Object = {
       "url": url,
       "username": user,
-      "password": pass
+      "password": pass,
+      "path": path
     }
 
     return this.http.post < Array < Object >> (`${this.baseUrl}/loadGit`, gitData)
