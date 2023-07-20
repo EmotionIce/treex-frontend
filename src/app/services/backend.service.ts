@@ -40,7 +40,6 @@ export class BackendService {
   }
 
   public LoadFullData(): Observable<Array<Object>> {
-    console.log('loadFullData');
     return this.http.get<Array<Object>>(`${this.baseUrl}/loadFullData`);
   }
 
