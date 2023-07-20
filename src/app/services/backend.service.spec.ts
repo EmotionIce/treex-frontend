@@ -1,30 +1,16 @@
-import {
-  TestBed
-} from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
-import {
-  BackendService
-} from './backend.service';
+import { BackendService } from './backend.service';
 
-import {
-  Root
-} from '../models/root';
-import {
-  Element
-} from '../models/element';
-import {
-  Parent
-} from '../models/parent';
-import {
-  Child
-} from '../models/child';
-import {
-  Environment
-} from '../models/environment';
+import { Root } from '../models/root';
+import { Element } from '../models/element';
+import { Parent } from '../models/parent';
+import { Child } from '../models/child';
+import { Environment } from '../models/environment';
 
 describe('BackendService', () => {
   let service: BackendService;
@@ -34,7 +20,7 @@ describe('BackendService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [BackendService]
+      providers: [BackendService],
     });
 
     service = TestBed.inject(BackendService);
@@ -56,22 +42,21 @@ describe('BackendService', () => {
 
     service.MoveElementEditor(child, env, env).subscribe({
       next: (response: any) => {
-
         let newTree = response.data.newTree;
 
         // Handle  response from the backend
       },
       error: (error) => {
         // Handle errors
-      }
+      },
     });
 
     const req = httpMock.expectOne(`${service.getBaseUrl()}/moveElementEditor`);
     expect(req.request.method).toBe('POST');
     req.flush({
       data: {
-        newTree: {}
-      }
+        newTree: {},
+      },
     });
   });
 
@@ -83,15 +68,15 @@ describe('BackendService', () => {
       },
       error: (error) => {
         // Handle errors
-      }
+      },
     });
 
     const req = httpMock.expectOne(`${service.getBaseUrl()}/loadTree`);
     expect(req.request.method).toBe('GET');
     req.flush({
       data: {
-        tree: {}
-      }
+        tree: {},
+      },
     });
   });
 
@@ -106,15 +91,15 @@ describe('BackendService', () => {
       },
       error: (error) => {
         // Handle errors
-      }
+      },
     });
 
     const req = httpMock.expectOne(`${service.getBaseUrl()}/editSummary`);
     expect(req.request.method).toBe('POST');
     req.flush({
       data: {
-        newSummary: summary
-      }
+        newSummary: summary,
+      },
     });
   });
 
@@ -131,16 +116,15 @@ describe('BackendService', () => {
       },
       error: (error) => {
         // Handle errors
-      }
+      },
     });
 
     const req = httpMock.expectOne(`${service.getBaseUrl()}/loadGit`);
     expect(req.request.method).toBe('POST');
     req.flush({
       data: {
-        gitData: {}
-      }
+        gitData: {},
+      },
     });
   });
-
 });

@@ -23,6 +23,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { ErrorPopupComponent } from './error-popup/error-popup.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ImportComponent } from './import/import.component';
+
+import { BackendService } from './services/backend.service';
+import { ErrorPopupService } from './services/error-popup.service';
+import { SettingsService } from './services/settings';
 
 @NgModule({
   declarations: [
@@ -38,6 +46,7 @@ import { ErrorPopupComponent } from './error-popup/error-popup.component';
     ElementContentComponent,
     SettingsComponent,
     ErrorPopupComponent,
+    ImportComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,8 +59,11 @@ import { ErrorPopupComponent } from './error-popup/error-popup.component';
     MatSelectModule,
     FormsModule,
     MatCardModule,
+    MatIconModule,
+    MatInputModule,
+    MatSnackBarModule,
   ],
-  providers: [],
+  providers: [BackendService, ErrorPopupService, SettingsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

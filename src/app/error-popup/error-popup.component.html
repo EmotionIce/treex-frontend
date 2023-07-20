@@ -1,3 +1,3 @@
-<div *ngIf="errorMessage" class="error-popup">
-    <p>{{ errorMessage }}</p>
-  </div>
+<div *ngIf="getErrorMessage()" class="error-popup">
+  <p>{{ getErrorMessage() }}</p>
+</div>

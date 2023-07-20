@@ -6,6 +6,7 @@ export interface Settings {
   deleteCascading: boolean;
   hideComments: boolean;
   hideSummaries: boolean;
+  popupDuration: number;
   // Other settings go here
 }
 
@@ -20,6 +21,7 @@ export class SettingsService {
     deleteCascading: false,
     hideComments: false,
     hideSummaries: false,
+    popupDuration: 5000,
   };
 
   constructor() {
