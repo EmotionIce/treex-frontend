@@ -98,7 +98,11 @@ export class Root {
   }
 
   // Returns the root's children
-  getChildren(): Element[] {
+  public getChildren(): Element[] {
     return this.children;
+  }
+
+  public clear(): void {
+    this.children = [];
   }
 }
