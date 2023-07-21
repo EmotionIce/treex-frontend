@@ -2,7 +2,7 @@
 <p>tree-view works!</p>
 
 <div>
-    <button class= "collapseButton" (dblclick) = "emptyAlert()">Baum einklappen/ausklappen</button>
+    <button class= "collapseButton">Baum einklappen/ausklappen</button>
 </div>
 
 <ejs-diagram
@@ -12,6 +12,7 @@ width = "100%" height = "850px"
 [getNodeDefaults] = "getNodeDefaults"
 [getConnectorDefaults] = "getConnectorDefaults"
 [snapSettings] = "RemoveGridLines"
-(click)="onOpenDialog($event)"
+(mouseOver) = "onNodeHover($event)"
+(doubleClick)= "doubleClick($event)"
 >
 </ejs-diagram>
