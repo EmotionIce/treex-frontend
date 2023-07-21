@@ -68,8 +68,13 @@ export class TreeViewComponent {
     public getNodeDefaults(defaultnode: NodeModel): NodeModel{
         defaultnode.height = 50;
         defaultnode.width = 100;
+
         defaultnode.constraints = NodeConstraints.Default;
-        defaultnode.constraints &= ~NodeConstraints.Delete;
+        defaultnode.constraints &= ~NodeConstraints.Delete; // do not allow deleting a Node
+        defaultnode.constraints &= ~NodeConstraints.Rotate; // do not allow rotating a Node
+        //defaultnode.constraints &= ~NodeConstraints.Select;
+        defaultnode.constraints &= ~NodeConstraints.ReadOnly;
+
         defaultnode.annotations = [
             {content: (defaultnode.data as ElementInfo).content, style: { color: "white" }}
         ]
@@ -108,11 +113,13 @@ export class TreeViewComponent {
         //this.getNodeDefaults()
     }
 
+    /*
     public clicked(node: NodeModel){
         if((node.data as ElementInfo).content == "Einleitung"){
             alert("huray");
         }
     }
+    */
 
     public getConnectorDefaults(defaultconnector: ConnectorModel) : ConnectorModel{
         defaultconnector.type = 'Orthogonal';
