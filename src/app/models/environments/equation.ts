@@ -1,4 +1,6 @@
 import { Environment } from '../environment';
+import { Parent } from '../parent';
+import { Root } from '../root';
 
 export class Equation extends Environment {
     constructor(
@@ -6,7 +8,7 @@ export class Equation extends Environment {
       content: string,
       comment: string,
       summary: string,
-      parent: Environment
+      parent: Parent | Root | null = null
     ) {
       super(id, content, comment, summary, parent);
     }

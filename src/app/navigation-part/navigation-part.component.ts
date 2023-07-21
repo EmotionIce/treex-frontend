@@ -9,5 +9,5 @@ import { Element } from '../models/element';
 export class NavigationPartComponent {
   @Input() displayedNavElements: Element[] = [];
 
-  // Rest of the component code
+
 }

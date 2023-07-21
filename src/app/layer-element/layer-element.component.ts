@@ -1,10 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Element } from '../models/element';
 
 @Component({
-  selector: 'app-layer-element',
-  templateUrl: './layer-element.component.html',
-  styleUrls: ['./layer-element.component.scss']
+  selector: 'app-part',
+  templateUrl: './part.component.html',
+  styleUrls: ['./part.component.scss']
 })
 export class LayerElementComponent {
+  @Input() element!: Element;
+  
+  moveElementEditor() {
+    
+  }
 
+  deleteElement() {
+    
+  }
+
+  onBackToParentClick() {
+    
+  }
+
+  onExtendChild() {
+    
+  }
 }

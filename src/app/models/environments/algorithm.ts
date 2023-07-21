@@ -1,4 +1,6 @@
 import { Environment } from '../environment';
+import { Parent } from '../parent';
+import { Root } from '../root';
 
 export class Algorithm extends Environment {
     private algorithmType: string;
@@ -8,7 +10,7 @@ export class Algorithm extends Environment {
       content: string,
       comment: string,
       summary: string,
-      parent: Environment,
+      parent: Parent | Root | null = null,
       algorithmType: string
     ) {
       super(id, content, comment, summary, parent);

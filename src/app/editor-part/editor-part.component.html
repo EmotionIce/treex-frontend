@@ -1,7 +1,33 @@
-<p>editor-part works!</p>
 <div class="editor-part">
     <h2>Editor</h2>
-    <div *ngFor="let element of displayedEditorElements" class="element-container">
+   
+    <div *ngFor="let layerElement of layerElements" class="element-container">
+      class="element-container"
+      cdkDrag
+      [ngClass]="{ 'highlighted': isHovered(layerElement) }"
+      (mouseenter)="setHovered(layerElement, true)"
+      (mouseleave)="setHovered(layerElement, false)"
+      <h3>{{ layerElement?.element?.getContent() }}</h3>
+    
+     <!--  <div *ngIf="!settings.hideComments">
+        <p>{{ layerElement?.element?.getComment() }}</p>
+      </div> -->
+     
+    
+
+      <div class="button-container">
+        <button *ngIf="layerElement?.element?.getChildren && layerElement?.element?.getChildren().length > 0" class="child-button">Child Button</button>
+        <button class="edit-button">Editieren</button>
+    
+
+        <button class="comment-button">Komentieren</button>
+
+        <button class="summary-button">Zusammenfassen</button>
+      </div>
+    </div>
+    
+  
+    <!--<div *ngFor="let element of displayedEditorElements" class="element-container">
         <h3>{{ element?.getContent() }}</h3>
         <p>{{ element?.getComment() }}</p>
         <div class="button-container">
@@ -97,4 +123,5 @@
 
             </div>
       </div>
-      
+    -->
+</div>

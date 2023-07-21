@@ -23,6 +23,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { ErrorPopupComponent } from './error-popup/error-popup.component';
+import { SummaryComponent } from './summary/summary.component';
+import { CommentComponent } from './comment/comment.component';
+import { ContentComponent } from './content/content.component';
+import { TextEditorComponent } from './text-editor/text-editor.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +43,11 @@ import { MatCardModule } from '@angular/material/card';
     EditorPartComponent,
     NavigationPartComponent,
     SettingsComponent,
+    ErrorPopupComponent,
+    SummaryComponent,
+    CommentComponent,
+    ContentComponent,
+    TextEditorComponent,
   ],
   imports: [
     BrowserModule,

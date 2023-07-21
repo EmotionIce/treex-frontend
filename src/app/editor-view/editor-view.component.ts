@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Root } from '../models/root';
 import { Element } from '../models/element';
 
+
 @Component({
   selector: 'app-editor-view',
   templateUrl: './editor-view.component.html',

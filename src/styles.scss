@@ -1,3 +1,8 @@
+.highlighted { /* the highlight for the elements in the editorview */
+  border: 2px solid blue;
+}
+
+
 @use "@angular/material" as mat;
 
 @include mat.core();
