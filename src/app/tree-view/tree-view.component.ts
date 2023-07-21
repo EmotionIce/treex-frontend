@@ -51,7 +51,7 @@ export class TreeViewComponent {
     public layoutSettings: LayoutModel = {
         type: 'ComplexHierarchicalTree',
         //type: 'OrganizationalChart',
-        //orientation: 'LeftToRight',
+        orientation: 'LeftToRight',
 
         //springLength: 1,
         //springFactor: 0.99,
@@ -69,17 +69,15 @@ export class TreeViewComponent {
         defaultnode.height = 50;
         defaultnode.width = 100;
 
-        defaultnode.constraints = NodeConstraints.Default;
+        defaultnode.constraints = NodeConstraints.Default; // allow all default constraints such as dragging and rezising Nodes
         defaultnode.constraints &= ~NodeConstraints.Delete; // do not allow deleting a Node
         defaultnode.constraints &= ~NodeConstraints.Rotate; // do not allow rotating a Node
-        //defaultnode.constraints &= ~NodeConstraints.Select;
-        defaultnode.constraints &= ~NodeConstraints.ReadOnly;
 
         defaultnode.annotations = [
             {content: (defaultnode.data as ElementInfo).content, style: { color: "white" }}
         ]
         defaultnode.expandIcon = {
-            shape: "ArrowDown",
+            shape: "Minus",
             height: 10,
             // position on the node of the "expandIcon"
             offset: { 
@@ -89,7 +87,7 @@ export class TreeViewComponent {
         }
 
         defaultnode.collapseIcon = {
-            shape: "ArrowUp"
+            shape: "Plus"
         }
 
         // When loading tree: only show children of root
