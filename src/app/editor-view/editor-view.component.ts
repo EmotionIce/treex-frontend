@@ -13,6 +13,8 @@ export class EditorViewComponent {
   displayedEditorElements: Element[] = [];
   displayedNavElements: Element[] = [];
   parentElement: Element | null = null;
+  hoveredElementID: string | null = null;
+
 
   constructor() {
     this.rootInstance = Root.createRoot();
@@ -27,5 +29,13 @@ export class EditorViewComponent {
   }
   updateNavElement(parentElement: Element) {
     this.displayedNavElements = this.rootInstance.getElementsOfLayer(parentElement);
+  }
+
+  onElementHover(elementID: string | null) {
+    this.hoveredElementID = elementID;
+  }
+
+  isElementHovered(element: Element): boolean {
+    return this.hoveredElementID === element.getId();
   }
 }

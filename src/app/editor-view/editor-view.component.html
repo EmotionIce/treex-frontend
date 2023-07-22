@@ -13,8 +13,10 @@
     </div>
 
     <div class="editor-part">
-      <app-editor-part [displayedEditorElements]="displayedEditorElements"></app-editor-part>
-
+      <app-editor-part
+        [displayedEditorElements]="displayedEditorElements"
+        (hoveredElement)="onElementHover($event)">
+      </app-editor-part>
     </div>
 
     <div class="child-button">

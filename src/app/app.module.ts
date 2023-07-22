@@ -10,7 +10,6 @@ import { EditorViewComponent } from './editor-view/editor-view.component';
 import { HeaderComponent } from './header/header.component';
 import { NavElementComponent } from './nav-element/nav-element.component';
 import { EditorLayerComponent } from './editor-layer/editor-layer.component';
-import { LayerElementComponent } from './layer-element/layer-element.component';
 import { ElementTitleComponent } from './element-title/element-title.component';
 import { ElementContentComponent } from './element-content/element-content.component';
 import { EditorPartComponent } from './editor-part/editor-part.component';
@@ -37,7 +36,6 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     HeaderComponent,
     NavElementComponent,
     EditorLayerComponent,
-    LayerElementComponent,
     ElementTitleComponent,
     ElementContentComponent,
     EditorPartComponent,

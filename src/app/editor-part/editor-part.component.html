@@ -1,127 +1,27 @@
 <div class="editor-part">
-    <h2>Editor</h2>
-   
-    <div *ngFor="let layerElement of layerElements" class="element-container">
-      class="element-container"
-      cdkDrag
-      [ngClass]="{ 'highlighted': isHovered(layerElement) }"
-      (mouseenter)="setHovered(layerElement, true)"
-      (mouseleave)="setHovered(layerElement, false)"
-      <h3>{{ layerElement?.element?.getContent() }}</h3>
-    
-     <!--  <div *ngIf="!settings.hideComments">
-        <p>{{ layerElement?.element?.getComment() }}</p>
-      </div> -->
+  <h2>Editor</h2>
+
+  <div *ngFor="let layerElement of layerElements" class="element-container"
+  cdkDrag
+  [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() }"
+  (mouseenter)="onElementHover(layerElement.element.getId())"
+  (mouseleave)="onElementHover(null)">
+  <h3>{{ layerElement?.element?.getContent() }}</h3>
+  <!--<div *ngIf="!settings.hideComments"> -->
+  <p>{{ layerElement?.element?.getComment() }}</p>
+</div>
+
      
     
 
       <div class="button-container">
-        <button *ngIf="layerElement?.element?.getChildren && layerElement?.element?.getChildren().length > 0" class="child-button">Child Button</button>
+        <!--<button *ngIf="layerElement?.element?.getChildren && layerElement?.element?.getChildren().length > 0" class="child-button">Child Button</button> -->
         <button class="edit-button">Editieren</button>
     
 
         <button class="comment-button">Komentieren</button>
 
-        <button class="summary-button">Zusammenfassen</button>
+        <button class="summary-button" (click)="showSummary()">Zusammenfassen</button>
       </div>
     </div>
-    
-  
-    <!--<div *ngFor="let element of displayedEditorElements" class="element-container">
-        <h3>{{ element?.getContent() }}</h3>
-        <p>{{ element?.getComment() }}</p>
-        <div class="button-container">
-          <button *ngIf="element && element.getChildren && element.getChildren().length > 0" class="child-button">Child Button</button>
-          <button class="edit-button">Editieren</button>
-          <button class="comment-button">Komentieren</button>
-          <button class="summary-button">Zusammenfassen</button>
-        </div>
-      </div>
-    
 
-
-
-    <div class="element-container">
-        <h3>Section 1</h3>
-        <p>Section 1 und vorallem ein sehr langer text der dafür da ist zu verstehen und zu prüfen wie und ob der test aus der box
-            läuft die ich für jedes element der datei variabel erstelle. das wichtig is vorallem, dass zeilenumbrüche richtig vorhanden sind
-            und dass die ganze box sich mitbewegt</p>
-            <div class="button-container">
-                <button class="edit-button">Editieren</button>
-                <button class="comment-button">Komentieren</button>
-                <button class="summary-button">Zusammenfassen</button>
-                <button class="child-button">Kinder anzeigen</button>
-
-            </div>
-      </div>
-
-      <div class="element-container">
-        <h3>Section 1</h3>
-        <p>Section 2 nur sehr kurz</p>
-            <div class="button-container">
-                <button class="edit-button">Editieren</button>
-                <button class="comment-button">Komentieren</button>
-                <button class="summary-button">Zusammenfassen</button>
-
-            </div>
-      </div>
-
-      <div class="element-container">
-        <h3>Section 1</h3>
-        <p>Section 1 </p>
-            <div class="button-container">
-                <button class="edit-button">Editieren</button>
-                <button class="comment-button">Komentieren</button>
-                <button class="summary-button">Zusammenfassen</button>
-
-            </div>
-      </div>
-
-      <div class="element-container">
-        <h3>Section 1</h3>
-        <p>bild</p>
-            <div class="button-container">
-                <button class="edit-button">Editieren</button>
-                <button class="comment-button">Komentieren</button>
-                <button class="summary-button">Zusammenfassen</button>
-
-            </div>
-      </div>
-      <div class="element-container">
-        <h3>Section 1</h3>
-        <p>Section 1 und vorallem ein sehr langer text der dafür da ist zu verstehen und zu prüfen wie und ob der test aus der box
-            läuft die ich für jedes element der datei variabel erstelle. das wichtig is vorallem, dass zeilenumbrüche richtig vorhanden sind
-            und dass die ganze box sich mitbewegt</p>
-            <div class="button-container">
-                <button class="edit-button">Editieren</button>
-                <button class="comment-button">Komentieren</button>
-                <button class="summary-button">Zusammenfassen</button>
-
-            </div>
-      </div>
-      <div class="element-container">
-        <h3>Section 1</h3>
-        <p>Section 1 und vorallem ein sehr langer text der dafür da ist zu verstehen und zu prüfen wie und ob der test aus der box
-            läuft die ich für jedes element der datei variabel erstelle. das wichtig is vorallem, dass zeilenumbrüche richtig vorhanden sind
-            und dass die ganze box sich mitbewegt</p>
-            <div class="button-container">
-                <button class="edit-button">Editieren</button>
-                <button class="comment-button">Komentieren</button>
-                <button class="summary-button">Zusammenfassen</button>
-
-            </div>
-      </div>
-      <div class="element-container">
-        <h3>Section 1</h3>
-        <p>Section 1 und vorallem ein sehr langer text der dafür da ist zu verstehen und zu prüfen wie und ob der test aus der box
-            läuft die ich für jedes element der datei variabel erstelle. das wichtig is vorallem, dass zeilenumbrüche richtig vorhanden sind
-            und dass die ganze box sich mitbewegt</p>
-            <div class="button-container">
-                <button class="edit-button">Editieren</button>
-                <button class="comment-button">Komentieren</button>
-                <button class="summary-button">Zusammenfassen</button>
-
-            </div>
-      </div>
-    -->
-</div>
