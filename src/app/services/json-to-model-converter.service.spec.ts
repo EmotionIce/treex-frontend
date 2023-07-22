@@ -18,175 +18,312 @@ describe('JsonToModelConverterService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should correctly convert JSON data to model structure', (done: DoneFn) => {
+  // Helper function to compare JSON data with model instance
+  // Helper function to compare JSON data with model instance
+  function compareModelAndJson(model: any, json: any): void {
+    // log the jsonified-model and json for debugging
+
+    // Ensure type is same (e.g. Label, Child, Sectioning, etc.)
+    expect(model.constructor.name).toEqual(json.type);
+
+    // Ensure ID is same
+    expect(model.getId()).toEqual(json.id);
+
+    // Ensure content is same
+    expect(model.getContent()).toEqual(json.content);
+
+    // Ensure comments are same
+    expect(model.getComment()).toEqual(json.comment);
+
+    // Ensure summary is same
+    expect(model.getSummary()).toEqual(json.summary);
+
+    // If there are children, compare them as well
+    if (json.children) {
+      expect(model.getChildren().length).toEqual(json.children.length);
+      for (let i = 0; i < json.children.length; i++) {
+        compareModelAndJson(model.getChildren()[i], json.children[i]);
+      }
+    }
+
+    // Check special fields for certain types
+    switch (json.type) {
+      case 'Figure':
+        expect(JSON.stringify(model.getCaptions())).toEqual(
+          JSON.stringify(json.captions)
+        );
+        expect(model.getFileLocation()).toEqual(json.fileLocation);
+        break;
+      case 'Algorithm':
+        expect(model.getAlgorithmType()).toEqual(json.algorithmType);
+        break;
+      case 'Input':
+        expect(model.getFileName()).toEqual(json.fileName);
+        break;
+    }
+  }
+
+  it('should correctly convert JSON data to model structure', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000; // If necessary, increase the timeout limit
     const root = Root.createRoot();
     root.clear();
+    const depth: number = randomInt(2) + 1;
+    const elementsPerLayer: number = randomInt(3) + 1;
+    const arrayOfJson: Array<any> = generateTestJSON(depth, elementsPerLayer);
+
+    // generate tree using generateTestJSON()
     const json = {
-      editor: [
-        {
-          id: '73253ea7-9d8f-4e68-924b-6e195f3cbf07',
-          type: 'Sectioning',
-          parent: 'null',
-          content: 'sectioning1',
-          comment: 'comment',
-          summary: 'summary',
-          chooseManualSummary: false,
-          children: [
-            {
-              id: 'de5c6ffa-a792-43a9-ab9e-d42ba0984d34',
-              type: 'Sectioning',
-              parent: '73253ea7-9d8f-4e68-924b-6e195f3cbf07',
-              content: 'sectioning2',
-              comment: 'comment',
-              summary: 'summary',
-              chooseManualSummary: false,
-              children: [
-                {
-                  id: 'f1115132-c33e-49e3-b2e8-59fc220f8756',
-                  type: 'Sectioning',
-                  parent: 'de5c6ffa-a792-43a9-ab9e-d42ba0984d34',
-                  content: 'sectioning5',
-                  comment: 'comment',
-                  summary: 'summary',
-                  chooseManualSummary: false,
-                },
-                {
-                  id: '07968e51-3f5b-44f6-813c-96af661eb18e',
-                  type: 'Environment',
-                  parent: 'de5c6ffa-a792-43a9-ab9e-d42ba0984d34',
-                  content: 'environment1',
-                  comment: 'comment',
-                  summary: 'summary',
-                  chooseManualSummary: false,
-                  children: [
-                    {
-                      id: 'ccc884ed-fc8e-4291-a9a7-ce77b02a8aa9',
-                      type: 'Sectioning',
-                      parent: '07968e51-3f5b-44f6-813c-96af661eb18e',
-                      content: 'sectioning6',
-                      comment: 'comment',
-                      summary: 'summary',
-                      chooseManualSummary: false,
-                    },
-                  ],
-                },
-                {
-                  id: 'c377d1b7-919b-4113-9ce8-7b85f5ca1885',
-                  type: 'Child',
-                  parent: 'de5c6ffa-a792-43a9-ab9e-d42ba0984d34',
-                  content: 'child2',
-                  comment: 'comment',
-                  summary: 'summary',
-                  chooseManualSummary: false,
-                },
-                {
-                  id: 'b868adda-6175-4224-ae07-e6a6b4b8360a',
-                  type: 'Child',
-                  parent: 'de5c6ffa-a792-43a9-ab9e-d42ba0984d34',
-                  content: 'child3',
-                  comment: 'comment',
-                  summary: 'summary',
-                  chooseManualSummary: false,
-                },
-                {
-                  id: 'b40b54b9-8d9d-46b8-bbca-f41633d2031e',
-                  type: 'Child',
-                  parent: 'de5c6ffa-a792-43a9-ab9e-d42ba0984d34',
-                  content: 'child4',
-                  comment: 'comment',
-                  summary: 'summary',
-                  chooseManualSummary: false,
-                },
-              ],
-            },
-            {
-              id: '0f0f2f9c-0f35-4314-9c74-345563ee1fca',
-              type: 'Sectioning',
-              parent: '73253ea7-9d8f-4e68-924b-6e195f3cbf07',
-              content: 'sectioning3',
-              comment: 'comment',
-              summary: 'summary',
-              chooseManualSummary: false,
-              children: [
-                {
-                  id: '482fba3c-dfe5-463d-a557-359dd3548d60',
-                  type: 'Child',
-                  parent: '0f0f2f9c-0f35-4314-9c74-345563ee1fca',
-                  content: 'child5',
-                  comment: 'comment',
-                  summary: 'summary',
-                  chooseManualSummary: false,
-                },
-              ],
-            },
-            {
-              id: '5596bc5a-6989-4ba8-b579-86e1c2924750',
-              type: 'Sectioning',
-              parent: '73253ea7-9d8f-4e68-924b-6e195f3cbf07',
-              content: 'sectioning4',
-              comment: 'comment',
-              summary: 'summary',
-              chooseManualSummary: false,
-              children: [
-                {
-                  id: '0be501fd-52da-4632-b238-864f71552368',
-                  type: 'Environment',
-                  parent: '5596bc5a-6989-4ba8-b579-86e1c2924750',
-                  content: 'environment2',
-                  comment: 'comment',
-                  summary: 'summary',
-                  chooseManualSummary: false,
-                },
-              ],
-            },
-            {
-              id: 'cb2c4491-3b3b-4a4d-b32e-b111f100dcb9',
-              type: 'Child',
-              parent: '73253ea7-9d8f-4e68-924b-6e195f3cbf07',
-              content: 'child1',
-              comment: 'comment',
-              summary: 'summary',
-              chooseManualSummary: false,
-            },
-          ],
-        },
-      ],
+      editor: arrayOfJson,
     };
-    service.convert(of(json)).subscribe((result) => {
-      expect(result).toBeTrue();
-      const root = Root.createRoot();
-      // test layer 1
-      expect(root.getChildren().length).toEqual(1);
-      const sectioning1 = root.getChildren()[0] as Sectioning;
-      expect(sectioning1).toBeInstanceOf(Sectioning);
-      expect(sectioning1.getId()).toEqual(
-        '73253ea7-9d8f-4e68-924b-6e195f3cbf07'
-      );
 
-      // test layer 2
-      expect(sectioning1.getChildren().length).toEqual(4);
+    //log the jsonified-model and json for debugging
+    // console.log(JSON.stringify(root));
 
-      const sectioning2 = sectioning1.getChildren()[0] as Sectioning;
-      const sectioning3 = sectioning1.getChildren()[1] as Sectioning;
-      const sectioning4 = sectioning1.getChildren()[2] as Sectioning;
-      const child1 = sectioning1.getChildren()[3] as Child;
+    // Convert and test
+    const result = await service.convert(of(json)).toPromise();
 
-      expect(sectioning2).toBeInstanceOf(Sectioning);
-      expect(sectioning2.getId()).toEqual(
-        'de5c6ffa-a792-43a9-ab9e-d42ba0984d34'
-      );
-      expect(sectioning3).toBeInstanceOf(Sectioning);
-      expect(sectioning3.getId()).toEqual(
-        '0f0f2f9c-0f35-4314-9c74-345563ee1fca'
-      );
-      expect(sectioning4).toBeInstanceOf(Sectioning);
-      expect(sectioning4.getId()).toEqual(
-        '5596bc5a-6989-4ba8-b579-86e1c2924750'
-      );
-      expect(child1).toBeInstanceOf(Child);
-      expect(child1.getId()).toEqual('cb2c4491-3b3b-4a4d-b32e-b111f100dcb9');
-
-      done();
-    });
+    // test if elements of layer 0 (root children) are correct
+    expect(root.getChildren().length).toEqual(json.editor.length);
+    for (let i = 0; i < json.editor.length; i++) {
+      compareModelAndJson(root.getChildren()[i], json.editor[i]);
+    }
   });
+
+  // HELPER FUNCTIONS TO GENERATE RANDOM JSON DATA
+  // HELPER FUNCTIONS TO GENERATE RANDOM JSON DATA
+
+  function randomInt(max: number): number {
+    return Math.floor(Math.random() * max);
+  }
+
+  function generateLabelJSON(
+    id: string,
+    content: string,
+    comment: string = '',
+    summary: string = ''
+  ) {
+    return {
+      id: id,
+      type: 'Label',
+      content: content,
+      comment: comment,
+      summary: summary,
+    };
+  }
+
+  function generateChildJSON(
+    id: string,
+    content: string,
+    comment: string = '',
+    summary: string = ''
+  ) {
+    return {
+      id: id,
+      type: 'Child',
+      content: content,
+      comment: comment,
+      summary: summary,
+    };
+  }
+
+  function generateSectioningJSON(
+    id: string,
+    content: string,
+    children: Array<any> = [],
+    comment: string = '',
+    summary: string = ''
+  ) {
+    return {
+      id: id,
+      type: 'Sectioning',
+      content: content,
+      comment: comment,
+      summary: summary,
+      children: children,
+    };
+  }
+
+  function generateEnvironmentJSON(
+    id: string,
+    content: string,
+    children: Array<any> = [],
+    comment: string = '',
+    summary: string = ''
+  ) {
+    return {
+      id: id,
+      type: 'Environment',
+      content: content,
+      comment: comment,
+      summary: summary,
+      children: children,
+    };
+  }
+
+  function generateFigureJSON(
+    id: string,
+    content: string,
+    captions: Array<any>,
+    fileLocation: string,
+    comment: string = '',
+    summary: string = '',
+    children: Array<any> = []
+  ) {
+    return {
+      id: id,
+      type: 'Figure',
+      content: content,
+      comment: comment,
+      summary: summary,
+      captions: captions,
+      fileLocation: fileLocation,
+      children: children,
+    };
+  }
+
+  function generateAlgorithmJSON(
+    id: string,
+    content: string,
+    algorithmType: string,
+    comment: string = '',
+    summary: string = '',
+    children: Array<any> = []
+  ) {
+    return {
+      id: id,
+      type: 'Algorithm',
+      content: content,
+      comment: comment,
+      summary: summary,
+      algorithmType: algorithmType,
+      children: children,
+    };
+  }
+
+  function generateEquationJSON(
+    id: string,
+    content: string,
+    children: Array<any> = [],
+    comment: string = '',
+    summary: string = ''
+  ) {
+    return {
+      id: id,
+      type: 'Equation',
+      content: content,
+      comment: comment,
+      summary: summary,
+      children: children,
+    };
+  }
+
+  function generateInputJSON(
+    id: string,
+    content: string,
+    fileName: string,
+    comment: string = '',
+    summary: string = '',
+    children: Array<any> = []
+  ) {
+    return {
+      id: id,
+      type: 'Input',
+      content: content,
+      comment: comment,
+      summary: summary,
+      fileName: fileName,
+      children: children,
+    };
+  }
+
+  function generateTestJSON(
+    depth: number,
+    elementsPerLayer: number
+  ): Array<any> {
+    let result = [];
+
+    for (let i = 0; i < elementsPerLayer; i++) {
+      if (depth === 0) {
+        // Create a leaf node, which can be any type
+        let leafTypes = [
+          'Label',
+          'Child',
+          'Sectioning',
+          'Environment',
+          'Figure',
+          'Algorithm',
+          'Equation',
+          'Input',
+        ];
+        let randomType = leafTypes[randomInt(leafTypes.length)];
+        result.push(generateNodeJSON(randomType, i));
+      } else {
+        // Create a parent node, which can be any type except Label and Child
+        let parentTypes = [
+          'Sectioning',
+          'Environment',
+          'Figure',
+          'Algorithm',
+          'Equation',
+          'Input',
+        ];
+        let randomType = parentTypes[randomInt(parentTypes.length)];
+        let parentNode = generateNodeJSON(randomType, i);
+
+        // Generate children nodes recursively
+        (parentNode as any).children = generateTestJSON(
+          depth - 1,
+          elementsPerLayer
+        );
+        result.push(parentNode);
+      }
+    }
+
+    return result;
+  }
+
+  function generateNodeJSON(type: string, idSuffix: number) {
+    switch (type) {
+      case 'Label':
+        return generateLabelJSON(`label${idSuffix}`, `labelContent${idSuffix}`);
+      case 'Child':
+        return generateChildJSON(`child${idSuffix}`, `childContent${idSuffix}`);
+      case 'Sectioning':
+        return generateSectioningJSON(
+          `section${idSuffix}`,
+          `sectionContent${idSuffix}`
+        );
+      case 'Environment':
+        return generateEnvironmentJSON(
+          `env${idSuffix}`,
+          `envContent${idSuffix}`
+        );
+      case 'Figure':
+        return generateFigureJSON(
+          `fig${idSuffix}`,
+          `figContent${idSuffix}`,
+          [
+            { content: `captionContent${idSuffix}1` },
+            { content: `captionContent${idSuffix}2` },
+          ],
+          `fileLocation${idSuffix}`
+        );
+      case 'Algorithm':
+        return generateAlgorithmJSON(
+          `algo${idSuffix}`,
+          `algoContent${idSuffix}`,
+          `stringType${idSuffix}`
+        );
+      case 'Equation':
+        return generateEquationJSON(`eq${idSuffix}`, `eqContent${idSuffix}`);
+      case 'Input':
+        return generateInputJSON(
+          `input${idSuffix}`,
+          `inputContent${idSuffix}`,
+          `nameOfFile${idSuffix}`
+        );
+      default:
+        throw new Error(`Invalid type: ${type}`);
+    }
+  }
 });
