@@ -76,8 +76,8 @@ describe('JsonToModelConverterService', () => {
       editor: arrayOfJson,
     };
 
-    //log the jsonified-model and json for debugging
-    // console.log(JSON.stringify(root));
+    //log the stringify-json for debugging
+    console.log(JSON.stringify(json));
 
     // Convert and test
     const result = await service.convert(of(json)).toPromise();
