@@ -7,17 +7,11 @@ describe('Input', () => {
 
   beforeEach(() => {
     root = Root.createRoot();
-    input = new Input('1', 'content', 'comment', 'summary', root, 'fileName');
+    input = new Input('1', 'content', 'comment', 'summary', root);
   });
 
   it('should create an instance', () => {
     expect(input).toBeTruthy();
-  });
-
-  it('should correctly set and get file name', () => {
-    expect(input.getFileName()).toBe('fileName');
-    input.setFileName('newFileName');
-    expect(input.getFileName()).toBe('newFileName');
   });
 
   it('should correctly get and set content', () => {
@@ -41,9 +35,15 @@ describe('Input', () => {
   it('should correctly get parent', () => {
     expect(input.getParent()).toBe(root);
   });
-  
+
   it('should add and remove child elements', () => {
-    const child = new Input('2', 'childContent', 'childComment', 'childSummary', input, 'childFileName');
+    const child = new Input(
+      '2',
+      'childContent',
+      'childComment',
+      'childSummary',
+      input
+    );
     input.addChild(child);
     expect(input.getChildren().length).toBe(1);
     expect(input.removeChild('2')).toBeTruthy();

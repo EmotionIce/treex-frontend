@@ -75,29 +75,13 @@ export class JsonToModelConverterService {
         createdElement = figure;
         break;
       case 'Algorithm':
-        const { algorithmType } = item;
-        createdElement = new Algorithm(
-          id,
-          content,
-          comment,
-          summary,
-          parent,
-          algorithmType
-        );
+        createdElement = new Algorithm(id, content, comment, summary, parent);
         break;
       case 'Equation':
         createdElement = new Equation(id, content, comment, summary, parent);
         break;
       case 'Input':
-        const { fileName } = item;
-        createdElement = new Input(
-          id,
-          content,
-          comment,
-          summary,
-          parent,
-          fileName
-        );
+        createdElement = new Input(id, content, comment, summary, parent);
         break;
       default:
         console.error(`Unknown item type: ${type}`);
