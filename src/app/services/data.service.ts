@@ -6,11 +6,19 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DataService {
   private activeElement = new BehaviorSubject<string>('');
-  currentData = this.activeElement.asObservable();
+  currentActiveElementID = this.activeElement.asObservable();
+
+  private changeNotifier = new BehaviorSubject<number>(0);
+  currentChange = this.changeNotifier.asObservable();
 
   constructor() {}
 
-  changeData(data: any) {
+  changeActiveElement(data: any) {
     this.activeElement.next(data);
+  }
+
+  notifyChange() {
+    let currentValue = this.changeNotifier.value;
+    this.changeNotifier.next(currentValue + 1);
   }
 }
