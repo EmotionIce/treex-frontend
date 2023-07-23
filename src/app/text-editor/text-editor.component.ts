@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { EditorPartComponent } from '../editor-part/editor-part.component';
 
 @Component({
-  selector: 'app-editable-text',
+  selector: 'app-text-editor',
   template: `
     <div *ngIf="!isEditMode" (click)="enterEditMode()">{{ text }}</div>
     <textarea *ngIf="isEditMode" [(ngModel)]="editedText"></textarea>
     <button *ngIf="isEditMode" (click)="saveText()">Save</button>
   `,
-  styleUrls: ['./editable-text.component.scss']
+  styleUrls: ['./text-editor.component.scss']
 })
 export class TextEditorComponent {
   @Input() text: string = '';
