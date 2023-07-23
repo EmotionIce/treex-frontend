@@ -10,6 +10,7 @@ import { Parent } from '../models/parent';
 
 import { SettingsService, Settings } from './settings';
 import { ErrorPopupService } from './error-popup.service';
+import { DataService } from './data.service';
 
 const POLLING_INTERVAL = 5000; // Time in milliseconds between each poll
 
@@ -24,7 +25,8 @@ export class BackendService {
   constructor(
     private http: HttpClient,
     private settingsService: SettingsService,
-    private errorPopupService: ErrorPopupService
+    private errorPopupService: ErrorPopupService,
+    private dataService: DataService
   ) {
     this.settings = settingsService.getSettings();
     this.handleError = this.handleError.bind(this);
@@ -35,15 +37,27 @@ export class BackendService {
   }
 
   public GitPush(): Observable<any> {
-    return this.http.get<Array<Object>>(`${this.baseUrl}/gitPush`);
+    return this.http
+      .get<Array<Object>>(`${this.baseUrl}/gitPush`)
+      .pipe(catchError(this.handleError));
   }
 
   public LoadTree(): Observable<Array<Object>> {
-    return this.http.get<Array<Object>>(`${this.baseUrl}/loadTree`);
+    return this.http
+      .get<Array<Object>>(`${this.baseUrl}/loadTree`)
+      .pipe(catchError(this.handleError));
   }
 
   public LoadFullData(): Observable<Array<Object>> {
-    return this.http.get<Array<Object>>(`${this.baseUrl}/loadFullData`);
+    return this.http
+      .get<Array<Object>>(`${this.baseUrl}/loadFullData`)
+      .pipe(catchError(this.handleError));
+  }
+
+  public CheckForUpdates(): Observable<boolean> {
+    return this.http
+      .get<boolean>(`${this.baseUrl}/checkForUpdates`)
+      .pipe(catchError(this.handleError));
   }
 
   public MoveElementTree(
@@ -153,17 +167,20 @@ export class BackendService {
   public startPollingData(): void {
     interval(POLLING_INTERVAL)
       .pipe(
-        // This will map each emitted value from the interval Observable (which is a simple increasing number)
-        // to a new Observable, the result of this.http.get. The switchMap operator will also automatically
-        // unsubscribe from the previous http.get Observable when a new value is emitted from interval.
-        switchMap(() => this.LoadFullData()),
-
-        // takeUntil will automatically complete (and unsubscribe from) the interval Observable
-        // when a value is emitted from stopPolling$.
-        takeUntil(this.stopPolling$)
+        switchMap(() => this.CheckForUpdates()), // Ensures that checkForUpdates() is called each interval
+        takeUntil(this.stopPolling$) // Stops polling when a value is emitted from stopPolling$
       )
-      .subscribe((data) => {
-        console.log(data); // Replace this with actual logic to handle the returned data
+      .subscribe({
+        next: (hasUpdates: boolean) => {
+          // If backend returns true, log true to the console
+          if (hasUpdates) {
+            this.dataService.notifyChange();
+          }
+        },
+        error: (err) => {
+          console.error(err);
+          // Handle any errors that occur during the request
+        },
       });
   }
 
