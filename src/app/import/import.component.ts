@@ -18,6 +18,9 @@ export class ImportComponent {
   loadFromFolder() {
     this.backendService.LoadFromFolder(this.folderPath).subscribe((data) => {
       console.log(data);
+
+      // Start polling
+      this.backendService.startPollingData();
     });
   }
 
@@ -31,6 +34,9 @@ export class ImportComponent {
       )
       .subscribe((data) => {
         console.log(data);
+
+        // Start polling
+        this.backendService.startPollingData();
       });
   }
 }

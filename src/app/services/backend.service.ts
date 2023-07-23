@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, interval, Subject } from 'rxjs';
+import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 
 // import composite structure
 import { Element } from '../models/element';
@@ -11,12 +11,15 @@ import { Parent } from '../models/parent';
 import { SettingsService, Settings } from './settings';
 import { ErrorPopupService } from './error-popup.service';
 
+const POLLING_INTERVAL = 5000; // Time in milliseconds between each poll
+
 @Injectable({
   providedIn: 'root', //so every other dependencies can access this service
 })
 export class BackendService {
   private baseUrl = 'http://localhost:8080/'; //localhost connection to backend; actual url will be 8080 apparently
   private settings: Settings;
+  private stopPolling$ = new Subject<void>();
 
   constructor(
     private http: HttpClient,
@@ -145,6 +148,32 @@ export class BackendService {
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/loadGit`, gitData)
       .pipe(catchError(this.handleError));
+  }
+
+  public startPollingData(): void {
+    interval(POLLING_INTERVAL)
+      .pipe(
+        // This will map each emitted value from the interval Observable (which is a simple increasing number)
+        // to a new Observable, the result of this.http.get. The switchMap operator will also automatically
+        // unsubscribe from the previous http.get Observable when a new value is emitted from interval.
+        switchMap(() => this.LoadFullData()),
+
+        // takeUntil will automatically complete (and unsubscribe from) the interval Observable
+        // when a value is emitted from stopPolling$.
+        takeUntil(this.stopPolling$)
+      )
+      .subscribe((data) => {
+        console.log(data); // Replace this with actual logic to handle the returned data
+      });
+  }
+
+  public stopPollingData(): void {
+    // Emitting a value from stopPolling$ will cause the interval Observable to complete.
+    this.stopPolling$.next();
+    // Clear the stopPolling$ subject to ensure no leftover values
+    this.stopPolling$.complete();
+    // Recreate the stopPolling$ subject for future use
+    this.stopPolling$ = new Subject();
   }
 
   // helper function to handle backend errors
