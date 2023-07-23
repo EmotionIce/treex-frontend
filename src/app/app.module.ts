@@ -27,6 +27,14 @@ import { SummaryComponent } from './summary/summary.component';
 import { CommentComponent } from './comment/comment.component';
 import { ContentComponent } from './content/content.component';
 import { TextEditorComponent } from './text-editor/text-editor.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ImportComponent } from './import/import.component';
+
+import { BackendService } from './services/backend.service';
+import { ErrorPopupService } from './services/error-popup.service';
+import { SettingsService } from './services/settings';
 
 @NgModule({
   declarations: [
@@ -46,6 +54,7 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     CommentComponent,
     ContentComponent,
     TextEditorComponent,
+    ImportComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,8 +67,11 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
     MatSelectModule,
     FormsModule,
     MatCardModule,
+    MatIconModule,
+    MatInputModule,
+    MatSnackBarModule,
   ],
-  providers: [],
+  providers: [BackendService, ErrorPopupService, SettingsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

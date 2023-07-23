@@ -1,0 +1,39 @@
+<app-header></app-header>
+<div>
+  <h2>Import from Folder</h2>
+  <mat-form-field class="settings-element" appearance="fill">
+    <mat-label>Folder Path</mat-label>
+    <input matInput [(ngModel)]="folderPath" title="giturl">
+  </mat-form-field>
+  <button mat-raised-button aria-label="Submit" color="accent" class="settings-element" (click)="loadFromFolder()">
+    Import
+  </button>
+</div>
+
+<div>
+  <h2>Import from Git</h2>
+
+  <mat-form-field class="settings-element" appearance="fill">
+    <mat-label>Git URL</mat-label>
+    <input matInput [(ngModel)]="gitUrl" title="giturl">
+  </mat-form-field>
+  <mat-form-field class="settings-element" appearance="fill">
+    <mat-label>Username</mat-label>
+    <input matInput [(ngModel)]="gitUsername" title="giturl">
+  </mat-form-field>
+  <mat-form-field class="settings-element" appearance="fill">
+    <mat-label>Password</mat-label>
+    <input matInput [(ngModel)]="gitPassword" title="giturl">
+  </mat-form-field>
+  <mat-form-field class="settings-element" appearance="fill">
+    <mat-label>Local Clone Path</mat-label>
+    <input matInput [(ngModel)]="gitPath" title="giturl">
+  </mat-form-field>
+
+
+  <button mat-raised-button aria-label="Submit" color="accent" class="settings-element" (click)="loadFromGit()">
+    Import
+  </button>
+</div>
+
+<app-error-popup></app-error-popup>

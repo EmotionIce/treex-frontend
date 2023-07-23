@@ -47,4 +47,16 @@
       </mat-checkbox>
     </section>
   </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>Popup Duration (sec)</mat-label>
+        <input matInput type="number" min="0" [(ngModel)]="settings.popupDuration" title="test">
+        <button *ngIf="settings.popupDuration" matSuffix mat-icon-button aria-label="Submit" (click)="updateSettings()">
+          <mat-icon>check</mat-icon>
+        </button>
+      </mat-form-field>
+    </section>
+  </div>
 </div>
