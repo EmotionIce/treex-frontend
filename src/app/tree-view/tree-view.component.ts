@@ -1,7 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 import { DiagramComponent, Diagram, NodeModel, ConnectorModel, SnapSettingsModel, LayoutModel,
      DataSourceModel, TextModel, DecoratorModel, ShapeStyleModel, SnapConstraints, UserHandleModel, NodeConstraints, DataBinding, IClickEventArgs, IDoubleClickEventArgs} from '@syncfusion/ej2-angular-diagrams';
 import { DataManager} from '@syncfusion/ej2-data';
+import { SummaryComponent } from './summary/summary.component';
+
 //import { DataBinding } from '@syncfusion/ej2-angular-diagrams';
 //Diagram.Inject(DataBinding);
 
@@ -17,6 +19,7 @@ export interface ElementInfo{
     //encapsulation: ViewEncapsulation.None
 })
 export class TreeViewComponent {
+    //@ViewChild(SummaryComponent) childComponent: SummaryComponent;
    /* @ViewChild("diagram")
     public diagram?: DiagramComponent;
     public snapSettings?: SnapSettingsModel;
@@ -37,15 +40,22 @@ export class TreeViewComponent {
         {elementID: "006", content: "Kapitel 3", parentID: "000", summary: "Text Zusammenfassung7"},
         {elementID: "007", content: "Kapitel 3.1", parentID: "006", summary: "Text Zusammenfassung8"},
         {elementID: "008", content: "Kapitel 3.2", parentID: "006", summary: "Text Zusammenfassung9"},
-        {elementID: "009", content: "Kapitel 3.2.1", parentID: "008", summary: "Text Zusammenfassung10"},
         {elementID: "009", content: "Kapitel 3.2.2", parentID: "008", summary: "Text Zusammenfassung10"}];
 
+    
 
     public jsonDatasourceSettings: Object = {
         id: "elementID",
         parentId: "parentID",
         dataSource: new DataManager(this.treeData as JSON[])
     }
+
+    public test():void {
+        alert("pop")
+        this.treeData.pop()
+    }
+
+    
 
 
     public layoutSettings: LayoutModel = {
@@ -142,6 +152,7 @@ export class TreeViewComponent {
             //alert(node.annotations.length)
             //node.annotations[0].visibility = false;
             //alert("...")
+            
         }
       //  }
       }

@@ -23,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 
 import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
+import { SummaryComponent } from './tree-view/summary/summary.component';
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchical
     ElementTitleComponent,
     ElementContentComponent,
     SettingsComponent,
+    SummaryComponent,
   ],
   imports: [
     BrowserModule,
