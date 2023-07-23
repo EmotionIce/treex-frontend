@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { DataService } from './data.service';
-import { take } from 'rxjs/operators';
+import { take, skip } from 'rxjs/operators';
 
 describe('DataService', () => {
   let service: DataService;
@@ -14,23 +14,21 @@ describe('DataService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should emit new data after changeData is called', (done) => {
-    const testData = 'Test Data';
-
-    service.changeData(testData);
-
-    service.currentData.pipe(take(1)).subscribe((data) => {
-      expect(data).toBe(testData);
+  it('should update activeElement when changeActiveElement is called', (done: DoneFn) => {
+    service.currentActiveElementID.pipe(skip(1), take(1)).subscribe((value) => {
+      expect(value).toEqual('test');
       done();
     });
+
+    service.changeActiveElement('test');
   });
 
-  it('should not emit new data if changeData is not called', (done) => {
-    const initialData = '';
-
-    service.currentData.pipe(take(1)).subscribe((data) => {
-      expect(data).toBe(initialData);
+  it('should increment changeNotifier when notifyChange is called', (done: DoneFn) => {
+    service.currentChange.pipe(skip(1), take(1)).subscribe((value) => {
+      expect(value).toEqual(1);
       done();
     });
+
+    service.notifyChange();
   });
 });
