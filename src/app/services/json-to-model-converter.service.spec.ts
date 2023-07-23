@@ -54,12 +54,6 @@ describe('JsonToModelConverterService', () => {
         );
         expect(model.getFileLocation()).toEqual(json.fileLocation);
         break;
-      case 'Algorithm':
-        expect(model.getAlgorithmType()).toEqual(json.algorithmType);
-        break;
-      case 'Input':
-        expect(model.getFileName()).toEqual(json.fileName);
-        break;
     }
   }
 
@@ -184,7 +178,6 @@ describe('JsonToModelConverterService', () => {
   function generateAlgorithmJSON(
     id: string,
     content: string,
-    algorithmType: string,
     comment: string = '',
     summary: string = '',
     children: Array<any> = []
@@ -195,7 +188,6 @@ describe('JsonToModelConverterService', () => {
       content: content,
       comment: comment,
       summary: summary,
-      algorithmType: algorithmType,
       children: children,
     };
   }
@@ -220,7 +212,6 @@ describe('JsonToModelConverterService', () => {
   function generateInputJSON(
     id: string,
     content: string,
-    fileName: string,
     comment: string = '',
     summary: string = '',
     children: Array<any> = []
@@ -231,7 +222,6 @@ describe('JsonToModelConverterService', () => {
       content: content,
       comment: comment,
       summary: summary,
-      fileName: fileName,
       children: children,
     };
   }
@@ -311,17 +301,12 @@ describe('JsonToModelConverterService', () => {
       case 'Algorithm':
         return generateAlgorithmJSON(
           `algo${idSuffix}`,
-          `algoContent${idSuffix}`,
-          `stringType${idSuffix}`
+          `algoContent${idSuffix}`
         );
       case 'Equation':
         return generateEquationJSON(`eq${idSuffix}`, `eqContent${idSuffix}`);
       case 'Input':
-        return generateInputJSON(
-          `input${idSuffix}`,
-          `inputContent${idSuffix}`,
-          `nameOfFile${idSuffix}`
-        );
+        return generateInputJSON(`input${idSuffix}`, `inputContent${idSuffix}`);
       default:
         throw new Error(`Invalid type: ${type}`);
     }

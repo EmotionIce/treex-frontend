@@ -7,7 +7,13 @@ describe('Algorithm', () => {
 
   beforeEach(() => {
     parent = new Environment('0', 'parent content', 'comment', 'summary', null);
-    algorithm = new Algorithm('1', 'algorithm content', 'comment', 'summary', parent, 'type');
+    algorithm = new Algorithm(
+      '1',
+      'algorithm content',
+      'comment',
+      'summary',
+      parent
+    );
   });
 
   it('should create an instance', () => {
@@ -16,9 +22,5 @@ describe('Algorithm', () => {
 
   it('should inherit from Environment', () => {
     expect(algorithm).toBeInstanceOf(Environment);
-  });
-
-  it('should have the correct algorithm type', () => {
-    expect(algorithm.getAlgorithmType()).toBe('type');
   });
 });
