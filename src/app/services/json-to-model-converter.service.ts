@@ -15,11 +15,13 @@ import { Algorithm } from '../models/environments/algorithm';
 import { Equation } from '../models/environments/equation';
 import { Caption } from '../models/caption';
 
+import { ErrorPopupService } from './error-popup.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class JsonToModelConverterService {
-  constructor() {}
+  constructor(private errorPopupService: ErrorPopupService) {}
 
   public convert(jsonData$: Observable<Object>): Observable<boolean> {
     return jsonData$.pipe(
@@ -35,6 +37,8 @@ export class JsonToModelConverterService {
           return true;
         } catch (error) {
           console.error(`Error during conversion: ${(error as Error).message}`);
+          // Use the ErrorPopupService to display the error message
+          this.errorPopupService.setErrorMessage((error as Error).message);
           return false;
         }
       })
