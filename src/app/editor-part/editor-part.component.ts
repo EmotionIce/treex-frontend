@@ -6,8 +6,7 @@ import { JsonToModelConverterService
  } from '../services/json-to-model-converter.service';
  import { Observable } from 'rxjs';
  import { DataService } from '../services/data.service';
- import { TextEditorComponent } from '../text-editor/text-editor.component';
- import { EditorViewComponent } from '../editor-view/editor-view.component';
+
 
 
  export class ConcreteElement extends Element {
@@ -34,11 +33,11 @@ export class EditorPartComponent implements OnInit {
   elementIDToBeEdited: string | null = null; /* the ID of the element that is shown in the text-editor. will be acessed after texteditor
                                               is finished to give the backend the correct element */
   inEditMode = false;
-//TODO: `give the parent of the ElementID to the navigationpart to display it there
+  //TODO: `give the parent of the ElementID to the navigationpart to display it there
 
 
 
-@Output() hoveredElement: EventEmitter<string | null> = new EventEmitter<string | null>();
+  @Output() hoveredElement: EventEmitter<string | null> = new EventEmitter<string | null>();
 
   onElementHover(elementID: string | null) {
     this.hoveredElementID = elementID;
@@ -56,7 +55,7 @@ export class EditorPartComponent implements OnInit {
       console.log("Detected change in data", this.displayedEditorElements)
     })
     // Sample data for testing
-    const element1 = new ConcreteElement('id1', 'Content 1', 'Comment 1', 'Summary 1 Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tie');
+    const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
 
@@ -79,6 +78,88 @@ export class EditorPartComponent implements OnInit {
    console.log("EditorPartComponent: layerElements", this.layerElements);
   }
   
+
+
+
+  showContent(layerElement: LayerElement): string {
+    layerElement.showContentTextbox = !layerElement.showContentTextbox;
+    if (this.hoveredElementID) {
+      this.elementIDToBeEdited = this.hoveredElementID;
+      const layerElementToBeEdited = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
+      if (layerElementToBeEdited) {
+        // Now you have the LayerElement that matches the hoveredElementID and can access its Content
+  
+        return layerElementToBeEdited.element.getContent();
+      }
+    }
+    // Return an empty string or any other default value if the element is not found
+    return '';
+  }
+
+
+  onContentUpdated(updatedContend: string) {
+   
+  // Call the backend service to update the summary
+  const elementToBeSaved = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
+  if (elementToBeSaved) {
+
+  
+  const backendResponse: Observable<Object> = this.backendService.EditContent(elementToBeSaved.element, updatedContend);
+
+  const converted: Observable<boolean> = this.converter.convert(backendResponse);
+  
+  converted.subscribe((value: boolean) => {
+    if (value) {
+      console.log('Summary updated on the backend.');
+      this.dataService.notifyChange();
+
+      // Handle any other logic after the summary is updated, if needed
+    } else {
+      console.log('Error when trying to update the Summary on the backend');
+    }
+  });
+  }
+  }
+
+
+  showComment(layerElement: LayerElement): string {
+    layerElement.showCommentTextbox = !layerElement.showCommentTextbox;
+    if (this.hoveredElementID) {
+      this.elementIDToBeEdited = this.hoveredElementID;
+      const layerElementToBeEdited = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
+      if (layerElementToBeEdited) {
+        // Now you have the LayerElement that matches the hoveredElementID and can access its Content
+  
+        return layerElementToBeEdited.element.getComment();
+      }
+    }
+    // Return an empty string or any other default value if the element is not found
+    return 'Error in showcomment';
+  }
+
+  onCommentUpdated(updatedComment: string) {
+   
+    // Call the backend service to update the summary
+    const elementToBeSaved = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
+    if (elementToBeSaved) {
+
+    
+    const backendResponse: Observable<Object> = this.backendService.EditComment(elementToBeSaved.element, updatedComment);
+
+    const converted: Observable<boolean> = this.converter.convert(backendResponse);
+    
+    converted.subscribe((value: boolean) => {
+      if (value) {
+        console.log('Summary updated on the backend.');
+        this.dataService.notifyChange();
+
+        // Handle any other logic after the summary is updated, if needed
+      } else {
+        console.log('Error when trying to update the Summary on the backend');
+      }
+    });
+  }
+}
 
   
 

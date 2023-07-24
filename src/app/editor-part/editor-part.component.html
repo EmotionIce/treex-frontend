@@ -26,15 +26,19 @@
       <div class="button-container">
       
         
-        <button class="edit-button">Editieren</button>
-    
+        <button class="edit-button" (click)="showContent(layerElement)">Editieren</button>
 
-        <button class="comment-button">Komentieren</button>
+        <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
 
         <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button>
+
         <div *ngIf="layerElement.showSummaryTextbox">
           <app-text-editor [text]="layerElement.element.getSummary()" (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
       </div>
+      <div *ngIf="layerElement.showContentTextbox">
+        <app-text-editor [text]="layerElement.element.getContent()" (textUpdated)="onContentUpdated($event)"></app-text-editor>
     </div>
+    <div *ngIf="layerElement.showCommentTextbox">
+      <app-text-editor [text]="layerElement.element.getComment()" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
   </div>
 

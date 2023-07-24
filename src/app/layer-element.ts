@@ -9,10 +9,14 @@ import { CommentComponent } from './comment/comment.component';
 export class LayerElement {
   element: Element;
   showSummaryTextbox: boolean;
+  showContentTextbox: boolean;
+  showCommentTextbox: boolean;
 
   constructor(element: Element) {
     this.element = element;
     this.showSummaryTextbox = false;
+    this.showContentTextbox = false;
+    this.showCommentTextbox = false;
   }
 
 
