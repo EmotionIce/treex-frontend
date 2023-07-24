@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { Element } from '../models/element';
 
 @Component({
@@ -6,8 +6,16 @@ import { Element } from '../models/element';
   templateUrl: './navigation-part.component.html',
   styleUrls: ['./navigation-part.component.scss']
 })
-export class NavigationPartComponent {
+export class NavigationPartComponent  {
   @Input() displayedNavElements: Element[] = [];
+  
+  
+  ngOnChanges(changes: SimpleChanges) {
+   
+    if (changes['displayedNavElements']) {
+      console.log('Displayed Nav Elements:', this.displayedNavElements);
+    }
+  }
 
 
 }

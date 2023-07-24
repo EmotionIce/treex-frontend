@@ -8,9 +8,11 @@ import { CommentComponent } from './comment/comment.component';
 @Injectable()
 export class LayerElement {
   element: Element;
+  showSummaryTextbox: boolean;
 
   constructor(element: Element) {
     this.element = element;
+    this.showSummaryTextbox = false;
   }
 
 

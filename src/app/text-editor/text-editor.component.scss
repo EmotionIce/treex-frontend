@@ -1,12 +1,17 @@
 
-div, textarea, button {
-    margin: 5px;
-    padding: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  textarea {
-    display: block;
-    width: 100%;
-  }
-  
+.text-editor-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+textarea {
+  width: 300%;
+  height: 100%;
+  box-sizing: border-box;
+}

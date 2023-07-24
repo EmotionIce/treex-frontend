@@ -1,4 +1,8 @@
-<textarea [(ngModel)]="content"></textarea>
+<div class="text-editor-container">
+    <textarea [(ngModel)]="content"></textarea>
+  
+    <!-- Add a "Save" button -->
+    <button (click)="onSave()">Save</button>
+  </div>
 
-<!-- Add a "Save" button -->
-<button (click)="onSave()">Save</button>
+  
