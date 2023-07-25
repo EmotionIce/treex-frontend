@@ -6,6 +6,7 @@ import { JsonToModelConverterService
  } from '../services/json-to-model-converter.service';
  import { Observable } from 'rxjs';
  import { DataService } from '../services/data.service';
+ import { Parent } from '../models/parent';
  import { SettingsService } from '../services/settings';
  import { Root } from '../models/root';
 
@@ -25,12 +26,14 @@ export class EditorPartComponent implements OnInit {
 
  
 
-  @Input() displayedEditorElements: Element[] = [];
+  @Input() displayedEditorElementsOld: Element[] = [];
 
 
 
 
   layerElements: LayerElement[] = [];
+  displayedEditorElements: Element[] = [];
+
   hoveredElementID: string | null = null; /* the element that is highlighted. need it to highlight its corresponding parent */
   elementIDToBeEdited: string | null = null; /* the ID of the element that is shown in the text-editor. will be acessed after texteditor
                                               is finished to give the backend the correct element */
@@ -65,9 +68,14 @@ export class EditorPartComponent implements OnInit {
 
     console.log("EditorPartComponent: displayedEditorElements", this.displayedEditorElements);
     console.log('EditorPartComponent: ngOnInit called');
-    this.dataService.currentChange.subscribe(change => {
-      console.log("Detected change in data", this.displayedEditorElements)
+    //this.dataService.currentChange.subscribe(change => {
+    this.dataService.currentEditorElements.subscribe(newEditorElements => {
+      this.displayedEditorElements = newEditorElements;
+
+
     })
+    console.log("Detected change in data", this.displayedEditorElements)
+    
     // Sample data for testing. currently on "if" so i can show root Elements aswell."
     if (this.displayedEditorElements.length < 0) {
       // add this if  editorview and part dont communicate:     this.displayedEditorElements = this.rootInstance.getChildren();
@@ -79,13 +87,13 @@ export class EditorPartComponent implements OnInit {
     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
 
     this.layerElements = [
-      new LayerElement(element1, this.backendService),
-      new LayerElement(element2, this.backendService),
-      new LayerElement(element3, this.backendService)
+      new LayerElement(element1, this.backendService, this.dataService),
+      new LayerElement(element2, this.backendService, this.dataService),
+      new LayerElement(element3, this.backendService, this.dataService)
     ]; }
 
     if (this.displayedEditorElements.length > 0) {
-      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService /*, this.settings.deleteCascading*/));
+      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.dataService /*, this.settings.deleteCascading*/));
 
       
     } 
@@ -102,6 +110,17 @@ export class EditorPartComponent implements OnInit {
     layerElement.deleteElement();
 
   }
+
+  isParent(element: Element): boolean {
+    return element instanceof Parent;
+  }
+  showChildren(layerElement: LayerElement) {
+    layerElement.onExtendChild();
+
+  }
+
+
+  
 
   showContent(layerElement: LayerElement): string {
     layerElement.showContentTextbox = !layerElement.showContentTextbox;

@@ -5,6 +5,8 @@ import { SummaryComponent } from './summary/summary.component';
 import { ContentComponent } from './content/content.component';
 import { CommentComponent } from './comment/comment.component';
 import { BackendService } from './services/backend.service';
+import { Parent } from './models/parent';
+import { DataService } from './services/data.service';
 
 @Injectable()
 export class LayerElement {
@@ -13,7 +15,7 @@ export class LayerElement {
   showContentTextbox: boolean;
   showCommentTextbox: boolean;
 
-  constructor(element: Element, private backendService: BackendService) {
+  constructor(element: Element, private backendService: BackendService, private dataService: DataService) {
     this.element = element;
     
     this.showSummaryTextbox = false;
@@ -41,6 +43,19 @@ export class LayerElement {
   }
 
   onExtendChild() {
+    if (this.element instanceof Parent) {
+      // Type assertion to treat the element as Parent to access the getChildren() method
+      const parentElement = this.element as Parent;
+      
+      // Access the list of children using the getChildren() method
+      const children = parentElement.getChildren();
+      const firstChild = children[0];
+      const firstChildID: string = firstChild.getId();
+      console.log("the layerElement concluded a new activeElement:", firstChildID)
+      this.dataService.changeActiveElement(firstChildID);
+
+      
+    }
 
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Root } from '../models/root';
 import { Element } from '../models/element';
 import { DataService } from '../services/data.service';
+
 import { EditorPartComponent } from '../editor-part/editor-part.component';
 
 
@@ -47,6 +48,9 @@ export class EditorViewComponent implements OnInit{
       
   
     this.displayedEditorElements = this.rootInstance.getChildren();
+    this.dataService.changeEditorElements(this.displayedEditorElements);
+
+
     
     this.dataService.currentChange.subscribe(change => {
 
@@ -54,13 +58,19 @@ export class EditorViewComponent implements OnInit{
    });
    this.dataService.currentActiveElementID.subscribe(id => {
     // hier kannst du machen, was immer du mit der neuen ID machen möchtest
+
+    //in theory, the editorview, gets the newcurrentElement, gets its parent and grandparent and updates the Editor using the updateEditor. 
     this.currentElementID = id;
     this.currentElement = this.rootInstance.searchByID(this.currentElementID);
+    this.updateEditor();
+
  });
 
     
 
   }
+
+ 
  
 
   updateEditorElements(parentElement: Element) {
@@ -76,12 +86,15 @@ export class EditorViewComponent implements OnInit{
 
   isElementHovered(element: Element): boolean {
     return this.hoveredElementID === element.getId();
-  }
+  } 
   updateEditor() {
 
     const parentElement = this.currentElement ? this.currentElement.getParent() : this.rootInstance;
     this.updateEditorElements(parentElement as Element);
     const grandparentElement = this.parentElement ? this.parentElement.getParent() : this.rootInstance;
     this.updateNavElement(grandparentElement as Element);
+    //TODO send the updated lists to editorpart and navigationpart using the service.
+    this.dataService.changeEditorElements(this.displayedEditorElements);
+    this.dataService.changeNavigationElements(this.displayedNavElements);
   }
 }
