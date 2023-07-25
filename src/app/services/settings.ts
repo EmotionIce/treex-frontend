@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DataService } from './data.service';
 
 export interface Settings {
   theme: string;
@@ -24,7 +25,7 @@ export class SettingsService {
     popupDuration: 5000,
   };
 
-  constructor() {
+  constructor(private dataService: DataService) {
     // Try to load settings from localStorage on initialization
     const savedSettings = localStorage.getItem('settings');
     if (savedSettings) {
@@ -40,5 +41,7 @@ export class SettingsService {
     this.settings = { ...this.settings, ...newSettings };
     // Save the updated settings to localStorage
     localStorage.setItem('settings', JSON.stringify(this.settings));
+    // Notify the data service that the data has changed
+    this.dataService.notifyChange();
   }
 }
