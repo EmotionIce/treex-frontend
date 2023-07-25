@@ -24,8 +24,9 @@
     
 
       <div class="button-container">
+
+        <button class="delete-button" (click)="onDelete(layerElement)">Löschen</button>
       
-        
         <button class="edit-button" (click)="showContent(layerElement)">Editieren</button>
 
         <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
@@ -35,10 +36,10 @@
         <div *ngIf="layerElement.showSummaryTextbox">
           <app-text-editor [text]="layerElement.element.getSummary()" (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
       </div>
-      <div *ngIf="layerElement.showContentTextbox">
-        <app-text-editor [text]="layerElement.element.getContent()" (textUpdated)="onContentUpdated($event)"></app-text-editor>
-    </div>
-    <div *ngIf="layerElement.showCommentTextbox">
-      <app-text-editor [text]="layerElement.element.getComment()" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
-  </div>
+        <div *ngIf="layerElement.showContentTextbox">
+          <app-text-editor [text]="layerElement.element.getContent()" (textUpdated)="onContentUpdated($event)"></app-text-editor>
+      </div>
+        <div *ngIf="layerElement.showCommentTextbox">
+          <app-text-editor [text]="layerElement.element.getComment()" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
+      </div>
 

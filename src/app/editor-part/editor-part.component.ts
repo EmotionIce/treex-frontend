@@ -6,11 +6,13 @@ import { JsonToModelConverterService
  } from '../services/json-to-model-converter.service';
  import { Observable } from 'rxjs';
  import { DataService } from '../services/data.service';
+ import { SettingsService } from '../services/settings';
+ import { Root } from '../models/root';
 
 
 
  export class ConcreteElement extends Element {
-  // If any additional properties are needed, add them here
+  
 }
 
 @Component({
@@ -33,7 +35,13 @@ export class EditorPartComponent implements OnInit {
   elementIDToBeEdited: string | null = null; /* the ID of the element that is shown in the text-editor. will be acessed after texteditor
                                               is finished to give the backend the correct element */
   inEditMode = false;
+  //settings: Settings;
   //TODO: `give the parent of the ElementID to the navigationpart to display it there
+
+  deleteElementChildren = false; // the bool that decides whether to also delete all children of an element or not
+
+
+  //rootInstance: Root;
 
 
 
@@ -44,42 +52,56 @@ export class EditorPartComponent implements OnInit {
     this.hoveredElement.emit(this.hoveredElementID);
   }
 
-  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService) {
-    // Constructor logic
+  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService/*, private settingsService: SettingsService*/) {
+    //shold the communication not work between editorview and part.
+    //this.rootInstance = Root.createRoot();
   }
+   
 
   ngOnInit() {
+
+  //this.settings = this.settingsService.getSettings();
+
+
     console.log("EditorPartComponent: displayedEditorElements", this.displayedEditorElements);
     console.log('EditorPartComponent: ngOnInit called');
     this.dataService.currentChange.subscribe(change => {
       console.log("Detected change in data", this.displayedEditorElements)
     })
-    // Sample data for testing
+    // Sample data for testing. currently on "if" so i can show root Elements aswell."
+    if (this.displayedEditorElements.length < 0) {
+      // add this if  editorview and part dont communicate:     this.displayedEditorElements = this.rootInstance.getChildren();
+
+    }
+    if (this.displayedEditorElements.length <= 0) {
     const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
 
     this.layerElements = [
-      new LayerElement(element1),
-      new LayerElement(element2),
-      new LayerElement(element3)
-    ]; 
+      new LayerElement(element1, this.backendService),
+      new LayerElement(element2, this.backendService),
+      new LayerElement(element3, this.backendService)
+    ]; }
 
     if (this.displayedEditorElements.length > 0) {
-      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element));
+      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService /*, this.settings.deleteCascading*/));
 
       
-    }
+    } 
 
  
-    //this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element));
+    //this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService));
    //TODO uncomment this code once testing is done!
 
    console.log("EditorPartComponent: layerElements", this.layerElements);
   }
   
 
+  onDelete(layerElement: LayerElement) {
+    layerElement.deleteElement();
 
+  }
 
   showContent(layerElement: LayerElement): string {
     layerElement.showContentTextbox = !layerElement.showContentTextbox;
@@ -113,7 +135,7 @@ export class EditorPartComponent implements OnInit {
       console.log('Summary updated on the backend.');
       this.dataService.notifyChange();
 
-      // Handle any other logic after the summary is updated, if needed
+      
     } else {
       console.log('Error when trying to update the Summary on the backend');
     }

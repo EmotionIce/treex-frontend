@@ -4,9 +4,7 @@ import { Element } from '../models/element';
 import { DataService } from '../services/data.service';
 import { EditorPartComponent } from '../editor-part/editor-part.component';
 
-export class ConcreteElement extends Element {
-  // If any additional properties are needed, add them here
-}
+
 
 
 
@@ -16,7 +14,7 @@ export class ConcreteElement extends Element {
   styleUrls: ['./editor-view.component.scss']
 })
 export class EditorViewComponent implements OnInit{
-  displayedStrings: string[] = ['String 1', 'String 2', 'String 3'];
+ 
   rootInstance: Root;
   displayedEditorElements: Element[] = [];
   displayedNavElements: Element[] = [];
@@ -24,7 +22,7 @@ export class EditorViewComponent implements OnInit{
   hoveredElementID: string | null = null;
   currentElementID: string | null = null;
   currentElement: Element | null = null;
-  element5 = new ConcreteElement('id5', 'Content 5', 'Comment 5', 'Summary 5');
+  //element5 = new ConcreteElement('id5', 'Content 5', 'Comment 5', 'Summary 5');
   
 
 
@@ -49,6 +47,7 @@ export class EditorViewComponent implements OnInit{
       
   
     this.displayedEditorElements = this.rootInstance.getChildren();
+    
     this.dataService.currentChange.subscribe(change => {
 
       this.updateEditor();

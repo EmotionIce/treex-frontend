@@ -28,7 +28,18 @@
 
 .edit-button {
     background-color: #007bff; 
-  color: white; 
+  color: black; 
+  padding: 5px 10px; 
+  border: none; 
+  border-radius: 3px; 
+  margin-right: 10px; 
+
+}
+
+.delete-button {
+ 
+  background-color: #dff803; 
+  color: black; 
   padding: 5px 10px; 
   border: none; 
   border-radius: 3px; 
@@ -44,8 +55,8 @@
     margin-right: 10px;
 }
 .summary-button {
-    background-color: #28a745; 
-    color: white; 
+    background-color: #ea00ff; 
+    color: black; 
     padding: 5px 10px; 
     border: none; 
     border-radius: 3px; 
