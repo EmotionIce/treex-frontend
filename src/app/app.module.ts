@@ -31,6 +31,7 @@ import { ImportComponent } from './import/import.component';
 import { BackendService } from './services/backend.service';
 import { ErrorPopupService } from './services/error-popup.service';
 import { SettingsService } from './services/settings';
+import { BackendTestComponent } from './backend-test/backend-test.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { SettingsService } from './services/settings';
     SettingsComponent,
     ErrorPopupComponent,
     ImportComponent,
+    BackendTestComponent,
   ],
   imports: [
     BrowserModule,
