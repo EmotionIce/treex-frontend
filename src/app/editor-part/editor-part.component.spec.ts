@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditorPartComponent } from './editor-part.component';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('EditorPartComponent', () => {
   let component: EditorPartComponent;
@@ -8,7 +9,8 @@ describe('EditorPartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [EditorPartComponent]
+      declarations: [EditorPartComponent],
+      imports: [HttpClientModule],
     });
     fixture = TestBed.createComponent(EditorPartComponent);
     component = fixture.componentInstance;
