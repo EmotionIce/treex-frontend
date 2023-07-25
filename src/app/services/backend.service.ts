@@ -72,7 +72,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/moveElementTree`, moveData)
+      .post<Array<Object>>(`${this.baseUrl}/api`, {moveElementTree: moveData})
       .pipe(catchError(this.handleError));
   }
 
@@ -88,7 +88,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/moveElementEditor`, moveData)
+      .post<Array<Object>>(`${this.baseUrl}/api`, {moveElementEditor: moveData})
       .pipe(catchError(this.handleError));
   }
 
@@ -99,7 +99,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/editSummary`, editData)
+      .post<Array<Object>>(`${this.baseUrl}/api`, {editSummary: editData})
       .pipe(catchError(this.handleError));
   }
 
@@ -110,7 +110,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/editComment`, editData)
+      .post<Array<Object>>(`${this.baseUrl}/api`, {editComment: editData})
       .pipe(catchError(this.handleError));
   }
 
@@ -121,7 +121,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/editContent`, editData)
+      .post<Array<Object>>(`${this.baseUrl}/api`, {editContent: editData})
       .pipe(catchError(this.handleError));
   }
 
@@ -132,7 +132,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/deleteElement`, delData)
+      .post<Array<Object>>(`${this.baseUrl}/api`, {deleteElement: delData})
       .pipe(catchError(this.handleError));
   }
 
@@ -142,7 +142,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/loadFolder`, folderData)
+      .post<Array<Object>>(`${this.baseUrl}/api`, {loadFolder: folderData})
       .pipe(catchError(this.handleError));
   }
 
@@ -160,7 +160,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/loadGit`, gitData)
+      .post<Array<Object>>(`${this.baseUrl}/api`, {loadGit: gitData})
       .pipe(catchError(this.handleError));
   }
 
