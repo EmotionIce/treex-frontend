@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,9 +22,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { SettingsService } from './services/settings';
 
 import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
+import {TooltipModule} from '@syncfusion/ej2-angular-popups'
 import { SummaryComponent } from './tree-view/summary/summary.component';
+
 
 
 @NgModule({
@@ -39,10 +47,11 @@ import { SummaryComponent } from './tree-view/summary/summary.component';
     ElementTitleComponent,
     ElementContentComponent,
     SettingsComponent,
-    SummaryComponent,
+    SummaryComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -51,9 +60,14 @@ import { SummaryComponent } from './tree-view/summary/summary.component';
     MatSelectModule,
     FormsModule,
     MatCardModule,
-    DiagramModule
+    MatIconModule,
+    MatInputModule,
+    MatSnackBarModule,
+    DiagramModule,
+    TooltipModule
   ],
-  providers: [DataBindingService, SnappingService, ComplexHierarchicalTreeService],
+
+  providers: [SettingsService, DataBindingService, SnappingService, ComplexHierarchicalTreeService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
