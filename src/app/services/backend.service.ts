@@ -18,7 +18,7 @@ const POLLING_INTERVAL = 5000; // Time in milliseconds between each poll
   providedIn: 'root', //so every other dependencies can access this service
 })
 export class BackendService {
-  private baseUrl = 'http://localhost:8080/'; //localhost connection to backend; actual url will be 8080 apparently
+  private baseUrl = 'http://localhost:8080'; //localhost connection to backend; actual url will be 8080 apparently
   private settings: Settings;
   private stopPolling$ = new Subject<void>();
 
@@ -72,7 +72,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, {moveElementTree: moveData})
+      .post<Array<Object>>(`${this.baseUrl}/api`, { moveElementTree: moveData })
       .pipe(catchError(this.handleError));
   }
 
@@ -88,7 +88,9 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, {moveElementEditor: moveData})
+      .post<Array<Object>>(`${this.baseUrl}/api`, {
+        moveElementEditor: moveData,
+      })
       .pipe(catchError(this.handleError));
   }
 
@@ -99,7 +101,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, {editSummary: editData})
+      .post<Array<Object>>(`${this.baseUrl}/api`, { editSummary: editData })
       .pipe(catchError(this.handleError));
   }
 
@@ -110,7 +112,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, {editComment: editData})
+      .post<Array<Object>>(`${this.baseUrl}/api`, { editComment: editData })
       .pipe(catchError(this.handleError));
   }
 
@@ -121,7 +123,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, {editContent: editData})
+      .post<Array<Object>>(`${this.baseUrl}/api`, { editContent: editData })
       .pipe(catchError(this.handleError));
   }
 
@@ -132,7 +134,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, {deleteElement: delData})
+      .post<Array<Object>>(`${this.baseUrl}/api`, { deleteElement: delData })
       .pipe(catchError(this.handleError));
   }
 
@@ -142,7 +144,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, {loadFolder: folderData})
+      .post<Array<Object>>(`${this.baseUrl}/api`, { loadFolder: folderData })
       .pipe(catchError(this.handleError));
   }
 
@@ -160,7 +162,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, {loadGit: gitData})
+      .post<Array<Object>>(`${this.baseUrl}/api`, { loadGit: gitData })
       .pipe(catchError(this.handleError));
   }
 
