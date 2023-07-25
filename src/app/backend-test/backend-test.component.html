@@ -1,0 +1,29 @@
+<app-header></app-header>
+<h1>Test backend requests</h1>
+
+<div *ngFor="let endpoint of endpoints">
+    <h2>{{endpoint.name}}</h2>
+
+    <div *ngFor="let param of endpoint.parameters">
+        <mat-form-field class="settings-element" appearance="fill">
+            <mat-label>{{param}}</mat-label>
+            <input matInput [(ngModel)]="parameterValues[endpoint.name][param]" title="{{param}}">
+        </mat-form-field>
+    </div>
+
+    <button mat-raised-button aria-label="Submit" color="accent" class="settings-element"
+        (click)="execute(endpoint, parameterValues[endpoint.name])">
+        Execute
+    </button>
+
+    <hr>
+
+    <!-- Add a new section here to display the response -->
+    <div>
+        <h4>Response</h4>
+        <pre>{{ responses[endpoint.name] | json }}</pre>
+    </div>
+</div>
+
+
+<app-error-popup></app-error-popup>
