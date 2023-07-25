@@ -35,7 +35,6 @@ import { ImportComponent } from './import/import.component';
 import { BackendService } from './services/backend.service';
 import { ErrorPopupService } from './services/error-popup.service';
 import { SettingsService } from './services/settings';
-import { BackendTestComponent } from './backend-test/backend-test.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +55,6 @@ import { BackendTestComponent } from './backend-test/backend-test.component';
     ContentComponent,
     TextEditorComponent,
     ImportComponent,
-    BackendTestComponent,
   ],
   imports: [
     BrowserModule,

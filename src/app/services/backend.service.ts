@@ -61,14 +61,14 @@ export class BackendService {
   }
 
   public MoveElementTree(
-    e: Element,
-    p: Parent,
-    pc: Element
+    e: string,
+    p: string,
+    pc: string
   ): Observable<Array<Object>> {
     let moveData: Object = {
-      element: e.getId(),
-      newParent: p.getId(),
-      previousElement: pc.getId(),
+      element: e,
+      newParent: p,
+      previousElement: pc,
     };
 
     return this.http
