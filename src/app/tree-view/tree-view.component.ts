@@ -52,7 +52,7 @@ export class TreeViewComponent {
         {elementID: "005", content: "Kapitel 2", parentID: "000", summary: "Text Zusammenfassung6"},
         {elementID: "006", content: "Kapitel 3", parentID: "000", summary: "Text Zusammenfassung7"}];
 
-        this.generateNewTree(this.treeData);
+        //this.generateNewTree(this.treeData);
     } 
     
     // receives a JSON-Tree as input and updates the tree accordingly
@@ -63,6 +63,10 @@ export class TreeViewComponent {
             parentId: "parentID",
             dataSource: new DataManager(this.treeData as JSON[])
         }
+    }
+
+    public moveElement(elementId: string, parentId: string, previousChildId: string){
+        //
     }
 
     //@ViewChild(SummaryComponent) childComponent: SummaryComponent;
@@ -188,9 +192,9 @@ export class TreeViewComponent {
     public onNodeHover(args: any): void {
           const node = args.actualObject;   
 
-        
+          //alert((node.data as ElementInfo).summary)
 
-          if (node.id != undefined) {
+         /* if (node.id != undefined) {
 
             this.timeoutId = setTimeout(() => {
 
