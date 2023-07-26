@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TreeViewSummaryService } from 'src/app/services/tree-view-summary.service';
 
 @Component({
   selector: 'app-summary',
@@ -10,7 +11,15 @@ import { Component } from '@angular/core';
 export class SummaryComponent {
   text = "defaultText";
 
-  public showSummary(summaryText: string){
-    alert(summaryText)
+
+  constructor(private treeViewSummary: TreeViewSummaryService){
+    this.treeViewSummary = treeViewSummary;
   }
+
+  
+  public showSummary(summaryText: string){
+    this.text = this.treeViewSummary.getSummaryText()
+    //alert(summaryText)
+  }
+
 }

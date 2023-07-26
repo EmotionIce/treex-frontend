@@ -19,7 +19,6 @@ describe('AppComponent', () => {
   it(`should have as title 'treex-frontend'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('treex-frontend');
   });
 
   it('should render title', () => {

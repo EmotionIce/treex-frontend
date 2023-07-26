@@ -22,11 +22,16 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
+import { ErrorPopupComponent } from './error-popup/error-popup.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ImportComponent } from './import/import.component';
 
+import { BackendService } from './services/backend.service';
+import { ErrorPopupService } from './services/error-popup.service';
 import { SettingsService } from './services/settings';
+import { BackendTestComponent } from './backend-test/backend-test.component';
 
 import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
 import {TooltipModule} from '@syncfusion/ej2-angular-popups'
@@ -47,6 +52,9 @@ import { SummaryComponent } from './tree-view/summary/summary.component';
     ElementTitleComponent,
     ElementContentComponent,
     SettingsComponent,
+    ErrorPopupComponent,
+    ImportComponent,
+    BackendTestComponent,
     SummaryComponent
   ],
   imports: [
@@ -67,7 +75,7 @@ import { SummaryComponent } from './tree-view/summary/summary.component';
     TooltipModule
   ],
 
-  providers: [SettingsService, DataBindingService, SnappingService, ComplexHierarchicalTreeService],
+  providers: [SettingsService, DataBindingService, SnappingService, ComplexHierarchicalTreeService, BackendService, ErrorPopupService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

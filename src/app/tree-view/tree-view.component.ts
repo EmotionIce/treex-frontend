@@ -1,8 +1,13 @@
 import { Component, ViewEncapsulation, HostListener } from '@angular/core';
-import { DiagramComponent, Diagram, NodeModel, ConnectorModel, SnapSettingsModel, LayoutModel,
-     DataSourceModel, TextModel, DecoratorModel, ShapeStyleModel, SnapConstraints, UserHandleModel, NodeConstraints, DataBinding, IClickEventArgs, IDoubleClickEventArgs} from '@syncfusion/ej2-angular-diagrams';
+import { DiagramComponent, Diagram, NodeModel, ConnectorModel, SnapSettingsModel, LayoutModel, DiagramTooltipModel,
+     DataSourceModel, TextModel, DecoratorModel, ShapeStyleModel, SnapConstraints, UserHandleModel, NodeConstraints, DataBinding, IClickEventArgs, IDoubleClickEventArgs, IDropEventArgs} from '@syncfusion/ej2-angular-diagrams';
 import { DataManager} from '@syncfusion/ej2-data';
 import { SummaryComponent } from './summary/summary.component';
+
+import { DataService } from '../services/data.service';
+import { BackendService } from '../services/backend.service'
+import { TreeViewSummaryService } from '../services/tree-view-summary.service';
+import { SelectionModel } from '@angular/cdk/collections';
 
 //import { DataBinding } from '@syncfusion/ej2-angular-diagrams';
 //Diagram.Inject(DataBinding);
@@ -22,6 +27,7 @@ export interface ElementInfo{
 })
 export class TreeViewComponent {
 
+    
     // example Data for testing purpose
     public treeData: object[] = [
         {elementID: "000", content: "Einleitung", summary: "Text Zusammenfassung1"},
@@ -43,17 +49,25 @@ export class TreeViewComponent {
         parentId: "parentID",
         dataSource: new DataManager(this.treeData as JSON[])
     }
+    
 
-    constructor(){
-        this.timeoutId = null;
+    
+
+    constructor(private dataService: DataService, private backendService: BackendService, private treeViewSummary: TreeViewSummaryService){
+        this.dataService = dataService;
+        this.backendService = backendService;
+        this.treeViewSummary = treeViewSummary;
+        /*this.timeoutId = null;
 
         this.treeData = [{elementID: "000", content: "Einleitung", summary: "Text Zusammenfassung1"},
         {elementID: "001", content: "Kapitel 1", parentID: "000", summary: "Text Zusammenfassung2"},
         {elementID: "005", content: "Kapitel 2", parentID: "000", summary: "Text Zusammenfassung6"},
         {elementID: "006", content: "Kapitel 3", parentID: "000", summary: "Text Zusammenfassung7"}];
 
-        //this.generateNewTree(this.treeData);
+        //this.generateNewTree(this.treeData);*/
+        //this.dataService.changeActiveElement()
     } 
+    
     
     // receives a JSON-Tree as input and updates the tree accordingly
     public generateNewTree(newTreeData: object[]): void{
@@ -65,8 +79,30 @@ export class TreeViewComponent {
         }
     }
 
+    public reloadTree(): void{
+        window.location.reload();
+        /*this.jsonDatasourceSettings = {
+            id: "elementID",
+            parentId: "parentID",
+            dataSource: new DataManager(this.treeData as JSON[])
+        }*/
+    }
+
+    
     public moveElement(elementId: string, parentId: string, previousChildId: string){
-        //
+        this.backendService.MoveElementTree(elementId, parentId, previousChildId).subscribe(
+            (newTreeData: Array<Object>) => {
+                this.generateNewTree(newTreeData)
+                alert("worked")
+              //console.log(responseData);  // here responseData is the array of objects
+
+            },
+            (error) => {
+                alert("error")
+                this.reloadTree();
+              //console.log(error);  // in case of an error, it will be logged here
+            }
+          );
     }
 
     //@ViewChild(SummaryComponent) childComponent: SummaryComponent;
@@ -116,13 +152,18 @@ export class TreeViewComponent {
         defaultnode.height = 50;
         defaultnode.width = 100;
 
-        defaultnode.constraints = NodeConstraints.Default; // allow all default constraints such as dragging and rezising Nodes
+        defaultnode.constraints = NodeConstraints.Default | NodeConstraints.Tooltip | NodeConstraints.AllowDrop; // allow all default constraints such as dragging and rezising Nodes
         defaultnode.constraints &= ~NodeConstraints.Delete; // do not allow deleting a Node
         defaultnode.constraints &= ~NodeConstraints.Rotate; // do not allow rotating a Node
 
         defaultnode.annotations = [
             {content: (defaultnode.data as ElementInfo).content, style: { color: "white" }}
         ]
+        
+        defaultnode.tooltip = {
+            content: (defaultnode.data as ElementInfo).summary,
+            position: "BottomCenter"
+        }
 
         //define expand/collapse Icons for the Nodes
         defaultnode.expandIcon = {
@@ -147,9 +188,13 @@ export class TreeViewComponent {
         }
 
         defaultnode.style = {fill: '#048785', strokeColor: 'Transparent', strokeWidth: 2}
+
+        
         
         return defaultnode;
     }
+
+
 
     // Defines the connecters of the Nodes
     public getConnectorDefaults(defaultconnector: ConnectorModel) : ConnectorModel{
@@ -188,10 +233,31 @@ export class TreeViewComponent {
     public onNodeOut(args: any): void{
         
     }
+
+    //dropEvent
+    public drop(args: any): void{
+            let draggedElementID = (args.element.data as ElementInfo).elementID;
+            let targetElementID = (args.target.data as ElementInfo).elementID;
+            this.moveElement("001", targetElementID, "007");
+       // }
+        
+
+        //alert((node.data as ElementInfo).elementID);
+        
+        //document.getElementById("000").
+    }
  
     public onNodeHover(args: any): void {
           const node = args.actualObject;   
+          
+          let summary = (node.data as ElementInfo).summary;
+          this.treeViewSummary.setSummaryText(summary);
+          node.TooltipModule;
 
+
+          
+          
+          
           //alert((node.data as ElementInfo).summary)
 
          /* if (node.id != undefined) {
@@ -236,7 +302,9 @@ export class TreeViewComponent {
         if(args.source == null){
             alert("is null");
         } else {
-            alert((args['source'].data as ElementInfo).content + " id: " + (args['source'].data as ElementInfo).elementID)
+            let nodeID = (args['source'].data as ElementInfo).elementID;
+            alert((args['source'].data as ElementInfo).content + " id: " + nodeID)
+            this.dataService.changeActiveElement(nodeID);
             window.location.href = "Editor";
         }
     }

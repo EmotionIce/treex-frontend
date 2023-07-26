@@ -42,6 +42,10 @@ export abstract class Element {
     return this.parent;
   }
 
+  public setId(id: string): void {
+    this.id = id;
+  }
+
   public setContent(content: string): void {
     this.content = content;
   }

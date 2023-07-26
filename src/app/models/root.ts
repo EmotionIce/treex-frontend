@@ -51,6 +51,9 @@ export class Root {
     return null;
   }
 
+  /*
+   * Returns an array of all elements in the root that are on the same layer as the target element
+   */
   public getElementsOfLayer(e: Element): Element[] {
     // Initialize result array
     let result: Element[] = [];
@@ -92,5 +95,14 @@ export class Root {
       }
     }
     return depth;
+  }
+
+  // Returns the root's children
+  public getChildren(): Element[] {
+    return this.children;
+  }
+
+  public clear(): void {
+    this.children = [];
   }
 }
