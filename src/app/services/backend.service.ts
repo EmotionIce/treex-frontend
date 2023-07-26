@@ -127,7 +127,7 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
-  public DeleteElement(e: Element, s: string): Observable<Object> {
+  public DeleteElement(e: Element): Observable<Object> {
     let delData: Object = {
       element: e.getId(),
       cascading: this.settings.deleteCascading,
