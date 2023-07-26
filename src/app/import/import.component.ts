@@ -57,14 +57,14 @@ export class ImportComponent {
     converted.subscribe((data) => {
       if (!data) return;
       this.startImpuls();
+      // Start polling
+      this.backendService.startPollingData();
     });
   }
 
   private startImpuls() {
     // Notify the data service that the data has changed
     this.dataService.notifyChange();
-    // Start polling
-    this.backendService.startPollingData();
     // Switch to Editor
     this.router.navigate(['/Editor']);
   }

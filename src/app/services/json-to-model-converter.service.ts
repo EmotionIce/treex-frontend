@@ -34,6 +34,7 @@ export class JsonToModelConverterService {
             this.processItem(item, root);
           }
 
+          console.log(root);
           return true;
         } catch (error) {
           console.error(`Error during conversion: ${(error as Error).message}`);

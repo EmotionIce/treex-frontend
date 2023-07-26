@@ -36,34 +36,34 @@ export class BackendService {
     return this.baseUrl;
   }
 
-  public GitPush(): Observable<any> {
+  public Export(): Observable<any> {
     return this.http
-      .get<Array<Object>>(`${this.baseUrl}/gitPush`)
+      .get<Array<Object>>(`${this.baseUrl}/Export`)
       .pipe(catchError(this.handleError));
   }
 
   public LoadTree(): Observable<Array<Object>> {
     return this.http
-      .get<Array<Object>>(`${this.baseUrl}/loadTree`)
+      .get<Array<Object>>(`${this.baseUrl}/LoadTreeData`)
       .pipe(catchError(this.handleError));
   }
 
   public LoadFullData(): Observable<Array<Object>> {
     return this.http
-      .get<Array<Object>>(`${this.baseUrl}/loadFullData`)
+      .get<Array<Object>>(`${this.baseUrl}/LoadFullData`)
       .pipe(catchError(this.handleError));
   }
 
   public CheckForUpdates(): Observable<boolean> {
     return this.http
-      .get<boolean>(`${this.baseUrl}/checkForUpdates`)
+      .get<boolean>(`${this.baseUrl}/CheckForUpdates`)
       .pipe(catchError(this.handleError));
   }
 
   public MoveElementTree(
     e: string,
     p: string,
-    pc: string
+    pc: string | null
   ): Observable<Array<Object>> {
     let moveData: Object = {
       element: e,
@@ -72,7 +72,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, { moveElementTree: moveData })
+      .post<Array<Object>>(`${this.baseUrl}/api`, { MoveElementTree: moveData })
       .pipe(catchError(this.handleError));
   }
 
@@ -89,7 +89,7 @@ export class BackendService {
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, {
-        moveElementEditor: moveData,
+        MoveElementEditor: moveData,
       })
       .pipe(catchError(this.handleError));
   }
@@ -101,7 +101,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, { editSummary: editData })
+      .post<Array<Object>>(`${this.baseUrl}/api`, { EditSummary: editData })
       .pipe(catchError(this.handleError));
   }
 
@@ -112,7 +112,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, { editComment: editData })
+      .post<Array<Object>>(`${this.baseUrl}/api`, { EditComment: editData })
       .pipe(catchError(this.handleError));
   }
 
@@ -123,7 +123,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, { editContent: editData })
+      .post<Array<Object>>(`${this.baseUrl}/api`, { EditContent: editData })
       .pipe(catchError(this.handleError));
   }
 
@@ -134,7 +134,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, { deleteElement: delData })
+      .post<Array<Object>>(`${this.baseUrl}/api`, { DeleteElement: delData })
       .pipe(catchError(this.handleError));
   }
 
@@ -144,7 +144,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, { loadFolder: folderData })
+      .post<Array<Object>>(`${this.baseUrl}/api`, { LoadFromFolder: folderData })
       .pipe(catchError(this.handleError));
   }
 
@@ -162,7 +162,7 @@ export class BackendService {
     };
 
     return this.http
-      .post<Array<Object>>(`${this.baseUrl}/api`, { loadGit: gitData })
+      .post<Array<Object>>(`${this.baseUrl}/api`, { LoadFromGit: gitData })
       .pipe(catchError(this.handleError));
   }
 
@@ -209,7 +209,8 @@ export class BackendService {
       console.error(
         `Backend returned code ${error.status}, body was: ${error.error}`
       );
-      errorMessage = `Backend returned code ${error.status}, body was: ${error.error}`;
+      errorMessage = `Backend returned code ${error.status}, body was: ${error.error.error}`;
+      if(error.status == 0) errorMessage = "Backend not reachable. Please check your connection or start the server.";
     }
     // Use the ErrorPopupService to display the error message
     this.errorPopupService.setErrorMessage(errorMessage);
