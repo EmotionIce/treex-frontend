@@ -1,0 +1,110 @@
+<diagram program="umletino" version="15.1"><zoom_level>4</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>876</x><y>328</y><w>148</w><h>52</h></coordinates><panel_attributes>/Element/
+--
+- id: string
+- content: string
+- comment: string
+- summary: string
+- parent: Element
+--
++ changeParent(newParent: Parent): bool
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>804</x><y>432</y><w>44</w><h>12</h></coordinates><panel_attributes>Child</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1056</x><y>436</y><w>84</w><h>40</h></coordinates><panel_attributes>/Parent/
+--
+- children: List&lt;Element&gt;
+--
+/+ addChild(child: Element)/
+/+ removeChild(chilldId: string)/
+/+ getPrevious(e: Element): Element/</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>824</x><y>376</y><w>276</w><h>68</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>310;10;310;90;10;90;10;140;10;90;670;90;670;150</additional_attributes></element><element><id>UMLClass</id><coordinates><x>664</x><y>328</y><w>116</w><h>76</h></coordinates><panel_attributes>Root
+--
+_-instance: Root = null_
+- children: Element[]
+--
+- Root()
++ createRoot(): Root
++ addChild(child: Element): void
++ removeChild(childId: string): boolean
++ searchByID(id: string): Element | null
++ getElementsOfLayer(e: Element): Element[]
++ clear(): void
+- getDepth(e: Element | Root | null): number
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>776</x><y>340</y><w>108</w><h>20</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=*
+hat children &gt;</panel_attributes><additional_attributes>10;20;250;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1020</x><y>340</y><w>132</w><h>104</h></coordinates><panel_attributes>lt=-
+m1=*
+m2=1
+&lt; hat children</panel_attributes><additional_attributes>10;10;230;10;230;240</additional_attributes></element><element><id>UMLClass</id><coordinates><x>28</x><y>520</y><w>116</w><h>152</h></coordinates><panel_attributes>BackendService
+--
+-baseUrl: string
+-settings: Settings
+-stopPolling$: Subject&lt;void&gt;
+-http: HttpClient
+-settingsService: SettingsService
+-errorPopupService: ErrorPopupService
+-dataService: DataService
+--
++getBaseUrl(): string
++Export(): Observable&lt;any&gt;
++LoadTree(): Observable&lt;Object[]&gt;
++LoadFullData(): Observable&lt;Object[]&gt;
++CheckForUpdates(): Observable&lt;boolean&gt;
++MoveElementTree(): Observable&lt;Object[]&gt;
++MoveElementEditor(): Observable&lt;Object&gt;
++EditSummary(): Observable&lt;Object&gt;
++EditComment(): Observable&lt;Object&gt;
++EditContent(): Observable&lt;Object&gt;
++DeleteElement(): Observable&lt;Object&gt;
++LoadFromFolder(): Observable&lt;Object&gt;
++LoadFromGit(): Observable&lt;Object&gt;
++startPollingData(): void
++stopPollingData(): void
+-handleError(): Observable&lt;never&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>220</x><y>520</y><w>132</w><h>68</h></coordinates><panel_attributes>&lt;&lt;AngularComponent&gt;&gt;
+ImportComponent
+--
+- jsonData: Object
+- user: string
+- pass: string
+--
++ importDirectory(dir: string): Root
++ importGit(url: string, user: string, pass: string): Root</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>892</x><y>376</y><w>64</w><h>64</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>140;10;140;90;10;90;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>536</y><w>88</w><h>12</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;200;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>448</x><y>520</y><w>96</w><h>36</h></coordinates><panel_attributes>JsonToModelConverterService
+--
+-errorPopupService: ErrorPopupService
+--
++convert(): Observable&lt;boolean&gt;
+-processItem(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>348</x><y>532</y><w>108</w><h>12</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>250;10;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>664</x><y>404</y><w>28</w><h>12</h></coordinates><panel_attributes>Singleton
+bg=red</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>872</x><y>432</y><w>44</w><h>12</h></coordinates><panel_attributes>Label</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>944</x><y>524</y><w>60</w><h>16</h></coordinates><panel_attributes>Sectioning</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1068</x><y>524</y><w>32</w><h>12</h></coordinates><panel_attributes>input</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1168</x><y>528</y><w>40</w><h>12</h></coordinates><panel_attributes>Environment
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>956</x><y>472</y><w>136</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>320;10;320;70;10;70;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1080</x><y>472</y><w>12</w><h>60</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1080</x><y>472</y><w>116</w><h>64</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;70;270;70;270;140</additional_attributes></element><element><id>Relation</id><coordinates><x>1080</x><y>628</y><w>64</w><h>20</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=0..n
+&lt; has</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1040</x><y>624</y><w>44</w><h>20</h></coordinates><panel_attributes>Caption
+--
+- content: string</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1136</x><y>624</y><w>100</w><h>32</h></coordinates><panel_attributes>Figure
+--
+- fileLocation: string
+- captions: Caption[];
+--
++ addCaption(caption: Caption): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1184</x><y>536</y><w>12</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;220</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>344</y><w>128</w><h>92</h></coordinates><panel_attributes>DataService
+--
+-activeElement: BehaviorSubject&lt;string&gt;
++currentActiveElementID: Observable&lt;string&gt;
+-changeNotifier: BehaviorSubject&lt;number&gt;
++currentChange: Observable&lt;number&gt;
+-navigationElements: BehaviorSubject&lt;Element[]&gt;
++currentNavigationElements: Observable&lt;Element[]&gt;
+-editorElements: BehaviorSubject&lt;Element[]&gt;
++currentEditorElements: Observable&lt;Element[]&gt;
+--
++changeActiveElement(): void
++notifyChange(): void
++changeNavigationElements(): void
++changeEditorElements(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>220</x><y>408</y><w>100</w><h>36</h></coordinates><panel_attributes>ErrorPopupService
+--
+-errorSubject: Subject&lt;string&gt;
+--
++setErrorMessage(): void
++getErrorMessage(): Observable&lt;string&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>220</x><y>608</y><w>68</w><h>40</h></coordinates><panel_attributes>SettingsService
+--
++settings: Settings
+-dataService: DataService
+--
++getSettings(): Settings
++updateSettings(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>140</x><y>620</y><w>88</w><h>12</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>200;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>440</y><w>188</w><h>88</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>450;10;450;120;10;120;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>256</x><y>440</y><w>244</w><h>88</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;120;590;120;590;200</additional_attributes></element><element><id>Relation</id><coordinates><x>284</x><y>424</y><w>148</w><h>216</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;520;350;520;340;10;90;10</additional_attributes></element><element><id>Relation</id><coordinates><x>56</x><y>432</y><w>12</w><h>96</h></coordinates><panel_attributes>lt=&lt;..</panel_attributes><additional_attributes>10;10;10;220</additional_attributes></element></diagram>

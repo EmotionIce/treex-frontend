@@ -11,8 +11,6 @@ import { Input } from '../models/input';
 import { Sectioning } from '../models/sectioning';
 import { Environment } from '../models/environment';
 import { Figure } from '../models/environments/figure';
-import { Algorithm } from '../models/environments/algorithm';
-import { Equation } from '../models/environments/equation';
 import { Caption } from '../models/caption';
 
 import { ErrorPopupService } from './error-popup.service';
@@ -78,12 +76,6 @@ export class JsonToModelConverterService {
           figure.addCaption(captionModel);
         });
         createdElement = figure;
-        break;
-      case 'Algorithm':
-        createdElement = new Algorithm(id, content, comment, summary, parent);
-        break;
-      case 'Equation':
-        createdElement = new Equation(id, content, comment, summary, parent);
         break;
       case 'Input':
         createdElement = new Input(id, content, comment, summary, parent);
