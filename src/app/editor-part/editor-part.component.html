@@ -24,6 +24,8 @@
     
 
       <div class="button-container">
+        <button class="parent-button" (click)="showParent(layerElement)">Eltern anzeigen</button>
+
         
 
         <button class="delete-button" (click)="onDelete(layerElement)">Löschen</button>
@@ -33,8 +35,13 @@
         <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
 
         <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button>
+        
+        
+        <!--<button *ngIf="layerElement.parent instanceof Root" class="parent-button" (click)="showParent(layerElement)">Show Parent</button>
+        <button *ngIf="isParent(layerElement.element)" class="show-children-button" (click)="showChildren(layerElement)">Show Children</button>-->
+        
+        <button class="child-button" (click)="showChildren(layerElement)">Kinder anzeigen</button>-->
 
-        <button *ngIf="isParent(layerElement.element)" (click)="showChildren(layerElement)">Show Children</button>
 
         <div *ngIf="layerElement.showSummaryTextbox">
           <app-text-editor [text]="layerElement.element.getSummary()" (textUpdated)="onSummaryUpdated($event)"></app-text-editor>

@@ -63,8 +63,18 @@
     margin-right: 10px;
   }
   .child-button {
+    background-color:red;
+    color: white; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 3px; 
+    margin-left: 10px;
+
+  }
+  .parent-button {
+    
     background-color: #28a745; 
-    color: red; 
+    color: white; 
     padding: 5px 10px; 
     border: none; 
     border-radius: 3px; 

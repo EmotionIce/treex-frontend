@@ -13,7 +13,7 @@ export class NavigationPartComponent  {
   ngOnChanges(changes: SimpleChanges) {
    
     if (changes['displayedNavElements']) {
-      console.log('Displayed Nav Elements:', this.displayedNavElements);
+     // console.log('Displayed Nav Elements:', this.displayedNavElements);
     }
   }
 

@@ -55,26 +55,38 @@ export class EditorPartComponent implements OnInit {
     this.hoveredElement.emit(this.hoveredElementID);
   }
 
-  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService/*, private settingsService: SettingsService*/) {
-    //shold the communication not work between editorview and part.
-    //this.rootInstance = Root.createRoot();
+  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService, private settingsService: SettingsService) {
+
+
   }
    
 
   ngOnInit() {
+    
 
-  //this.settings = this.settingsService.getSettings();
+  
 
 
-    console.log("EditorPartComponent: displayedEditorElements", this.displayedEditorElements);
-    console.log('EditorPartComponent: ngOnInit called');
-    //this.dataService.currentChange.subscribe(change => {
+   
+   
+    
     this.dataService.currentEditorElements.subscribe(newEditorElements => {
+      console.log('editorpart, how displayedEditorElements look like before service did anything', this.displayedEditorElements)
+      
       this.displayedEditorElements = newEditorElements;
+      console.log('getting the elements throught the service in the editorpart', this.displayedEditorElements)
+      
+      
+      
+      if (this.displayedEditorElements.length > 0) {
+        this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
+  
+        
+      } 
 
 
     })
-    console.log("Detected change in data", this.displayedEditorElements)
+   
     
     // Sample data for testing. currently on "if" so i can show root Elements aswell."
     if (this.displayedEditorElements.length < 0) {
@@ -87,27 +99,32 @@ export class EditorPartComponent implements OnInit {
     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
 
     this.layerElements = [
-      new LayerElement(element1, this.backendService, this.dataService),
-      new LayerElement(element2, this.backendService, this.dataService),
-      new LayerElement(element3, this.backendService, this.dataService)
-    ]; }
+      new LayerElement(element1, this.backendService, this.converter, this.dataService),
+      new LayerElement(element2, this.backendService, this.converter,this.dataService),
+      new LayerElement(element3, this.backendService, this.converter,this.dataService)
+    ]; } 
 
     if (this.displayedEditorElements.length > 0) {
-      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.dataService /*, this.settings.deleteCascading*/));
+      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.converter, this.dataService));
 
       
-    } 
+    } else {
+      console.log('Die Liste mit displayedEditorElements ist leer, es wurden keiner layerElements generiert und angezeigt')
+    }
 
  
     //this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService));
    //TODO uncomment this code once testing is done!
 
-   console.log("EditorPartComponent: layerElements", this.layerElements);
+   
   }
+
+
+  
   
 
   onDelete(layerElement: LayerElement) {
-    layerElement.deleteElement();
+    layerElement.deleteElement;
 
   }
 
@@ -117,6 +134,9 @@ export class EditorPartComponent implements OnInit {
   showChildren(layerElement: LayerElement) {
     layerElement.onExtendChild();
 
+  }
+  showParent(layerElement : LayerElement) {
+    layerElement.onBackToParentClick();
   }
 
 

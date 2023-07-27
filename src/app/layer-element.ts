@@ -7,6 +7,9 @@ import { CommentComponent } from './comment/comment.component';
 import { BackendService } from './services/backend.service';
 import { Parent } from './models/parent';
 import { DataService } from './services/data.service';
+import { Observable } from 'rxjs';
+import { JsonToModelConverterService } from './services/json-to-model-converter.service';
+import { Root } from './models/root';
 
 @Injectable()
 export class LayerElement {
@@ -14,9 +17,13 @@ export class LayerElement {
   showSummaryTextbox: boolean;
   showContentTextbox: boolean;
   showCommentTextbox: boolean;
+  public readonly parent: Element | Root | null;
 
-  constructor(element: Element, private backendService: BackendService, private dataService: DataService) {
+  constructor(element: Element, private backendService: BackendService,  private converter: JsonToModelConverterService,
+    private dataService: DataService) {
+
     this.element = element;
+    this.parent = element.getParent();
     
     this.showSummaryTextbox = false;
     this.showContentTextbox = false;
@@ -32,13 +39,33 @@ export class LayerElement {
 
   moveElementEditor() {
 
+
+
   }
 
   deleteElement() {
+    const backendResponse: Observable<object> = this.backendService.DeleteElement(this.element);
+    
+    const converted: Observable<boolean> = this.converter.convert(backendResponse);
+  
+    converted.subscribe((value: boolean) => {
+    if (value) {
+      console.log('deleted Element');
+      this.dataService.notifyChange();
+    } else {
 
-  }
+    }
+
+ });
+}
 
   onBackToParentClick() {
+    if (this.parent instanceof Parent) {
+      const parentID = this.parent.getId;
+      this.dataService.changeActiveElement(parentID);
+
+    }
+    
 
   }
 
