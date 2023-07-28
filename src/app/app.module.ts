@@ -39,6 +39,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BackendService } from './services/backend.service';
 import { ErrorPopupService } from './services/error-popup.service';
 import { SettingsService } from './services/settings';
+import { LatexRenderComponent } from './latex-render/latex-render.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { SettingsService } from './services/settings';
     ContentComponent,
     TextEditorComponent,
     ImportComponent,
+    LatexRenderComponent,
   ],
   imports: [
     BrowserModule,

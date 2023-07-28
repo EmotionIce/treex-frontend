@@ -14,6 +14,8 @@
       class="element-container"
       cdkDrag
     >
+    <app-latex-render [latex]="layerElement?.element?.getContent() || ''"></app-latex-render>
+
   <h3>{{ layerElement?.element?.getContent() }}</h3>
   <p>Summary: {{ layerElement?.element?.getSummary() }}</p>
   <!--<div *ngIf="!settings.hideComments"> -->

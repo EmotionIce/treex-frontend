@@ -37,7 +37,21 @@ export class LayerElement {
   @ViewChild(ContentComponent) contentComponent!: ContentComponent;
   @ViewChild(CommentComponent) commentComponent!: CommentComponent;
 
-  moveElementEditor() {
+  moveElementEditor(draggedlayerElement: Element, draggedParent: Parent) {
+    const backendResponse: Observable<object> = this.backendService.MoveElementEditor(draggedlayerElement, draggedParent, this.element)
+    const converted: Observable<boolean> = this.converter.convert(backendResponse);
+
+    converted.subscribe((value: boolean) => {
+      if (value) {
+        console.log('deleted Element');
+        
+        this.dataService.notifyChange(); // the active element will always be the parent of the deleted one after this, to avoid 
+        //nullpointer exception for the active element
+      } 
+  
+   });
+
+
 
 
 

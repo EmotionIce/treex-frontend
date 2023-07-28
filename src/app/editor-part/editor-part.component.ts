@@ -10,6 +10,7 @@ import { JsonToModelConverterService
  import { SettingsService } from '../services/settings';
  import { Root } from '../models/root';
  import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
+ import { LatexRenderComponent } from '../latex-render/latex-render.component';
 
 
 
@@ -36,6 +37,7 @@ export class EditorPartComponent implements OnInit {
   displayedEditorElements: Element[] = [];
   editorParentElementID: string | null = null;
   parentElement: Element | null = null;
+  hoveredParentID: string | null = null;
   hoveredElementID: string | null = null; /* the element that is highlighted. need it to highlight its corresponding parent */
   elementIDToBeEdited: string | null = null; /* the ID of the element that is shown in the text-editor. will be acessed after texteditor
                                               is finished to give the backend the correct element */
@@ -51,11 +53,21 @@ export class EditorPartComponent implements OnInit {
 
 
 
-  @Output() hoveredElement: EventEmitter<string | null> = new EventEmitter<string | null>();
+  @Output() hoveredParentElementID: EventEmitter<string | null> = new EventEmitter<string | null>();
 
   onElementHover(elementID: string | null) {
     this.hoveredElementID = elementID;
-    this.hoveredElement.emit(this.hoveredElementID);
+    if (elementID) {
+      const element = this.rootInstance.searchByID(elementID);
+      if (element instanceof Element) {
+        const parentElement = element.getParent();
+        
+        if (parentElement instanceof Element) {
+          const parentElementID = parentElement.getId();
+          
+        } 
+      }
+    }
   }
 
   constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService) {
@@ -116,11 +128,11 @@ export class EditorPartComponent implements OnInit {
     const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
+    const element4 = new ConcreteElement('id4', '\\frac{\\pi}{2}', 'Comment 4', 'Summary 4');
 
-    this.layerElements = [
-      new LayerElement(element1, this.backendService, this.converter, this.dataService),
-      new LayerElement(element2, this.backendService, this.converter,this.dataService),
-      new LayerElement(element3, this.backendService, this.converter,this.dataService)
+    this.displayedEditorElements = [
+      element1, element2, element3, element4
+      
     ]; } 
 
     if (this.displayedEditorElements.length > 0) {
@@ -130,12 +142,6 @@ export class EditorPartComponent implements OnInit {
     } else {
       console.log('Die Liste mit displayedEditorElements ist leer, es wurden keiner layerElements generiert und angezeigt')
     }
-
- 
-    //this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService));
-   //TODO uncomment this code once testing is done!
-
-   
   }
 
 
@@ -147,16 +153,19 @@ export class EditorPartComponent implements OnInit {
   }
 
   onDrop(event: any) {
+    const draggedElement = this.draggedLayerElement?.element;
+    const draggedParentElement = draggedElement?.getParent();
     const droppedLayerElement: LayerElement = event.item.data;
-    console.log("dropped", droppedLayerElement)
-    /*if (this.draggedLayerElement) {
-      const previousIndex = this.layerElements.indexOf(this.draggedLayerElement);
-      const currentIndex = event.currentIndex;
-      moveItemInArray(this.layerElements, previousIndex, currentIndex);
-      this.draggedLayerElement = null;
-    } */
+    if(draggedElement) {
+      if (draggedParentElement instanceof Parent) {
+      droppedLayerElement.moveElementEditor(draggedElement, draggedParentElement)
+      }
 
+    }
     
+
+   
+    this.draggedLayerElement = null;
   }
   
   

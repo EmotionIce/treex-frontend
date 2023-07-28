@@ -1,6 +1,6 @@
 
 
-import { Component, Input, OnInit, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, Renderer2, AfterViewInit  } from '@angular/core';
 
 declare const MathJax: any;
 
@@ -9,6 +9,7 @@ declare const MathJax: any;
   template: '<div [innerHTML]="latex"></div>',
   styles: [':host { display: inline-block; }']
 })
+
 export class LatexRenderComponent implements OnInit {
   @Input() latex: string = ''; // Default value is an empty string
 
@@ -22,4 +23,3 @@ export class LatexRenderComponent implements OnInit {
     MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.el.nativeElement]);
   }
 }
-

@@ -8,6 +8,11 @@
     cursor: move;
     background-color: grey;
 }
+.element-container.highlighted {
+  background-color: rgb(4, 35, 49);
+  border: 2px solid red;
+}
+
 .dragging {
   cursor: grabbing;
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import { Element } from '../models/element';
 import { DataService } from '../services/data.service';
 import { Root } from '../models/root';
 import { LayerElement } from '../layer-element';
 import { BackendService } from '../services/backend.service';
 import { JsonToModelConverterService } from '../services/json-to-model-converter.service';
+
 
 export class ConcreteElement extends Element {
   
@@ -17,6 +18,7 @@ export class ConcreteElement extends Element {
 })
 
 export class NavigationPartComponent implements OnInit {
+  @Input() hoveredElementID: string | null = null;
   displayedNavigationElements: Element[] = [];
   rootInstance: Root;
   navigationParentElementID: string | null = null;
@@ -86,9 +88,6 @@ export class NavigationPartComponent implements OnInit {
   getFirstTwentyLetters(content: string): string {
     return content.slice(0, 20);
   }
-
-  
-
 }
 
 

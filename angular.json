@@ -33,7 +33,7 @@
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/mathjax/es5/tex-chtml.js"]
           },
           "configurations": {
             "production": {
@@ -97,7 +97,7 @@
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["node_modules/mathjax/es5/tex-chtml.js"]
           }
         }
       }

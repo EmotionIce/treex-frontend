@@ -25,6 +25,7 @@ export class EditorViewComponent implements OnInit{
   displayedNavElements: Element[] = [];
   parentElement: Element | null = null;
   hoveredElementID: string | null = null;
+  hoveredParentElementID: string | null = null;
   currentElementID: string | null = null;
   currentElement: Element | null = null;
   //ids for t editorpart and navigationpart, should the problem with not data transporting service not be resolved
@@ -78,13 +79,11 @@ export class EditorViewComponent implements OnInit{
 
   
 
-  onElementHover(elementID: string | null) {
-    this.hoveredElementID = elementID;
+  onHoveredParentElementIDChange(parentElementID: string | null) {
+    this.hoveredParentElementID = parentElementID;
   }
 
-  isElementHovered(element: Element): boolean {
-    return this.hoveredElementID === element.getId();
-  } 
+  
   updateEditor() {
 
     const parentElement = this.currentElement ? this.currentElement.getParent() : this.rootInstance;

@@ -1,22 +1,13 @@
-
-
 <app-header></app-header>
 
 <div class="editor-view">
   <div class="navigation-part">
-    <app-navigation-part></app-navigation-part>
+    <app-navigation-part [hoveredElementID]="hoveredParentElementID"></app-navigation-part>
   </div>
 
- 
-
-    <div class="editor-part">
-      <app-editor-part></app-editor-part>
-    </div>
-
-    
+  <div class="editor-part">
+    <app-editor-part ></app-editor-part>
   </div>
-
-
-
+</div>
 
 <app-error-popup></app-error-popup>
