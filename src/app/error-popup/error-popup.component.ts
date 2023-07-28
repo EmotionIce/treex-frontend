@@ -17,7 +17,10 @@ export class ErrorPopupComponent implements OnInit {
   ) {
     this.settings = this.settingsService.getSettings();
   }
-
+  
+  /**
+   * Subscribes to the error message observable and sets the error message
+   */
   ngOnInit(): void {
     this.errorPopupService.getErrorMessage().subscribe((errorMessage) => {
       this.errorMessage = errorMessage;

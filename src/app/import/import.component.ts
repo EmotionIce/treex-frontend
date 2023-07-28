@@ -34,6 +34,9 @@ export class ImportComponent {
     private dataService: DataService,
     private router: Router) { }
 
+    /**
+     * Loads the data from the given folder path
+     */
   loadFromFolder() {
     let backendResponse = this.backendService.LoadFromFolder(this.folderPath);
     let converted: Observable<boolean> = this.converter.convert(backendResponse);
@@ -43,7 +46,9 @@ export class ImportComponent {
       this.startImpuls();
     });
   }
-
+  /**
+   * Loads the data from the given git repository
+   */
   loadFromGit() {
     let backendResponse: Observable<Object> = this.backendService
       .LoadFromGit(
@@ -57,14 +62,17 @@ export class ImportComponent {
     converted.subscribe((data) => {
       if (!data) return;
       this.startImpuls();
+      // Start polling
+      this.backendService.startPollingData();
     });
   }
 
+  /**
+   * Notifies Components that the data has changed and navigates to Editor
+   */
   private startImpuls() {
     // Notify the data service that the data has changed
     this.dataService.notifyChange();
-    // Start polling
-    this.backendService.startPollingData();
     // Switch to Editor
     this.router.navigate(['/Editor']);
   }

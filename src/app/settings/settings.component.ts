@@ -13,6 +13,9 @@ export class SettingsComponent {
     this.settings = this.settingsService.getSettings();
   }
 
+  /**
+   * Updates the settings
+   */
   updateSettings() {
     // Call this method when the user changes settings
     this.settingsService.updateSettings(this.settings);

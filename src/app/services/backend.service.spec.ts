@@ -47,8 +47,8 @@ describe('BackendService', () => {
   });
 
   it('should send a GET request when GitPush() is called', () => {
-    service.GitPush().subscribe();
-    const req = httpMock.expectOne('http://localhost:8080/gitPush');
+    service.Export().subscribe();
+    const req = httpMock.expectOne('http://localhost:8080/Export');
     expect(req.request.method).toBe('GET');
   });
 
