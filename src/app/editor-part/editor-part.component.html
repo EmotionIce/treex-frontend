@@ -1,0 +1,48 @@
+<div class="editor-part">
+  <h2>Editor</h2>
+
+
+  {{ displayedEditorElements.length }}
+
+  <div *ngFor="let layerElement of layerElements" class="element-container"
+
+  cdkDrag
+  [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() }"
+  (mouseenter)="onElementHover(layerElement.element.getId())"
+  (mouseleave)="onElementHover(null)">
+  <h3>{{ layerElement?.element?.getContent() }}</h3>
+  <p>Summary: {{ layerElement?.element?.getSummary() }}</p>
+  <!--<div *ngIf="!settings.hideComments"> -->
+  <p>{{ layerElement?.element?.getComment() }}</p>
+
+  <app-text-editor
+    *ngIf="hoveredElementID && inEditMode"
+    [text]="showSummary(layerElement)"
+    (textUpdated)="onSummaryUpdated($event)"
+  ></app-text-editor>
+     
+    
+
+      <div class="button-container">
+        
+
+        <button class="delete-button" (click)="onDelete(layerElement)">Löschen</button>
+      
+        <button class="edit-button" (click)="showContent(layerElement)">Editieren</button>
+
+        <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
+
+        <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button>
+
+        <button *ngIf="isParent(layerElement.element)" (click)="showChildren(layerElement)">Show Children</button>
+
+        <div *ngIf="layerElement.showSummaryTextbox">
+          <app-text-editor [text]="layerElement.element.getSummary()" (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
+      </div>
+        <div *ngIf="layerElement.showContentTextbox">
+          <app-text-editor [text]="layerElement.element.getContent()" (textUpdated)="onContentUpdated($event)"></app-text-editor>
+      </div>
+        <div *ngIf="layerElement.showCommentTextbox">
+          <app-text-editor [text]="layerElement.element.getComment()" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
+      </div>
+

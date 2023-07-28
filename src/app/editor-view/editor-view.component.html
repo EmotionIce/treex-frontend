@@ -1,7 +1,30 @@
+
+
 <app-header></app-header>
-<div class="container">
-  <app-editor-navigation></app-editor-navigation>
-  <app-editor-layer></app-editor-layer>
+
+<div class="editor-view">
+  <div class="navigation-part">
+    <app-navigation-part [displayedNavElements]="displayedNavElements"></app-navigation-part>
+  </div>
+
+  <div class="button-container">
+    <div class="parent-button">
+      <button class="green-button">Parent Button</button>
+    </div>
+
+    <div class="editor-part">
+      <app-editor-part
+      
+      
+      [displayedEditorElementsOld]="displayedEditorElements"
+      (hoveredElement)="onElementHover($event)">
+    </app-editor-part>
+  </div>
+
+    
+  </div>
 </div>
+
+
 
 <app-error-popup></app-error-popup>

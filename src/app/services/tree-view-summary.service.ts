@@ -4,33 +4,16 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class TreeViewSummaryService {
-  private summaryText = "";
+  private summaryText: string | null = null;
 
   constructor() { }
 
-  setSummaryText(newSummary: string){
+  setSummaryText(newSummary: string | null){
     this.summaryText = newSummary;
   }
 
-  getSummaryText(): string {
+  getSummaryText(): string|null {
     return this.summaryText;
   }
   
 }
-
-
-//import { Subject, Observable } from 'rxjs';
-
-
-//export class ErrorPopupService {
-  //private errorSubject = new Subject<string>();
-
-/*
-  setErrorMessage(message: string) {
-    this.errorSubject.next(message);
-  }
-
-  getErrorMessage(): Observable<string> {
-    return this.errorSubject.asObservable();
-  }
-}*/

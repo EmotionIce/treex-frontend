@@ -25,7 +25,9 @@ export class SettingsService {
     popupDuration: 5000,
   };
 
-  constructor(private dataService: DataService) {
+  private dataService: DataService = new DataService();
+
+  constructor() {
     // Try to load settings from localStorage on initialization
     const savedSettings = localStorage.getItem('settings');
     if (savedSettings) {

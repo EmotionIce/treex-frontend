@@ -1,0 +1,75 @@
+.element-container {
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 1000px;
+    position: relative;
+    cursor: move;
+    background-color: grey;
+}
+
+
+.element-container h3 {
+    border-bottom: 1px solid #ccc;
+}
+
+.element-container p {
+    border-bottom: 1px solid #ccc; /*line below the content */
+    margin-bottom: 10px; /*  some spacing between content and button */
+  }
+
+.button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+
+.edit-button {
+    background-color: #007bff; 
+  color: black; 
+  padding: 5px 10px; 
+  border: none; 
+  border-radius: 3px; 
+  margin-right: 10px; 
+
+}
+
+.delete-button {
+ 
+  background-color: #dff803; 
+  color: black; 
+  padding: 5px 10px; 
+  border: none; 
+  border-radius: 3px; 
+  margin-right: 10px; 
+
+}
+.comment-buton {
+    background-color: #28a745; 
+    color: white; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 3px; 
+    margin-right: 10px;
+}
+.summary-button {
+    background-color: #ea00ff; 
+    color: black; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 3px; 
+    margin-right: 10px;
+  }
+  .child-button {
+    background-color: #28a745; 
+    color: red; 
+    padding: 5px 10px; 
+    border: none; 
+    border-radius: 3px; 
+    margin-left: 10px;
+
+  }
+
+ 

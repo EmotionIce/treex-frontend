@@ -1,6 +1,15 @@
+
+
+
 @use "@angular/material" as mat;
 
 @include mat.core();
+
+.highlighted { /* the highlight for the elements in the editorview */
+  border: 2px solid blue;
+}
+
+
 
 // Define a dark theme
 $dark-theme: mat.define-dark-theme(

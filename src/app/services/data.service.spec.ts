@@ -1,34 +1,54 @@
 import { TestBed } from '@angular/core/testing';
 import { DataService } from './data.service';
-import { take, skip } from 'rxjs/operators';
+import { Child } from '../models/child';
 
 describe('DataService', () => {
   let service: DataService;
+  let mockElement: Child;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(DataService);
+
+    // Initializing the mockElement with some default properties. You may need to modify this as per your 'Child' model.
+    mockElement = new Child('test', 'test', 'test', 'test', null);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should update activeElement when changeActiveElement is called', (done: DoneFn) => {
-    service.currentActiveElementID.pipe(skip(1), take(1)).subscribe((value) => {
-      expect(value).toEqual('test');
+  it('should change active element', (done: DoneFn) => {
+    service.changeActiveElement('test');
+    service.currentActiveElementID.subscribe((value) => {
+      expect(value).toBe('test');
       done();
     });
-
-    service.changeActiveElement('test');
   });
 
-  it('should increment changeNotifier when notifyChange is called', (done: DoneFn) => {
-    service.currentChange.pipe(skip(1), take(1)).subscribe((value) => {
-      expect(value).toEqual(1);
+  it('should notify change', (done: DoneFn) => {
+    service.notifyChange();
+    service.currentChange.subscribe((value) => {
+      expect(value).toBe(1);
       done();
     });
+  });
 
-    service.notifyChange();
+  it('should change navigation elements', (done: DoneFn) => {
+    const testArray = [mockElement, mockElement];
+    service.changeNavigationElements(testArray);
+    service.currentNavigationElements.subscribe((value) => {
+      expect(value).toEqual(testArray);
+      done();
+    });
+  });
+
+  it('should change editor elements', (done: DoneFn) => {
+    const testArray = [mockElement, mockElement];
+    service.changeEditorElements(testArray);
+    service.currentEditorElements.subscribe((value) => {
+      expect(value).toEqual(testArray);
+      done();
+    });
   });
 });

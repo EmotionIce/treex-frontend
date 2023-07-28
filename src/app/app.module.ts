@@ -8,12 +8,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TreeViewComponent } from './tree-view/tree-view.component';
 import { EditorViewComponent } from './editor-view/editor-view.component';
 import { HeaderComponent } from './header/header.component';
-import { EditorNavigationComponent } from './editor-navigation/editor-navigation.component';
 import { NavElementComponent } from './nav-element/nav-element.component';
 import { EditorLayerComponent } from './editor-layer/editor-layer.component';
-import { LayerElementComponent } from './layer-element/layer-element.component';
 import { ElementTitleComponent } from './element-title/element-title.component';
 import { ElementContentComponent } from './element-content/element-content.component';
+import { EditorPartComponent } from './editor-part/editor-part.component';
+import { NavigationPartComponent} from './navigation-part/navigation-part.component';
 import { SettingsComponent } from './settings/settings.component';
 import { FormsModule } from '@angular/forms'; // add this line
 
@@ -23,6 +23,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { ErrorPopupComponent } from './error-popup/error-popup.component';
+import { CommentComponent } from './comment/comment.component';
+import { ContentComponent } from './content/content.component';
+import { TextEditorComponent } from './text-editor/text-editor.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -31,11 +34,10 @@ import { ImportComponent } from './import/import.component';
 import { BackendService } from './services/backend.service';
 import { ErrorPopupService } from './services/error-popup.service';
 import { SettingsService } from './services/settings';
-import { BackendTestComponent } from './backend-test/backend-test.component';
+import { SummaryComponent } from './summary/summary.component';
 
 import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
-import {TooltipModule} from '@syncfusion/ej2-angular-popups'
-import { SummaryComponent } from './tree-view/summary/summary.component';
+import {TooltipModule} from '@syncfusion/ej2-angular-popups';
 
 
 
@@ -45,16 +47,18 @@ import { SummaryComponent } from './tree-view/summary/summary.component';
     TreeViewComponent,
     EditorViewComponent,
     HeaderComponent,
-    EditorNavigationComponent,
     NavElementComponent,
     EditorLayerComponent,
-    LayerElementComponent,
     ElementTitleComponent,
     ElementContentComponent,
+    EditorPartComponent,
+    NavigationPartComponent,
     SettingsComponent,
     ErrorPopupComponent,
+    CommentComponent,
+    ContentComponent,
+    TextEditorComponent,
     ImportComponent,
-    BackendTestComponent,
     SummaryComponent
   ],
   imports: [
