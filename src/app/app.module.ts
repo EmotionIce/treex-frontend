@@ -32,6 +32,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ImportComponent } from './import/import.component';
 
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
+
+
 import { BackendService } from './services/backend.service';
 import { ErrorPopupService } from './services/error-popup.service';
 import { SettingsService } from './services/settings';
@@ -70,6 +74,7 @@ import { SettingsService } from './services/settings';
     MatIconModule,
     MatInputModule,
     MatSnackBarModule,
+    DragDropModule,
   ],
   providers: [BackendService, ErrorPopupService, SettingsService],
   bootstrap: [AppComponent],

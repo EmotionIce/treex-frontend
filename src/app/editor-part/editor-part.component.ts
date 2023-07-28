@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, SimpleChanges} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { Element } from '../models/element';
 import { LayerElement } from '../layer-element';
 import { BackendService } from '../services/backend.service';
@@ -9,6 +9,7 @@ import { JsonToModelConverterService
  import { Parent } from '../models/parent';
  import { SettingsService } from '../services/settings';
  import { Root } from '../models/root';
+ import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
 
 
 
@@ -26,25 +27,27 @@ export class EditorPartComponent implements OnInit {
 
  
 
-  @Input() displayedEditorElementsOld: Element[] = [];
+ 
 
 
 
 
   layerElements: LayerElement[] = [];
   displayedEditorElements: Element[] = [];
-
+  editorParentElementID: string | null = null;
+  parentElement: Element | null = null;
   hoveredElementID: string | null = null; /* the element that is highlighted. need it to highlight its corresponding parent */
   elementIDToBeEdited: string | null = null; /* the ID of the element that is shown in the text-editor. will be acessed after texteditor
                                               is finished to give the backend the correct element */
   inEditMode = false;
+  draggedLayerElement: LayerElement | null = null;
   //settings: Settings;
   //TODO: `give the parent of the ElementID to the navigationpart to display it there
 
   deleteElementChildren = false; // the bool that decides whether to also delete all children of an element or not
 
 
-  //rootInstance: Root;
+  rootInstance: Root;
 
 
 
@@ -55,13 +58,16 @@ export class EditorPartComponent implements OnInit {
     this.hoveredElement.emit(this.hoveredElementID);
   }
 
-  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService, private settingsService: SettingsService) {
+  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService) {
+
+    this.rootInstance = Root.createRoot();
 
 
   }
    
 
   ngOnInit() {
+    this.displayedEditorElements = this.rootInstance.getChildren();
     
 
   
@@ -73,19 +79,32 @@ export class EditorPartComponent implements OnInit {
     this.dataService.currentEditorElements.subscribe(newEditorElements => {
       console.log('editorpart, how displayedEditorElements look like before service did anything', this.displayedEditorElements)
       
-      this.displayedEditorElements = newEditorElements;
+      this.editorParentElementID = newEditorElements;
+      this.parentElement = this.rootInstance.searchByID(this.editorParentElementID);
+      if (this.parentElement) {
+      this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.parentElement);
+      }
+      
       console.log('getting the elements throught the service in the editorpart', this.displayedEditorElements)
       
       
       
       if (this.displayedEditorElements.length > 0) {
         this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
-  
-        
-      } 
-
-
+      }
     })
+    this.dataService.currentChange.subscribe(change => {
+
+      if (this.parentElement) {
+        this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.parentElement);
+        if (this.displayedEditorElements.length > 0) {
+          this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
+        }
+        }
+
+
+    });
+    
    
     
     // Sample data for testing. currently on "if" so i can show root Elements aswell."
@@ -120,6 +139,25 @@ export class EditorPartComponent implements OnInit {
   }
 
 
+
+  onDragStarted(layerElement: LayerElement) {
+    this.draggedLayerElement = layerElement;
+    console.log("started drag")
+
+  }
+
+  onDrop(event: any) {
+    const droppedLayerElement: LayerElement = event.item.data;
+    console.log("dropped", droppedLayerElement)
+    /*if (this.draggedLayerElement) {
+      const previousIndex = this.layerElements.indexOf(this.draggedLayerElement);
+      const currentIndex = event.currentIndex;
+      moveItemInArray(this.layerElements, previousIndex, currentIndex);
+      this.draggedLayerElement = null;
+    } */
+
+    
+  }
   
   
 

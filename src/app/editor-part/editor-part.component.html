@@ -2,14 +2,18 @@
   <h2>Editor</h2>
 
 
-  {{ displayedEditorElements.length }}
+ 
+  <div cdkDropList (cdkDropListDropped)="onDrop($any($event))">
 
-  <div *ngFor="let layerElement of layerElements" class="element-container"
-
-  cdkDrag
-  [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() }"
-  (mouseenter)="onElementHover(layerElement.element.getId())"
-  (mouseleave)="onElementHover(null)">
+    <div *ngFor="let layerElement of layerElements"
+      (cdkDragStarted)="onDragStarted(layerElement)"
+      (cdkDragEnded)="onDrop(layerElement)"
+      [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() }"
+      (mouseenter)="onElementHover(layerElement.element.getId())"
+      (mouseleave)="onElementHover(null)"
+      class="element-container"
+      cdkDrag
+    >
   <h3>{{ layerElement?.element?.getContent() }}</h3>
   <p>Summary: {{ layerElement?.element?.getSummary() }}</p>
   <!--<div *ngIf="!settings.hideComments"> -->

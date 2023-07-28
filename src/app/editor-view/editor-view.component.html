@@ -4,26 +4,18 @@
 
 <div class="editor-view">
   <div class="navigation-part">
-    <app-navigation-part [displayedNavElements]="displayedNavElements"></app-navigation-part>
+    <app-navigation-part></app-navigation-part>
   </div>
 
-  <div class="button-container">
-    <div class="parent-button">
-      <button class="green-button">Parent Button</button>
-    </div>
+ 
 
     <div class="editor-part">
-      <app-editor-part
-      
-      
-      [displayedEditorElementsOld]="displayedEditorElements"
-      (hoveredElement)="onElementHover($event)">
-    </app-editor-part>
-  </div>
+      <app-editor-part></app-editor-part>
+    </div>
 
     
   </div>
-</div>
+
 
 
 

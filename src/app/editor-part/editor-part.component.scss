@@ -8,6 +8,9 @@
     cursor: move;
     background-color: grey;
 }
+.dragging {
+  cursor: grabbing;
+}
 
 
 .element-container h3 {
@@ -80,6 +83,13 @@
     border-radius: 3px; 
     margin-left: 10px;
 
+  }
+
+  .dragging {
+    /* Add styles to visually indicate the dragged element */
+    background-color: #f0f0f0;
+    border: 1px dashed #ccc;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   }
 
  

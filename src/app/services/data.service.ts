@@ -12,10 +12,10 @@ export class DataService {
   private changeNotifier = new BehaviorSubject<number>(0);
   currentChange = this.changeNotifier.asObservable();
 
-  private navigationElements = new BehaviorSubject<Array<Element>>([]);
+  private navigationElements = new BehaviorSubject<string>('');
   currentNavigationElements = this.navigationElements.asObservable();
 
-  private editorElements = new BehaviorSubject<Array<Element>>([]);
+  private editorElements = new BehaviorSubject<string>('');
   currentEditorElements = this.editorElements.asObservable();
 
   constructor() {}
@@ -29,11 +29,11 @@ export class DataService {
     this.changeNotifier.next(currentValue + 1);
   }
 
-  changeNavigationElements(data: any) {
+  changeNavigationElements(data: string) {
     this.navigationElements.next(data);
   }
 
-  changeEditorElements(data: any) {
+  changeEditorElements(data: string) {
     this.editorElements.next(data);
   }
 }
