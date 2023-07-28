@@ -21,6 +21,12 @@ import { ErrorPopupService } from './error-popup.service';
 export class JsonToModelConverterService {
   constructor(private errorPopupService: ErrorPopupService) {}
 
+  /**
+   * Converts the given json data to a composite data structure starting with root
+   * 
+   * @param jsonData$ input json data
+   * @returns true if the conversion was successful, false if not
+   */
   public convert(jsonData$: Observable<Object>): Observable<boolean> {
     return jsonData$.pipe(
       map((jsonData) => {
@@ -44,6 +50,12 @@ export class JsonToModelConverterService {
     );
   }
 
+  /**
+   * Generates an element from the given json data and adds it to the given parent
+   * 
+   * @param item json data of the element to be processed
+   * @param parent parent of the element to be processed
+   */
   private processItem(item: any, parent: Parent | Root): void {
     let createdElement: Element | null = null;
     const { id, type, content, comment, summary } = item;

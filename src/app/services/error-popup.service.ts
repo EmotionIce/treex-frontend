@@ -9,10 +9,20 @@ export class ErrorPopupService {
 
   constructor() {}
 
+  /**
+   * Lets the error popup display an error message
+   * 
+   * @param message the error message to be displayed
+   */
   setErrorMessage(message: string) {
     this.errorSubject.next(message);
   }
 
+  /**
+   * lets the error popup retrieve the error message
+   * 
+   * @returns the error message as an observable
+   */
   getErrorMessage(): Observable<string> {
     return this.errorSubject.asObservable();
   }

@@ -34,11 +34,20 @@ export class SettingsService {
       this.settings = JSON.parse(savedSettings);
     }
   }
-
+  /**
+   * Get the current settings
+   * 
+   * @returns the current settings
+   */
   getSettings(): Settings {
     return this.settings;
   }
 
+  /**
+   * Save the given settings as the new settings
+   * 
+   * @param newSettings the new settings
+   */
   updateSettings(newSettings: Partial<Settings>) {
     this.settings = { ...this.settings, ...newSettings };
     // Save the updated settings to localStorage

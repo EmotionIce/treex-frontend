@@ -28,7 +28,6 @@ export class Figure extends Environment {
     this.fileLocation = fileLocation;
   }
 
-  // Getters and setters for Captions
   getCaptions(): Caption[] {
     return this.captions;
   }

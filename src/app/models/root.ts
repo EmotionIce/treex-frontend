@@ -14,10 +14,21 @@ export class Root {
     return Root.instance;
   }
 
+  /**
+   * Adds a child to the children of the root
+   * 
+   * @param child the child to add to the root
+   */
   public addChild(child: Element): void {
     this.children.push(child);
   }
 
+  /**
+   * Removes a child from the children of the root
+   * 
+   * @param childId the id of the child to remove from the root
+   * @returns True if the child was removed, false if not
+   */
   public removeChild(childId: string): boolean {
     const index = this.children.findIndex((child) => child.getId() === childId);
     if (index > -1) {
@@ -27,6 +38,12 @@ export class Root {
     return false;
   }
 
+  /**
+   * Searches for an element with a certain id in the composite data structure
+   * 
+   * @param id the id of the element to search for
+   * @returns Element with the given id or null if no element with the given id was found
+   */
   public searchByID(id: string): Element | null {
     // Initialize a queue with the children of the root
     let queue: Element[] = [...this.children];
