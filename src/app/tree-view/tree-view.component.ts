@@ -1,6 +1,5 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-import { DiagramComponent, Diagram, NodeModel, ConnectorModel, SnapSettingsModel, LayoutModel, DiagramTooltipModel,
-     DataSourceModel, TextModel, DecoratorModel, ShapeStyleModel, SnapConstraints, UserHandleModel, NodeConstraints, DataBinding, IClickEventArgs, IDoubleClickEventArgs, IDropEventArgs} from '@syncfusion/ej2-angular-diagrams';
+import { NodeModel, ConnectorModel, SnapSettingsModel, LayoutModel, SnapConstraints, NodeConstraints} from '@syncfusion/ej2-angular-diagrams';
 import { DataManager} from '@syncfusion/ej2-data';
 //import { SummaryComponent } from './summary/summary.component';
 
@@ -33,11 +32,9 @@ export class TreeViewComponent {
         this.backendService.LoadTree().subscribe(
             (responseData: Array<Object>) => {
                 this.treeData = responseData;
-                console.log(responseData);  // here responseData is the array of objects
             },
             (error) => {
-              console.log(error);  // in case of an error, it will be logged here   
-              alert("error")
+              // err
             }
           );
     }
@@ -248,5 +245,4 @@ export class TreeViewComponent {
             window.location.href = "Editor";
         }
     }
-
 }
