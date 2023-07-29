@@ -37,6 +37,8 @@ export class LayerElement {
   @ViewChild(ContentComponent) contentComponent!: ContentComponent;
   @ViewChild(CommentComponent) commentComponent!: CommentComponent;
 
+
+  //Moves elements whose order the user wants to change using drag and drop
   moveElementEditor(draggedlayerElement: Element, draggedParent: Parent) {
     const backendResponse: Observable<object> = this.backendService.MoveElementEditor(draggedlayerElement, draggedParent, this.element)
     const converted: Observable<boolean> = this.converter.convert(backendResponse);
@@ -45,8 +47,7 @@ export class LayerElement {
       if (value) {
         console.log('deleted Element');
         
-        this.dataService.notifyChange(); // the active element will always be the parent of the deleted one after this, to avoid 
-        //nullpointer exception for the active element
+        this.dataService.notifyChange(); 
       } 
   
    });
@@ -57,7 +58,8 @@ export class LayerElement {
 
   }
 
-  deleteElement() {
+  deleteElement() { //Deletes an element. Whether the children should also be deleted is decided by the user
+    
     const backendResponse: Observable<object> = this.backendService.DeleteElement(this.element);
     
     const converted: Observable<boolean> = this.converter.convert(backendResponse);
@@ -73,7 +75,7 @@ export class LayerElement {
  });
 }
 
-  onBackToParentClick() {
+  onBackToParentClick() { // Shows the parent element of the currently displayed element
     if (this.parent instanceof Parent) {
       const parentID = this.parent.getId();
       this.dataService.changeActiveElement(parentID);
@@ -83,12 +85,12 @@ export class LayerElement {
 
   }
 
-  onExtendChild() {
+  onExtendChild() { // Expands the child elements of the currently displayed element
     if (this.element instanceof Parent) {
-      // Type assertion to treat the element as Parent to access the getChildren() method
+     
       const parentElement = this.element as Parent;
       
-      // Access the list of children using the getChildren() method
+      
       const children = parentElement.getChildren();
       const firstChild = children[0];
       const firstChildID: string = firstChild.getId();

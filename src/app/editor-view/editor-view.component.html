@@ -2,11 +2,11 @@
 
 <div class="editor-view">
   <div class="navigation-part">
-    <app-navigation-part [hoveredElementID]="hoveredParentElementID"></app-navigation-part>
+    <app-navigation-part [parentElementID]="hoveredParentElementID"></app-navigation-part>
   </div>
 
   <div class="editor-part">
-    <app-editor-part ></app-editor-part>
+    <app-editor-part (parentElementIDChange)="onHoveredParentElementIDChange($event)"></app-editor-part>
   </div>
 </div>
 

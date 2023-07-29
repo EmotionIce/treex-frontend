@@ -23,8 +23,8 @@
 }
 
 .element-container p {
-    border-bottom: 1px solid #ccc; /*line below the content */
-    margin-bottom: 10px; /*  some spacing between content and button */
+    border-bottom: 1px solid #ccc; 
+    margin-bottom: 10px; 
   }
 
 .button-container {
@@ -91,7 +91,7 @@
   }
 
   .dragging {
-    /* Add styles to visually indicate the dragged element */
+   
     background-color: #f0f0f0;
     border: 1px dashed #ccc;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);

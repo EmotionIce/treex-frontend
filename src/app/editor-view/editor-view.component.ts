@@ -4,8 +4,6 @@ import { Element } from '../models/element';
 import { DataService } from '../services/data.service';
 import { Parent } from '../models/parent';
 
-import { EditorPartComponent } from '../editor-part/editor-part.component';
-
 export class ConcreteElement extends Element {
   
 }
@@ -21,17 +19,15 @@ export class ConcreteElement extends Element {
 export class EditorViewComponent implements OnInit{
  
   rootInstance: Root;
-  displayedEditorElements: Element[] = [];
-  displayedNavElements: Element[] = [];
-  parentElement: Element | null = null;
-  hoveredElementID: string | null = null;
-  hoveredParentElementID: string | null = null;
-  currentElementID: string | null = null;
-  currentElement: Element | null = null;
-  //ids for t editorpart and navigationpart, should the problem with not data transporting service not be resolved
-  elementIDForEditor: string | null = '';
-  elementIDForNaviagtion: string | null = '';
-  //element5 = new ConcreteElement('id5', 'Content 5', 'Comment 5', 'Summary 5');
+  elementIDForEditor: string | null = '';         // the ID the editor takes to show the correct elements
+  elementIDForNaviagtion: string | null = '';     //the ID the navigation takes to show the correct elements
+  parentElement: Element | null = null;           //the element that is given to the navigationpart to highlight the parent of the currently
+                                                  //highlighted element in the editor
+  hoveredParentElementID: string | null = null;   //the id of that parentElement
+  currentElement: Element | null = null;          //the element from which all the other lists of elements are decided
+  currentElementID: string | null = null;         //the ID of that element
+  
+  
   
 
 
@@ -42,58 +38,37 @@ export class EditorViewComponent implements OnInit{
 
 
   ngOnInit() {
-    console.log('EditorViewComponent: ngOnInit called');
-    
-
-      
-      
-  
-    
     
 
     
-   
-
-
-    
-    this.dataService.currentChange.subscribe(change => {
+    this.dataService.currentChange.subscribe(change => { //if elements change their value
 
       this.updateEditor();
    });
-   this.dataService.currentActiveElementID.subscribe(id => {
-    // hier kannst du machen, was immer du mit der neuen ID machen möchtest
 
-    //in theory, the editorview, gets the newcurrentElement, gets its parent and grandparent and updates the Editor using the updateEditor. 
-    this.currentElementID = id;
-    this.currentElement = this.rootInstance.searchByID(this.currentElementID);
-    this.updateEditor();
 
- });
+   this.dataService.currentActiveElementID.subscribe(id => { //if the user wants to see different elements e.g. the children of one
+        this.currentElementID = id;
+        this.currentElement = this.rootInstance.searchByID(this.currentElementID);
+        this.updateEditor();
 
-    
-
+    });
   }
 
- 
- 
-
-  
-
-  onHoveredParentElementIDChange(parentElementID: string | null) {
+  onHoveredParentElementIDChange(parentElementID: string | null) { //to pass the hovered Element from editorpart to navigationpart
+   
     this.hoveredParentElementID = parentElementID;
+    
   }
 
   
-  updateEditor() {
+  updateEditor() { // gives editorpart and navigationpart the new currentElement so they show it
 
     const parentElement = this.currentElement ? this.currentElement.getParent() : this.rootInstance;
     if (parentElement instanceof Parent) {
       this.elementIDForEditor = parentElement.getId();
 
     }
-    
-    
-    
     const grandparentElement = this.parentElement ? this.parentElement.getParent() : this.rootInstance;
     if (grandparentElement instanceof Parent) {
       this.elementIDForNaviagtion = grandparentElement.getId();
@@ -104,8 +79,6 @@ export class EditorViewComponent implements OnInit{
 
   
   const navigationElementId: string = this.elementIDForNaviagtion ?? '';
-
-  
   this.dataService.changeEditorElements(editorElementId);
   this.dataService.changeNavigationElements(navigationElementId);
     

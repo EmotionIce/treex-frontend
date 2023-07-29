@@ -11,7 +11,7 @@ declare const MathJax: any;
 })
 
 export class LatexRenderComponent implements OnInit {
-  @Input() latex: string = ''; // Default value is an empty string
+  @Input() latex: string = ''; 
 
   constructor(private el: ElementRef, private renderer: Renderer2) { }
 

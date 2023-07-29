@@ -3,10 +3,14 @@
     display: flex;
     flex-direction: column;
   } */
-  .navigation-container {
-    overflow-y: auto;
-    width: 30% !important;
-    height: 100% !important;
-    margin-right: 10px !important;
-    padding: 10px !important;
+  .navigation-element-container {
+    padding: 5px;
+    border: 1px solid #ccc;
+    margin: 5px;
+    cursor: pointer;
+  }
+  
+  .navigation-element-container.highlighted {
+    background-color: rgb(4, 35, 49);
+  border: 2px solid red;
   }

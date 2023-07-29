@@ -14,7 +14,7 @@ import { JsonToModelConverterService
 
 
 
- export class ConcreteElement extends Element {
+ export class ConcreteElement extends Element { //temporary class to test elements
   
 }
 
@@ -26,51 +26,42 @@ import { JsonToModelConverterService
 export class EditorPartComponent implements OnInit {
 
 
- 
-
- 
-
-
-
-
-  layerElements: LayerElement[] = [];
-  displayedEditorElements: Element[] = [];
-  editorParentElementID: string | null = null;
-  parentElement: Element | null = null;
-  hoveredParentID: string | null = null;
-  hoveredElementID: string | null = null; /* the element that is highlighted. need it to highlight its corresponding parent */
-  elementIDToBeEdited: string | null = null; /* the ID of the element that is shown in the text-editor. will be acessed after texteditor
-                                              is finished to give the backend the correct element */
-  inEditMode = false;
-  draggedLayerElement: LayerElement | null = null;
-  //settings: Settings;
-  //TODO: `give the parent of the ElementID to the navigationpart to display it there
-
-  deleteElementChildren = false; // the bool that decides whether to also delete all children of an element or not
-
+  settings: any;
+  displayedEditorElements: Element[] = [];          //the list of elements that are supposed to be shown
+  layerElements: LayerElement[] = [];               //the list of layerElements that are shown
+  editorParentElementID: string | null = null;      //the ID of the element that is used for root.getElementsOfLayer(element)
+  editorParentElement: Element | null = null;       //the element that is used for root.getElementsOfLayer(element)
+  parentElementID: string | null = null;            //the ID of the element that goes to the navigationpart to be highlighted there
+  hoveredParentID: string | null = null;            //element that goes to the navigationpart to be highlighted there
+  hoveredElementID: string | null = null;           //the element that is highlighted. need it to highlight its corresponding parent
+  elementIDToBeEdited: string | null = null;        // the ID of the element that is shown in the text-editor. will be acessed after texteditor
+                                                    //is finished to give the backend the correct element
+  inEditMode = false;                               //checks whether a text is supposed to be shown in edit mode
+  draggedLayerElement: LayerElement | null = null;  //the element that is being dragged
 
   rootInstance: Root;
 
 
 
-  @Output() hoveredParentElementID: EventEmitter<string | null> = new EventEmitter<string | null>();
+  @Output() parentElementIDChange: EventEmitter<string | null> = new EventEmitter<string | null>();
 
-  onElementHover(elementID: string | null) {
+  onElementHover(elementID: string | null) { //gives parentElement of hoveredElement to editorview
     this.hoveredElementID = elementID;
+    
     if (elementID) {
       const element = this.rootInstance.searchByID(elementID);
       if (element instanceof Element) {
         const parentElement = element.getParent();
         
         if (parentElement instanceof Element) {
-          const parentElementID = parentElement.getId();
-          
+          this.parentElementID = parentElement.getId();
+          this.parentElementIDChange.emit(this.parentElementID);
         } 
       }
     }
   }
 
-  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService) {
+  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService, private settingsService: SettingsService ) {
 
     this.rootInstance = Root.createRoot();
 
@@ -79,36 +70,26 @@ export class EditorPartComponent implements OnInit {
    
 
   ngOnInit() {
-    this.displayedEditorElements = this.rootInstance.getChildren();
+    this.settings = this.settingsService.getSettings();   
     
-
-  
-
-
-   
    
     
     this.dataService.currentEditorElements.subscribe(newEditorElements => {
-      console.log('editorpart, how displayedEditorElements look like before service did anything', this.displayedEditorElements)
       
       this.editorParentElementID = newEditorElements;
-      this.parentElement = this.rootInstance.searchByID(this.editorParentElementID);
-      if (this.parentElement) {
-      this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.parentElement);
+      this.editorParentElement = this.rootInstance.searchByID(this.editorParentElementID);
+      if (this.editorParentElement) {
+      this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.editorParentElement);
       }
-      
-      console.log('getting the elements throught the service in the editorpart', this.displayedEditorElements)
-      
-      
-      
+
       if (this.displayedEditorElements.length > 0) {
         this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
       }
     })
     this.dataService.currentChange.subscribe(change => {
 
-      if (this.parentElement) {
-        this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.parentElement);
+      if (this.editorParentElement) {
+        this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.editorParentElement);
         if (this.displayedEditorElements.length > 0) {
           this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
         }
@@ -116,14 +97,13 @@ export class EditorPartComponent implements OnInit {
 
 
     });
+
+    this.displayedEditorElements = this.rootInstance.getChildren();
     
    
     
-    // Sample data for testing. currently on "if" so i can show root Elements aswell."
-    if (this.displayedEditorElements.length < 0) {
-      // add this if  editorview and part dont communicate:     this.displayedEditorElements = this.rootInstance.getChildren();
-
-    }
+    
+  
     if (this.displayedEditorElements.length <= 0) {
     const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
@@ -139,20 +119,17 @@ export class EditorPartComponent implements OnInit {
       this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.converter, this.dataService));
 
       
-    } else {
-      console.log('Die Liste mit displayedEditorElements ist leer, es wurden keiner layerElements generiert und angezeigt')
-    }
+    } 
   }
 
 
 
-  onDragStarted(layerElement: LayerElement) {
+  onDragStarted(layerElement: LayerElement) { //saves the element that is being dragged
     this.draggedLayerElement = layerElement;
-    console.log("started drag")
 
   }
 
-  onDrop(event: any) {
+  onDrop(event: any) { //handles the dropping of an element
     const draggedElement = this.draggedLayerElement?.element;
     const draggedParentElement = draggedElement?.getParent();
     const droppedLayerElement: LayerElement = event.item.data;
@@ -162,53 +139,51 @@ export class EditorPartComponent implements OnInit {
       }
 
     }
-    
-
-   
     this.draggedLayerElement = null;
   }
   
   
 
-  onDelete(layerElement: LayerElement) {
+  onDelete(layerElement: LayerElement) { //calles deleteElement in layerElement
     layerElement.deleteElement;
 
   }
 
-  isParent(element: Element): boolean {
+  isParent(element: Element): boolean { //checks if element is type of parent
     return element instanceof Parent;
   }
-  showChildren(layerElement: LayerElement) {
+  showChildren(layerElement: LayerElement) { //calles onExtendChild in layerElement
     layerElement.onExtendChild();
 
   }
-  showParent(layerElement : LayerElement) {
+  showParent(layerElement : LayerElement) { //calles onBackToParentClick in layerElement
     layerElement.onBackToParentClick();
   }
 
 
   
 
-  showContent(layerElement: LayerElement): string {
+  showContent(layerElement: LayerElement): string { //when the user presses the showContent button it shows the content in an editable window
     layerElement.showContentTextbox = !layerElement.showContentTextbox;
     if (this.hoveredElementID) {
       this.elementIDToBeEdited = this.hoveredElementID;
       const layerElementToBeEdited = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
       if (layerElementToBeEdited) {
-        // Now you have the LayerElement that matches the hoveredElementID and can access its Content
+        
   
         return layerElementToBeEdited.element.getContent();
       }
     }
-    // Return an empty string or any other default value if the element is not found
+    
     return '';
   }
 
 
-  onContentUpdated(updatedContend: string) {
+  onContentUpdated(updatedContend: string) { //gives Backend the new content
    
-  // Call the backend service to update the summary
+  
   const elementToBeSaved = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
+  elementToBeSaved?.contentComponent
   if (elementToBeSaved) {
 
   
@@ -218,36 +193,34 @@ export class EditorPartComponent implements OnInit {
   
   converted.subscribe((value: boolean) => {
     if (value) {
-      console.log('Summary updated on the backend.');
+      
       this.dataService.notifyChange();
 
       
-    } else {
-      console.log('Error when trying to update the Summary on the backend');
-    }
+    } 
   });
   }
   }
 
 
-  showComment(layerElement: LayerElement): string {
+  showComment(layerElement: LayerElement): string {  //when the user presses the showComment button it shows the comment in an editable window
     layerElement.showCommentTextbox = !layerElement.showCommentTextbox;
     if (this.hoveredElementID) {
       this.elementIDToBeEdited = this.hoveredElementID;
       const layerElementToBeEdited = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
       if (layerElementToBeEdited) {
-        // Now you have the LayerElement that matches the hoveredElementID and can access its Content
+      
   
         return layerElementToBeEdited.element.getComment();
       }
     }
-    // Return an empty string or any other default value if the element is not found
+    
     return 'Error in showcomment';
   }
 
-  onCommentUpdated(updatedComment: string) {
+  onCommentUpdated(updatedComment: string) { //gives backend the new comment
    
-    // Call the backend service to update the summary
+    
     const elementToBeSaved = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
     if (elementToBeSaved) {
 
@@ -261,7 +234,7 @@ export class EditorPartComponent implements OnInit {
         console.log('Summary updated on the backend.');
         this.dataService.notifyChange();
 
-        // Handle any other logic after the summary is updated, if needed
+        
       } else {
         console.log('Error when trying to update the Summary on the backend');
       }
@@ -271,7 +244,7 @@ export class EditorPartComponent implements OnInit {
 
   
 
-  showSummary(layerElement: LayerElement): string  {
+  showSummary(layerElement: LayerElement): string  { //when the user presses the showSummary button it shows the summary in an editable window
     layerElement.showSummaryTextbox = !layerElement.showSummaryTextbox;
     
     
@@ -279,18 +252,18 @@ export class EditorPartComponent implements OnInit {
       this.elementIDToBeEdited = this.hoveredElementID;
       const layerElementToBeEdited = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
       if (layerElementToBeEdited) {
-        // Now i have the LayerElement that matches the hoveredElementID adn can acess its Summary
+        // now i have the LayerElement that matches the hoveredElementID and can acess its Summary
 
         return layerElementToBeEdited.element.getSummary();
 
-        // Open the text editor with the summary as the content
+        
 
       }
     }
     return 'error. either nothing is  being hovered or there is no corresponding element currently shown in the editor'
   }
 
-  onSummaryUpdated(updatedSummary: string) {
+  onSummaryUpdated(updatedSummary: string) { //gives the backend the new summary
    
       // Call the backend service to update the summary
       const elementToBeSaved = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
@@ -306,7 +279,7 @@ export class EditorPartComponent implements OnInit {
           console.log('Summary updated on the backend.');
           this.dataService.notifyChange();
 
-          // Handle any other logic after the summary is updated, if needed
+        
         } else {
           console.log('Error when trying to update the Summary on the backend');
         }

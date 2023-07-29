@@ -1,8 +1,13 @@
 
 <div class="navigation-part">
     <h2>Editor Navigation</h2>
-    <div *ngFor="let layerElement of displayedNavigationElements">
-      <p>{{ getFirstTwentyLetters(layerElement.getContent()) }}</p>
+    <div *ngFor="let layerElement of layerElements">
+      <div
+      class="navigation-element-container"
+     [class.highlighted]="highlightElement(layerElement)">
+    
+        <p>{{ getFirstFourtyLetters(layerElement.element.getContent()) }}</p>
+      </div>
       
     
   
