@@ -100,11 +100,7 @@ export class EditorPartComponent implements OnInit {
 
     this.displayedEditorElements = this.rootInstance.getChildren();
     
-   
-    
-    
-  
-    if (this.displayedEditorElements.length <= 0) {
+    if (this.displayedEditorElements.length <= 0) { //test elements used to test the layerElement boxes
     const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
@@ -122,8 +118,6 @@ export class EditorPartComponent implements OnInit {
     } 
   }
 
-
-
   onDragStarted(layerElement: LayerElement) { //saves the element that is being dragged
     this.draggedLayerElement = layerElement;
 
@@ -137,7 +131,6 @@ export class EditorPartComponent implements OnInit {
       if (draggedParentElement instanceof Parent) {
       droppedLayerElement.moveElementEditor(draggedElement, draggedParentElement)
       }
-
     }
     this.draggedLayerElement = null;
   }
@@ -161,8 +154,6 @@ export class EditorPartComponent implements OnInit {
   }
 
 
-  
-
   showContent(layerElement: LayerElement): string { //when the user presses the showContent button it shows the content in an editable window
     layerElement.showContentTextbox = !layerElement.showContentTextbox;
     if (this.hoveredElementID) {
@@ -179,9 +170,7 @@ export class EditorPartComponent implements OnInit {
   }
 
 
-  onContentUpdated(updatedContend: string) { //gives Backend the new content
-   
-  
+  onContentUpdated(updatedContend: string) { //gives Backend the new content   
   const elementToBeSaved = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
   elementToBeSaved?.contentComponent
   if (elementToBeSaved) {
@@ -195,8 +184,6 @@ export class EditorPartComponent implements OnInit {
     if (value) {
       
       this.dataService.notifyChange();
-
-      
     } 
   });
   }
@@ -218,25 +205,23 @@ export class EditorPartComponent implements OnInit {
     return 'Error in showcomment';
   }
 
+
   onCommentUpdated(updatedComment: string) { //gives backend the new comment
-   
-    
+  
     const elementToBeSaved = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
     if (elementToBeSaved) {
-
-    
     const backendResponse: Observable<Object> = this.backendService.EditComment(elementToBeSaved.element, updatedComment);
 
     const converted: Observable<boolean> = this.converter.convert(backendResponse);
     
     converted.subscribe((value: boolean) => {
       if (value) {
-        console.log('Summary updated on the backend.');
+        
         this.dataService.notifyChange();
 
         
       } else {
-        console.log('Error when trying to update the Summary on the backend');
+        
       }
     });
   }
@@ -276,16 +261,14 @@ export class EditorPartComponent implements OnInit {
       
       converted.subscribe((value: boolean) => {
         if (value) {
-          console.log('Summary updated on the backend.');
+          
           this.dataService.notifyChange();
 
-        
         } else {
-          console.log('Error when trying to update the Summary on the backend');
+          
         }
       });
     }
   }
-  
 }
 
