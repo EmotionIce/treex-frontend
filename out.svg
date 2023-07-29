@@ -1,0 +1,1243 @@
+<svg version="1.1" baseProfile="full" width="4435.8" height="2280.0" viewbox="0 0 4435.75 2280" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events">
+<desc >#.interface: fill=lightblue
+#.enumeration: fill=lightgreen
+#.type: fill=lightgray
+[AppRoutingModule||]
+[AppComponent||]
+[AppModule||]
+[LayerElement|+element: Element;+showSummaryTextbox: boolean;+showContentTextbox: boolean;+showCommentTextbox: boolean;+summaryComponent: SummaryComponent;+contentComponent: ContentComponent;+commentComponent: CommentComponent;-backendService: BackendService;-dataService: DataService|+moveElementEditor(): void;+deleteElement(): void;+onBackToParentClick(): void;+onExtendChild(): void]
+[LayerElement]  -  [Element]
+[LayerElement]  -  [SummaryComponent]
+[LayerElement]  -  [ContentComponent]
+[LayerElement]  -  [CommentComponent]
+[LayerElement]  -  [BackendService]
+[LayerElement]  -  [DataService]
+[CommentComponent|+comment: string|]
+[ContentComponent|+content: string|]
+[EditorLayerComponent||]
+[ConcreteElement||]
+[EditorPartComponent|+displayedEditorElementsOld: Element\[\];+layerElements: LayerElement\[\];+displayedEditorElements: Element\[\];+hoveredElementID: string \| null;+elementIDToBeEdited: string \| null;+inEditMode: boolean;+deleteElementChildren: boolean;+hoveredElement: EventEmitter&lt;string \| null&gt;;-backendService: BackendService;-converter: JsonToModelConverterService;-dataService: DataService|+onElementHover(): void;+ngOnInit(): void;+onDelete(): void;+isParent(): boolean;+showChildren(): void;+showContent(): string;+onContentUpdated(): void;+showComment(): string;+onCommentUpdated(): void;+showSummary(): string;+onSummaryUpdated(): void]
+[Element]&lt;:-[ConcreteElement]
+[OnInit]&lt;:--[EditorPartComponent]
+[EditorPartComponent]  - 0..* [Element]
+[EditorPartComponent]  - 0..* [LayerElement]
+[EditorPartComponent]  - 0..* [Element]
+[EditorPartComponent]  -  [BackendService]
+[EditorPartComponent]  -  [JsonToModelConverterService]
+[EditorPartComponent]  -  [DataService]
+[EditorViewComponent|+rootInstance: Root;+displayedEditorElements: Element\[\];+displayedNavElements: Element\[\];+parentElement: Element \| null;+hoveredElementID: string \| null;+currentElementID: string \| null;+currentElement: Element \| null;-dataService: DataService|+ngOnInit(): void;+updateEditorElements(): void;+updateNavElement(): void;+onElementHover(): void;+isElementHovered(): boolean;+updateEditor(): void]
+[OnInit]&lt;:--[EditorViewComponent]
+[EditorViewComponent]  -  [Root]
+[EditorViewComponent]  - 0..* [Element]
+[EditorViewComponent]  - 0..* [Element]
+[EditorViewComponent]  -  [Element]
+[EditorViewComponent]  -  [Element]
+[EditorViewComponent]  -  [DataService]
+[ElementContentComponent||]
+[ElementTitleComponent||]
+[ErrorPopupComponent|-errorMessage: string \| null;-settings: Settings;-errorPopupService: ErrorPopupService;-settingsService: SettingsService|+ngOnInit(): void;+getErrorMessage(): string \| null]
+[OnInit]&lt;:--[ErrorPopupComponent]
+[ErrorPopupComponent]  -  [Settings]
+[ErrorPopupComponent]  -  [ErrorPopupService]
+[ErrorPopupComponent]  -  [SettingsService]
+[HeaderComponent||]
+[ImportComponent|+folderPath: string;+gitUrl: string;+gitUsername: string;+gitPassword: string;+gitPath: string;-backendService: BackendService;-converter: JsonToModelConverterService;-dataService: DataService;-router: Router|+loadFromFolder(): void;+loadFromGit(): void;-startImpuls(): void]
+[ImportComponent]  -  [BackendService]
+[ImportComponent]  -  [JsonToModelConverterService]
+[ImportComponent]  -  [DataService]
+[LatexRenderComponent|+latex: string;-el: ElementRef&lt;any&gt;;-renderer: Renderer2|+ngOnInit(): void;-renderMath(): void]
+[OnInit]&lt;:--[LatexRenderComponent]
+[Caption|-content: string|+getContent(): string;+setContent(): void]
+[Child||]
+[Element]&lt;:-[Child]
+[Element|-id: string;-content: string;-comment: string;-summary: string;-parent: Element \| Root \| null|+getId(): string;+getContent(): string;+getComment(): string;+getSummary(): string;+getParent(): Element \| Root \| null;+setId(): void;+setContent(): void;+setComment(): void;+setSummary(): void;+changeParent(): void]
+[Element]  -  [Element]
+[Element] 0..* -  [Root]
+[Environment||]
+[Parent]&lt;:-[Environment]
+[Input||]
+[Parent]&lt;:-[Input]
+[Label||]
+[Element]&lt;:-[Label]
+[Parent|-children: Element\[\]|+addChild(): boolean;+removeChild(): boolean;+getPrevious(): Element \| null;+getChildren(): Element\[\]]
+[Element]&lt;:-[Parent]
+[Root|-static instance: Root;-children: Element\[\]|+static createRoot(): Root;+addChild(): void;+removeChild(): boolean;+searchByID(): Element \| null;+getElementsOfLayer(): Element\[\];-getDepth(): number;+getChildren(): Element\[\];+clear(): void]
+[Root]  -  [Root]
+[Sectioning||]
+[Parent]&lt;:-[Sectioning]
+[NavElementComponent||]
+[NavigationPartComponent|+displayedNavElements: Element\[\]|+ngOnChanges(): void]
+[NavigationPartComponent]  - 0..* [Element]
+[BackendService|-baseUrl: string;-settings: Settings;-stopPolling$: Subject&lt;void&gt;;-http: HttpClient;-settingsService: SettingsService;-errorPopupService: ErrorPopupService;-dataService: DataService|+getBaseUrl(): string;+Export(): Observable&lt;any&gt;;+LoadTree(): Observable&lt;Object\[\]&gt;;+LoadFullData(): Observable&lt;Object\[\]&gt;;+CheckForUpdates(): Observable&lt;boolean&gt;;+MoveElementTree(): Observable&lt;Object\[\]&gt;;+MoveElementEditor(): Observable&lt;Object&gt;;+EditSummary(): Observable&lt;Object&gt;;+EditComment(): Observable&lt;Object&gt;;+EditContent(): Observable&lt;Object&gt;;+DeleteElement(): Observable&lt;Object&gt;;+LoadFromFolder(): Observable&lt;Object&gt;;+LoadFromGit(): Observable&lt;Object&gt;;+startPollingData(): void;+stopPollingData(): void;-handleError(): Observable&lt;never&gt;]
+[BackendService]  -  [Settings]
+[BackendService]  -  [SettingsService]
+[BackendService]  -  [ErrorPopupService]
+[BackendService]  -  [DataService]
+[DataService|-activeElement: BehaviorSubject&lt;string&gt;;+currentActiveElementID: Observable&lt;string&gt;;-changeNotifier: BehaviorSubject&lt;number&gt;;+currentChange: Observable&lt;number&gt;;-navigationElements: BehaviorSubject&lt;Element\[\]&gt;;+currentNavigationElements: Observable&lt;Element\[\]&gt;;-editorElements: BehaviorSubject&lt;Element\[\]&gt;;+currentEditorElements: Observable&lt;Element\[\]&gt;|+changeActiveElement(): void;+notifyChange(): void;+changeNavigationElements(): void;+changeEditorElements(): void]
+[ErrorPopupService|-errorSubject: Subject&lt;string&gt;|+setErrorMessage(): void;+getErrorMessage(): Observable&lt;string&gt;]
+[JsonToModelConverterService|-errorPopupService: ErrorPopupService|+convert(): Observable&lt;boolean&gt;;-processItem(): void]
+[JsonToModelConverterService]  -  [ErrorPopupService]
+[SettingsService|+settings: Settings;-dataService: DataService|+getSettings(): Settings;+updateSettings(): void]
+[&lt;interface&gt;Settings|+theme: string;+hideLeavesTree: boolean;+deleteCascading: boolean;+hideComments: boolean;+hideSummaries: boolean;+popupDuration: number|]
+[SettingsService]  -  [Settings]
+[SettingsService]  -  [DataService]
+[SettingsComponent|+settings: Settings;-settingsService: SettingsService|+updateSettings(): void]
+[SettingsComponent]  -  [Settings]
+[SettingsComponent]  -  [SettingsService]
+[SummaryComponent|+summary: string|]
+[TextEditorComponent|+text: string;+textUpdated: EventEmitter&lt;string&gt;;+isEditMode: boolean;+editedText: string|+enterEditMode(): void;+saveText(): void]
+[TreeViewComponent||]
+[Figure|-fileLocation: string;-captions: Caption\[\]|+getFileLocation(): string;+setFileLocation(): void;+getCaptions(): Caption\[\];+addCaption(): void]
+[Environment]&lt;:-[Figure]
+[Figure]  - 0..* [Caption]</desc>
+<g stroke-width="1.0" text-align="left" font="12pt Helvetica, Arial, sans-serif" font-size="12pt" font-family="Helvetica" font-weight="normal" font-style="normal">
+<g font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" stroke-width="3.0" stroke-linejoin="round" stroke-linecap="round" stroke="#33322E">
+<g stroke="transparent" fill="transparent">
+<rect x="0.0" y="0.0" height="2280.0" width="4435.8" stroke="none"></rect>
+</g>
+<g transform="translate(8, 8)" fill="#33322E">
+<g transform="translate(20, 20)" fill="#33322E" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal">
+<path d="M1389.0 891.5 L1408.5 919 L1589.25 1044.446940356313 L1589.3 1044.4 " fill="none"></path>
+<path d="M1114.8 792.8 L355.25 919 L355.25 1108 L355.3 1108.0 " fill="none"></path>
+<path d="M1114.8 801.8 L570.25 919 L570.25 1108 L570.3 1108.0 " fill="none"></path>
+<path d="M1114.8 818.3 L785.75 919 L785.75 1108 L785.8 1108.0 " fill="none"></path>
+<path d="M1479.8 776.3 L3366.25 919 L3379.5089285714284 939 L3379.5 939.0 " fill="none"></path>
+<path d="M1297.3 891.5 L1297.25 919 L1297.25 1143 L1297.25 1143 L1297.25 1367 L1297.25 1367 L1297.25 1493.5 L1297.25 1493.5 L1297.25 1620 L1297.25 1620 L2929.5 1744.8957009598487 L2929.5 1744.9 " fill="none"></path>
+<path d="M1576.0 1164.0 L76 1367 L76 1470 L76.0 1470.0 " fill="none"></path>
+<path d="M1576.8 1169.3 L1576.0 1164.0 L1575.3 1158.7 L1589.3 1162.2 Z"></path>
+<g stroke-dasharray="6 6">
+<path d="M1897.8 83.8 L1356 173 L1356 193 L1356.0 193.0 " fill="none"></path>
+</g>
+<path d="M1898.7 89.1 L1897.8 83.8 L1897.0 78.6 L1911.0 81.7 Z"></path>
+<text x="1603.3" y="991.0" stroke="none">0..*</text>
+<path d="M1504.6 586.0 L1519.75 606 L1519.75 762.5 L1519.75 762.5 L1519.75 919 L1519.75 919 L1595.2857142857142 999 L1595.3 999.0 " fill="none"></path>
+<text x="1262.3" y="625.5" stroke="none">0..*</text>
+<path d="M1302.7 586.0 L1297.25 606 L1297.25 633.5 L1297.3 633.5 " fill="none"></path>
+<text x="1629.0" y="991.0" stroke="none">0..*</text>
+<path d="M1540.9 586.0 L1559.75 606 L1559.75 762.5 L1559.75 762.5 L1559.75 919 L1559.75 919 L1621 999 L1621.0 999.0 " fill="none"></path>
+<path d="M1542.0 408.4 L3488.75 606 L3488.75 762.5 L3488.75 762.5 L3488.75 919 L3488.75 919 L3491.0714285714284 939 L3491.1 939.0 " fill="none"></path>
+<path d="M1170.0 489.5 L953.5 606 L953.5 762.5 L953.5 762.5 L953.5 919 L953.5 919 L1050.453125 1089 L1050.5 1089.0 " fill="none"></path>
+<path d="M1542.0 417.3 L2806 606 L2806 762.5 L2806 762.5 L2806 919 L2806 919 L2806 1143 L2806 1143 L2806 1367 L2806 1367 L2806 1493.5 L2806 1493.5 L2806 1620 L2806 1620 L2929.5 1671.3223201174742 L2929.5 1671.3 " fill="none"></path>
+<g stroke-dasharray="6 6">
+<path d="M1928.6 103.9 L1893.5 173 L1893.5 389.5 L1893.5 389.5 L1893.5 606 L1893.5 606 L1893.5 626 L1893.5 626.0 " fill="none"></path>
+</g>
+<path d="M1933.3 106.3 L1928.6 103.9 L1923.8 101.5 L1934.6 92.0 Z"></path>
+<path d="M1741.0 776.8 L224.75 919 L224.75 1143 L224.75 1143 L224.75 1367 L224.75 1367 L241.94367588932806 1387 L241.9 1387.0 " fill="none"></path>
+<text x="1660.7" y="991.0" stroke="none">0..*</text>
+<path d="M1741.0 872.2 L1676 919 L1695.732142857143 999 L1695.7 999.0 " fill="none"></path>
+<text x="1743.5" y="991.0" stroke="none">0..*</text>
+<path d="M1816.1 899.0 L1804.75 919 L1778.5 999 L1778.5 999.0 " fill="none"></path>
+<path d="M2005.8 899.0 L2022.25 919 L1873.25 1033.6941580756013 L1873.3 1033.7 " fill="none"></path>
+<path d="M2040.7 899.0 L2062.25 919 L1873.25 1046.9033232628399 L1873.3 1046.9 " fill="none"></path>
+<path d="M2046.0 780.6 L3215 919 L3215 1143 L3215 1143 L3215 1367 L3215 1367 L3215 1493.5 L3215 1493.5 L3215 1620 L3215 1620 L3205.3180212014136 1640 L3205.3 1640.0 " fill="none"></path>
+<g stroke-dasharray="6 6">
+<path d="M1987.3 80.5 L3010.5 173 L3010.5 389.5 L3010.5 389.5 L3010.5 606 L3010.5 606 L3010.5 762.5 L3010.5 762.5 L3010.5 919 L3010.5 919 L3010.5 1066.5 L3010.5 1066.5 " fill="none"></path>
+</g>
+<path d="M1987.8 75.2 L1987.3 80.5 L1986.8 85.9 L1974.0 79.3 Z"></path>
+<path d="M3169.3 1219.5 L3475.5 1367 L3475.5 1493.5 L3475.5 1493.5 L3475.5 1620 L3475.5 1620 L3705.75 1713.9592645998557 L3705.8 1714.0 " fill="none"></path>
+<path d="M2846.0 1159.2 L741.75 1367 L913.4001976284585 1439.5 L913.4 1439.5 " fill="none"></path>
+<path d="M3175.0 1211.2 L3551 1367 L3589.794466403162 1432 L3589.8 1432.0 " fill="none"></path>
+<path d="M2766.0 791.5 L3534.75 919 L3532.964285714286 939 L3533.0 939.0 " fill="none"></path>
+<path d="M2416.0 781.8 L1172.5 919 L1103.247767857143 1089 L1103.2 1089.0 " fill="none"></path>
+<path d="M2766.0 803.7 L3255 919 L3255 1143 L3255 1143 L3255 1367 L3255 1367 L3255 1493.5 L3255 1493.5 L3255 1620 L3255 1620 L3239.6643109540637 1640 L3239.7 1640.0 " fill="none"></path>
+<g stroke-dasharray="6 6">
+<path d="M1899.5 98.0 L1749 173 L1749 320.5 L1749.0 320.5 " fill="none"></path>
+</g>
+<path d="M1901.9 102.7 L1899.5 98.0 L1897.1 93.2 L1911.4 92.0 Z"></path>
+<path d="M1731.3 1300.3 L1731.25 1367 L1731.25 1470 L1731.3 1470.0 " fill="none"></path>
+<path d="M1736.6 1300.3 L1731.3 1300.3 L1725.9 1300.3 L1731.3 1287.0 Z"></path>
+<path d="M1873.3 1110.0 L2350.75 999 L2470.125 999 L2470.125 999 L2589.5 1143 L2589.5 1143 L2470.125 1287 L2470.125 1287 L2350.75 1287 L2350.75 1287 L1873.25 1176.0072639225182 L1873.3 1176.0 " fill="none"></path>
+<text x="1597.3" y="1193.9" stroke="none">0..*</text>
+<path d="M1589.3 1173.9 L701.75 1367 L475 1444.8923964697894 L475.0 1444.9 " fill="none"></path>
+<path d="M4124.1 1573.0 L4087.25 1620 L4087.25 1738 L4087.3 1738.0 " fill="none"></path>
+<path d="M4128.3 1576.3 L4124.1 1573.0 L4119.9 1569.7 L4132.4 1562.5 Z"></path>
+<path d="M4203.5 1575.6 L4212.75 1620 L4212.75 1738 L4212.8 1738.0 " fill="none"></path>
+<path d="M4208.7 1574.5 L4203.5 1575.6 L4198.3 1576.6 L4200.8 1562.5 Z"></path>
+<path d="M1886.4 1170.2 L3010.5 1367 L3010.5 1470 L3010.5 1470.0 " fill="none"></path>
+<path d="M1887.3 1164.9 L1886.4 1170.2 L1885.5 1175.4 L1873.3 1167.9 Z"></path>
+<path d="M1886.5 1157.2 L4186.5 1367 L4186.5 1424.5 L4186.5 1424.5 " fill="none"></path>
+<path d="M1887.0 1151.9 L1886.5 1157.2 L1886.0 1162.5 L1873.3 1156.0 Z"></path>
+<path d="M475.0 1442.7 L630.1666666666665 1387 L668.9583333333335 1387 L668.9583333333335 1387 L707.75 1493.5 L707.75 1493.5 L668.9583333333335 1600 L668.9583333333335 1600 L630.1666666666665 1600 L630.1666666666665 1600 L475 1544.2969101123597 L475.0 1544.3 " fill="none"></path>
+<path d="M4274.9 1571.3 L4330.25 1620 L4330.25 1738 L4330.3 1738.0 " fill="none"></path>
+<path d="M4278.4 1567.3 L4274.9 1571.3 L4271.4 1575.3 L4264.9 1562.5 Z"></path>
+<text x="1838.3" y="1071.4" stroke="none">0..*</text>
+<path d="M2231.0 809.0 L2231 919 L1873.25 1079.352176088044 L1873.3 1079.4 " fill="none"></path>
+<path d="M3697.3 1298.6 L3777.5 1367 L3777.5 1493.5 L3777.5 1493.5 L3777.5 1620 L3777.5 1620 L3799.321554770318 1689 L3799.3 1689.0 " fill="none"></path>
+<path d="M3594.4 1347.0 L3602.25 1367 L3614.7104743083005 1432 L3614.7 1432.0 " fill="none"></path>
+<path d="M3332.3 1158.3 L836.25 1367 L953.7401185770751 1439.5 L953.7 1439.5 " fill="none"></path>
+<path d="M3397.7 1347.0 L3386.25 1367 L3386.25 1493.5 L3386.25 1493.5 L3386.25 1620 L3386.25 1620 L3352.363074204947 1640 L3352.4 1640.0 " fill="none"></path>
+<path d="M1081.3 1197.0 L1081.25 1367 L1058.3250988142292 1439.5 L1058.3 1439.5 " fill="none"></path>
+<path d="M3719.4 1555.0 L3817.5 1620 L3819.8162544169613 1689 L3819.8 1689.0 " fill="none"></path>
+<path d="M3533.6 1555.0 L3435.5 1620 L3363.5 1655.2525951557093 L3363.5 1655.3 " fill="none"></path>
+<path d="M3883.4 1197.0 L3909.25 1367 L3909.25 1493.5 L3909.25 1493.5 L3909.25 1620 L3909.25 1620 L3866.8259717314486 1689 L3866.8 1689.0 " fill="none"></path>
+<path d="M3828.7 1197.0 L3682 1367 L3653.482213438735 1432 L3653.5 1432.0 " fill="none"></path>
+<path d="M4087.3 1798.3 L4087.25 1903 L4087.25 1923 L4087.3 1923.0 " fill="none"></path>
+<path d="M4092.6 1798.3 L4087.3 1798.3 L4081.9 1798.3 L4087.3 1785.0 Z"></path>
+<text x="4052.3" y="2108.0" stroke="none">0..*</text>
+<path d="M4087.3 2076.0 L4087.25 2096 L4087.25 2116 L4087.3 2116.0 " fill="none"></path>
+<g data-name="AppRoutingModule">
+<g fill="#eee8d5" stroke="#33322E" data-name="AppRoutingModule">
+<rect x="1144.0" y="53.0" height="47.0" width="166.0" data-name="AppRoutingModule"></rect>
+<path d="M1144.0 84.0 L1310.0 84.0" fill="none" data-name="AppRoutingModule"></path>
+<path d="M1144.0 92.0 L1310.0 92.0" fill="none" data-name="AppRoutingModule"></path>
+</g>
+<g transform="translate(1144, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AppRoutingModule">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AppRoutingModule">
+<a id="src\app\app-routing.module.ts.AppRoutingModule" xlink:href="src\app\app-routing.module.ts"><text x="75.0" y="13.5" stroke="none" text-anchor="middle" data-name="AppRoutingModule">AppRoutingModule</text></a>
+
+</g>
+</g>
+<g transform="translate(1144, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppRoutingModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppRoutingModule">
+
+</g>
+</g>
+<g transform="translate(1144, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppRoutingModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppRoutingModule">
+
+</g>
+</g>
+</g>
+<g data-name="AppComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="AppComponent">
+<rect x="1350.0" y="53.0" height="47.0" width="138.0" data-name="AppComponent"></rect>
+<path d="M1350.0 84.0 L1488.0 84.0" fill="none" data-name="AppComponent"></path>
+<path d="M1350.0 92.0 L1488.0 92.0" fill="none" data-name="AppComponent"></path>
+</g>
+<g transform="translate(1350, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AppComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AppComponent">
+<a id="src\app\app.component.ts.AppComponent" xlink:href="src\app\app.component.ts"><text x="61.0" y="13.5" stroke="none" text-anchor="middle" data-name="AppComponent">AppComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(1350, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppComponent">
+
+</g>
+</g>
+<g transform="translate(1350, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppComponent">
+
+</g>
+</g>
+</g>
+<g data-name="AppModule">
+<g fill="#eee8d5" stroke="#33322E" data-name="AppModule">
+<rect x="1528.0" y="53.0" height="47.0" width="105.0" data-name="AppModule"></rect>
+<path d="M1528.0 84.0 L1633.0 84.0" fill="none" data-name="AppModule"></path>
+<path d="M1528.0 92.0 L1633.0 92.0" fill="none" data-name="AppModule"></path>
+</g>
+<g transform="translate(1528, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="AppModule">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="AppModule">
+<a id="src\app\app.module.ts.AppModule" xlink:href="src\app\app.module.ts"><text x="44.5" y="13.5" stroke="none" text-anchor="middle" data-name="AppModule">AppModule</text></a>
+
+</g>
+</g>
+<g transform="translate(1528, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppModule">
+
+</g>
+</g>
+<g transform="translate(1528, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="AppModule">
+<g transform="translate(8, 8)" fill="#33322E" data-name="AppModule">
+
+</g>
+</g>
+</g>
+<g data-name="LayerElement">
+<g fill="#eee8d5" stroke="#33322E" data-name="LayerElement">
+<rect x="1114.8" y="633.5" height="258.0" width="365.0" data-name="LayerElement"></rect>
+<path d="M1114.8 664.5 L1479.8 664.5" fill="none" data-name="LayerElement"></path>
+<path d="M1114.8 815.5 L1479.8 815.5" fill="none" data-name="LayerElement"></path>
+</g>
+<g transform="translate(1114.75, 633.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="LayerElement">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="LayerElement">
+<a id="src\app\layer-element.ts.LayerElement" xlink:href="src\app\layer-element.ts"><text x="174.5" y="13.5" stroke="none" text-anchor="middle" data-name="LayerElement">LayerElement</text></a>
+
+</g>
+</g>
+<g transform="translate(1114.75, 664.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="LayerElement">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="LayerElement">
+<text x="0.0" y="13.5" stroke="none" data-name="LayerElement">+element: Element</text>
+<text x="0.0" y="28.5" stroke="none" data-name="LayerElement">+showSummaryTextbox: boolean</text>
+<text x="0.0" y="43.5" stroke="none" data-name="LayerElement">+showContentTextbox: boolean</text>
+<text x="0.0" y="58.5" stroke="none" data-name="LayerElement">+showCommentTextbox: boolean</text>
+<text x="0.0" y="73.5" stroke="none" data-name="LayerElement">+summaryComponent: SummaryComponent</text>
+<text x="0.0" y="88.5" stroke="none" data-name="LayerElement">+contentComponent: ContentComponent</text>
+<text x="0.0" y="103.5" stroke="none" data-name="LayerElement">+commentComponent: CommentComponent</text>
+<text x="0.0" y="118.5" stroke="none" data-name="LayerElement">-backendService: BackendService</text>
+<text x="0.0" y="133.5" stroke="none" data-name="LayerElement">-dataService: DataService</text>
+
+</g>
+</g>
+<g transform="translate(1114.75, 815.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="LayerElement">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="LayerElement">
+<text x="0.0" y="13.5" stroke="none" data-name="LayerElement">+moveElementEditor(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="LayerElement">+deleteElement(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="LayerElement">+onBackToParentClick(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="LayerElement">+onExtendChild(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="Element">
+<g fill="#eee8d5" stroke="#33322E" data-name="Element">
+<rect x="1589.3" y="999.0" height="288.0" width="284.0" data-name="Element"></rect>
+<path d="M1589.3 1030.0 L1873.3 1030.0" fill="none" data-name="Element"></path>
+<path d="M1589.3 1121.0 L1873.3 1121.0" fill="none" data-name="Element"></path>
+</g>
+<g transform="translate(1589.25, 999)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Element">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Element">
+<a id="src\app\models\element.ts.Element" xlink:href="src\app\models\element.ts"><text x="134.0" y="13.5" stroke="none" text-anchor="middle" data-name="Element">Element</text></a>
+
+</g>
+</g>
+<g transform="translate(1589.25, 1030)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Element">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Element">
+<text x="0.0" y="13.5" stroke="none" data-name="Element">-id: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Element">-content: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Element">-comment: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Element">-summary: string</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Element">-parent: Element | Root | null</text>
+
+</g>
+</g>
+<g transform="translate(1589.25, 1121)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Element">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Element">
+<text x="0.0" y="13.5" stroke="none" data-name="Element">+getId(): string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Element">+getContent(): string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Element">+getComment(): string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Element">+getSummary(): string</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Element">+getParent(): Element | Root | null</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Element">+setId(): void</text>
+<text x="0.0" y="103.5" stroke="none" data-name="Element">+setContent(): void</text>
+<text x="0.0" y="118.5" stroke="none" data-name="Element">+setComment(): void</text>
+<text x="0.0" y="133.5" stroke="none" data-name="Element">+setSummary(): void</text>
+<text x="0.0" y="148.5" stroke="none" data-name="Element">+changeParent(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="SummaryComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="SummaryComponent">
+<rect x="264.8" y="1108.0" height="70.0" width="181.0" data-name="SummaryComponent"></rect>
+<path d="M264.8 1139.0 L445.8 1139.0" fill="none" data-name="SummaryComponent"></path>
+<path d="M264.8 1170.0 L445.8 1170.0" fill="none" data-name="SummaryComponent"></path>
+</g>
+<g transform="translate(264.75, 1108)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="SummaryComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SummaryComponent">
+<a id="src\app\summary\summary.component.ts.SummaryComponent" xlink:href="src\app\summary\summary.component.ts"><text x="82.5" y="13.5" stroke="none" text-anchor="middle" data-name="SummaryComponent">SummaryComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(264.75, 1139)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SummaryComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SummaryComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="SummaryComponent">+summary: string</text>
+
+</g>
+</g>
+<g transform="translate(264.75, 1170)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SummaryComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="SummaryComponent">
+
+</g>
+</g>
+</g>
+<g data-name="ContentComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="ContentComponent">
+<rect x="485.8" y="1108.0" height="70.0" width="169.0" data-name="ContentComponent"></rect>
+<path d="M485.8 1139.0 L654.8 1139.0" fill="none" data-name="ContentComponent"></path>
+<path d="M485.8 1170.0 L654.8 1170.0" fill="none" data-name="ContentComponent"></path>
+</g>
+<g transform="translate(485.75, 1108)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ContentComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ContentComponent">
+<a id="src\app\content\content.component.ts.ContentComponent" xlink:href="src\app\content\content.component.ts"><text x="76.5" y="13.5" stroke="none" text-anchor="middle" data-name="ContentComponent">ContentComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(485.75, 1139)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ContentComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ContentComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="ContentComponent">+content: string</text>
+
+</g>
+</g>
+<g transform="translate(485.75, 1170)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ContentComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ContentComponent">
+
+</g>
+</g>
+</g>
+<g data-name="CommentComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="CommentComponent">
+<rect x="694.8" y="1108.0" height="70.0" width="182.0" data-name="CommentComponent"></rect>
+<path d="M694.8 1139.0 L876.8 1139.0" fill="none" data-name="CommentComponent"></path>
+<path d="M694.8 1170.0 L876.8 1170.0" fill="none" data-name="CommentComponent"></path>
+</g>
+<g transform="translate(694.75, 1108)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="CommentComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="CommentComponent">
+<a id="src\app\comment\comment.component.ts.CommentComponent" xlink:href="src\app\comment\comment.component.ts"><text x="83.0" y="13.5" stroke="none" text-anchor="middle" data-name="CommentComponent">CommentComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(694.75, 1139)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CommentComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="CommentComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="CommentComponent">+comment: string</text>
+
+</g>
+</g>
+<g transform="translate(694.75, 1170)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="CommentComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="CommentComponent">
+
+</g>
+</g>
+</g>
+<g data-name="BackendService">
+<g fill="#eee8d5" stroke="#33322E" data-name="BackendService">
+<rect x="3332.3" y="939.0" height="408.0" width="365.0" data-name="BackendService"></rect>
+<path d="M3332.3 970.0 L3697.3 970.0" fill="none" data-name="BackendService"></path>
+<path d="M3332.3 1091.0 L3697.3 1091.0" fill="none" data-name="BackendService"></path>
+</g>
+<g transform="translate(3332.25, 939)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="BackendService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="BackendService">
+<a id="src\app\services\backend.service.ts.BackendService" xlink:href="src\app\services\backend.service.ts"><text x="174.5" y="13.5" stroke="none" text-anchor="middle" data-name="BackendService">BackendService</text></a>
+
+</g>
+</g>
+<g transform="translate(3332.25, 970)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BackendService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BackendService">
+<text x="0.0" y="13.5" stroke="none" data-name="BackendService">-baseUrl: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="BackendService">-settings: Settings</text>
+<text x="0.0" y="43.5" stroke="none" data-name="BackendService">-stopPolling$: Subject&lt;void&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="BackendService">-http: HttpClient</text>
+<text x="0.0" y="73.5" stroke="none" data-name="BackendService">-settingsService: SettingsService</text>
+<text x="0.0" y="88.5" stroke="none" data-name="BackendService">-errorPopupService: ErrorPopupService</text>
+<text x="0.0" y="103.5" stroke="none" data-name="BackendService">-dataService: DataService</text>
+
+</g>
+</g>
+<g transform="translate(3332.25, 1091)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="BackendService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="BackendService">
+<text x="0.0" y="13.5" stroke="none" data-name="BackendService">+getBaseUrl(): string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="BackendService">+Export(): Observable&lt;any&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="BackendService">+LoadTree(): Observable&lt;Object[]&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="BackendService">+LoadFullData(): Observable&lt;Object[]&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="BackendService">+CheckForUpdates(): Observable&lt;boolean&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="BackendService">+MoveElementTree(): Observable&lt;Object[]&gt;</text>
+<text x="0.0" y="103.5" stroke="none" data-name="BackendService">+MoveElementEditor(): Observable&lt;Object&gt;</text>
+<text x="0.0" y="118.5" stroke="none" data-name="BackendService">+EditSummary(): Observable&lt;Object&gt;</text>
+<text x="0.0" y="133.5" stroke="none" data-name="BackendService">+EditComment(): Observable&lt;Object&gt;</text>
+<text x="0.0" y="148.5" stroke="none" data-name="BackendService">+EditContent(): Observable&lt;Object&gt;</text>
+<text x="0.0" y="163.5" stroke="none" data-name="BackendService">+DeleteElement(): Observable&lt;Object&gt;</text>
+<text x="0.0" y="178.5" stroke="none" data-name="BackendService">+LoadFromFolder(): Observable&lt;Object&gt;</text>
+<text x="0.0" y="193.5" stroke="none" data-name="BackendService">+LoadFromGit(): Observable&lt;Object&gt;</text>
+<text x="0.0" y="208.5" stroke="none" data-name="BackendService">+startPollingData(): void</text>
+<text x="0.0" y="223.5" stroke="none" data-name="BackendService">+stopPollingData(): void</text>
+<text x="0.0" y="238.5" stroke="none" data-name="BackendService">-handleError(): Observable&lt;never&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="DataService">
+<g fill="#eee8d5" stroke="#33322E" data-name="DataService">
+<rect x="2929.5" y="1640.0" height="243.0" width="434.0" data-name="DataService"></rect>
+<path d="M2929.5 1671.0 L3363.5 1671.0" fill="none" data-name="DataService"></path>
+<path d="M2929.5 1807.0 L3363.5 1807.0" fill="none" data-name="DataService"></path>
+</g>
+<g transform="translate(2929.5, 1640)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="DataService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="DataService">
+<a id="src\app\services\data.service.ts.DataService" xlink:href="src\app\services\data.service.ts"><text x="209.0" y="13.5" stroke="none" text-anchor="middle" data-name="DataService">DataService</text></a>
+
+</g>
+</g>
+<g transform="translate(2929.5, 1671)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DataService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DataService">
+<text x="0.0" y="13.5" stroke="none" data-name="DataService">-activeElement: BehaviorSubject&lt;string&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DataService">+currentActiveElementID: Observable&lt;string&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="DataService">-changeNotifier: BehaviorSubject&lt;number&gt;</text>
+<text x="0.0" y="58.5" stroke="none" data-name="DataService">+currentChange: Observable&lt;number&gt;</text>
+<text x="0.0" y="73.5" stroke="none" data-name="DataService">-navigationElements: BehaviorSubject&lt;Element[]&gt;</text>
+<text x="0.0" y="88.5" stroke="none" data-name="DataService">+currentNavigationElements: Observable&lt;Element[]&gt;</text>
+<text x="0.0" y="103.5" stroke="none" data-name="DataService">-editorElements: BehaviorSubject&lt;Element[]&gt;</text>
+<text x="0.0" y="118.5" stroke="none" data-name="DataService">+currentEditorElements: Observable&lt;Element[]&gt;</text>
+
+</g>
+</g>
+<g transform="translate(2929.5, 1807)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="DataService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="DataService">
+<text x="0.0" y="13.5" stroke="none" data-name="DataService">+changeActiveElement(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="DataService">+notifyChange(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="DataService">+changeNavigationElements(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="DataService">+changeEditorElements(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="EditorLayerComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="EditorLayerComponent">
+<rect x="1673.0" y="53.0" height="47.0" width="198.0" data-name="EditorLayerComponent"></rect>
+<path d="M1673.0 84.0 L1871.0 84.0" fill="none" data-name="EditorLayerComponent"></path>
+<path d="M1673.0 92.0 L1871.0 92.0" fill="none" data-name="EditorLayerComponent"></path>
+</g>
+<g transform="translate(1673, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="EditorLayerComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="EditorLayerComponent">
+<a id="src\app\editor-layer\editor-layer.component.ts.EditorLayerComponent" xlink:href="src\app\editor-layer\editor-layer.component.ts"><text x="91.0" y="13.5" stroke="none" text-anchor="middle" data-name="EditorLayerComponent">EditorLayerComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(1673, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EditorLayerComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="EditorLayerComponent">
+
+</g>
+</g>
+<g transform="translate(1673, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EditorLayerComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="EditorLayerComponent">
+
+</g>
+</g>
+</g>
+<g data-name="ConcreteElement">
+<g fill="#eee8d5" stroke="#33322E" data-name="ConcreteElement">
+<rect x="0.0" y="1470.0" height="47.0" width="152.0" data-name="ConcreteElement"></rect>
+<path d="M0.0 1501.0 L152.0 1501.0" fill="none" data-name="ConcreteElement"></path>
+<path d="M0.0 1509.0 L152.0 1509.0" fill="none" data-name="ConcreteElement"></path>
+</g>
+<g transform="translate(0, 1470)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ConcreteElement">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ConcreteElement">
+<a id="src\app\editor-part\editor-part.component.ts.ConcreteElement" xlink:href="src\app\editor-part\editor-part.component.ts"><text x="68.0" y="13.5" stroke="none" text-anchor="middle" data-name="ConcreteElement">ConcreteElement</text></a>
+
+</g>
+</g>
+<g transform="translate(0, 1501)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ConcreteElement">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ConcreteElement">
+
+</g>
+</g>
+<g transform="translate(0, 1509)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ConcreteElement">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ConcreteElement">
+
+</g>
+</g>
+</g>
+<g data-name="EditorPartComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="EditorPartComponent">
+<rect x="1170.0" y="193.0" height="393.0" width="372.0" data-name="EditorPartComponent"></rect>
+<path d="M1170.0 224.0 L1542.0 224.0" fill="none" data-name="EditorPartComponent"></path>
+<path d="M1170.0 405.0 L1542.0 405.0" fill="none" data-name="EditorPartComponent"></path>
+</g>
+<g transform="translate(1170, 193)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="EditorPartComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="EditorPartComponent">
+<a id="src\app\editor-part\editor-part.component.ts.EditorPartComponent" xlink:href="src\app\editor-part\editor-part.component.ts"><text x="178.0" y="13.5" stroke="none" text-anchor="middle" data-name="EditorPartComponent">EditorPartComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(1170, 224)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EditorPartComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="EditorPartComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="EditorPartComponent">+displayedEditorElementsOld: Element[]</text>
+<text x="0.0" y="28.5" stroke="none" data-name="EditorPartComponent">+layerElements: LayerElement[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="EditorPartComponent">+displayedEditorElements: Element[]</text>
+<text x="0.0" y="58.5" stroke="none" data-name="EditorPartComponent">+hoveredElementID: string | null</text>
+<text x="0.0" y="73.5" stroke="none" data-name="EditorPartComponent">+elementIDToBeEdited: string | null</text>
+<text x="0.0" y="88.5" stroke="none" data-name="EditorPartComponent">+inEditMode: boolean</text>
+<text x="0.0" y="103.5" stroke="none" data-name="EditorPartComponent">+deleteElementChildren: boolean</text>
+<text x="0.0" y="118.5" stroke="none" data-name="EditorPartComponent">+hoveredElement: EventEmitter&lt;string | null&gt;</text>
+<text x="0.0" y="133.5" stroke="none" data-name="EditorPartComponent">-backendService: BackendService</text>
+<text x="0.0" y="148.5" stroke="none" data-name="EditorPartComponent">-converter: JsonToModelConverterService</text>
+<text x="0.0" y="163.5" stroke="none" data-name="EditorPartComponent">-dataService: DataService</text>
+
+</g>
+</g>
+<g transform="translate(1170, 405)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EditorPartComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="EditorPartComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="EditorPartComponent">+onElementHover(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="EditorPartComponent">+ngOnInit(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="EditorPartComponent">+onDelete(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="EditorPartComponent">+isParent(): boolean</text>
+<text x="0.0" y="73.5" stroke="none" data-name="EditorPartComponent">+showChildren(): void</text>
+<text x="0.0" y="88.5" stroke="none" data-name="EditorPartComponent">+showContent(): string</text>
+<text x="0.0" y="103.5" stroke="none" data-name="EditorPartComponent">+onContentUpdated(): void</text>
+<text x="0.0" y="118.5" stroke="none" data-name="EditorPartComponent">+showComment(): string</text>
+<text x="0.0" y="133.5" stroke="none" data-name="EditorPartComponent">+onCommentUpdated(): void</text>
+<text x="0.0" y="148.5" stroke="none" data-name="EditorPartComponent">+showSummary(): string</text>
+<text x="0.0" y="163.5" stroke="none" data-name="EditorPartComponent">+onSummaryUpdated(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="OnInit">
+<g fill="#eee8d5" stroke="#33322E" data-name="OnInit">
+<rect x="1911.0" y="61.0" height="31.0" width="63.0" data-name="OnInit"></rect>
+</g>
+<g transform="translate(1911, 61)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="OnInit">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="OnInit">
+<text x="23.5" y="13.5" stroke="none" text-anchor="middle" data-name="OnInit">OnInit</text>
+
+</g>
+</g>
+</g>
+<g data-name="JsonToModelConverterService">
+<g fill="#eee8d5" stroke="#33322E" data-name="JsonToModelConverterService">
+<rect x="916.8" y="1089.0" height="108.0" width="329.0" data-name="JsonToModelConverterService"></rect>
+<path d="M916.8 1120.0 L1245.8 1120.0" fill="none" data-name="JsonToModelConverterService"></path>
+<path d="M916.8 1151.0 L1245.8 1151.0" fill="none" data-name="JsonToModelConverterService"></path>
+</g>
+<g transform="translate(916.75, 1089)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="JsonToModelConverterService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="JsonToModelConverterService">
+<a id="src\app\services\json-to-model-converter.service.ts.JsonToModelConverterService" xlink:href="src\app\services\json-to-model-converter.service.ts"><text x="156.5" y="13.5" stroke="none" text-anchor="middle" data-name="JsonToModelConverterService">JsonToModelConverterService</text></a>
+
+</g>
+</g>
+<g transform="translate(916.75, 1120)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="JsonToModelConverterService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="JsonToModelConverterService">
+<text x="0.0" y="13.5" stroke="none" data-name="JsonToModelConverterService">-errorPopupService: ErrorPopupService</text>
+
+</g>
+</g>
+<g transform="translate(916.75, 1151)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="JsonToModelConverterService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="JsonToModelConverterService">
+<text x="0.0" y="13.5" stroke="none" data-name="JsonToModelConverterService">+convert(): Observable&lt;boolean&gt;</text>
+<text x="0.0" y="28.5" stroke="none" data-name="JsonToModelConverterService">-processItem(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="EditorViewComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="EditorViewComponent">
+<rect x="1741.0" y="626.0" height="273.0" width="305.0" data-name="EditorViewComponent"></rect>
+<path d="M1741.0 657.0 L2046.0 657.0" fill="none" data-name="EditorViewComponent"></path>
+<path d="M1741.0 793.0 L2046.0 793.0" fill="none" data-name="EditorViewComponent"></path>
+</g>
+<g transform="translate(1741, 626)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="EditorViewComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="EditorViewComponent">
+<a id="src\app\editor-view\editor-view.component.ts.EditorViewComponent" xlink:href="src\app\editor-view\editor-view.component.ts"><text x="144.5" y="13.5" stroke="none" text-anchor="middle" data-name="EditorViewComponent">EditorViewComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(1741, 657)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EditorViewComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="EditorViewComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="EditorViewComponent">+rootInstance: Root</text>
+<text x="0.0" y="28.5" stroke="none" data-name="EditorViewComponent">+displayedEditorElements: Element[]</text>
+<text x="0.0" y="43.5" stroke="none" data-name="EditorViewComponent">+displayedNavElements: Element[]</text>
+<text x="0.0" y="58.5" stroke="none" data-name="EditorViewComponent">+parentElement: Element | null</text>
+<text x="0.0" y="73.5" stroke="none" data-name="EditorViewComponent">+hoveredElementID: string | null</text>
+<text x="0.0" y="88.5" stroke="none" data-name="EditorViewComponent">+currentElementID: string | null</text>
+<text x="0.0" y="103.5" stroke="none" data-name="EditorViewComponent">+currentElement: Element | null</text>
+<text x="0.0" y="118.5" stroke="none" data-name="EditorViewComponent">-dataService: DataService</text>
+
+</g>
+</g>
+<g transform="translate(1741, 793)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="EditorViewComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="EditorViewComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="EditorViewComponent">+ngOnInit(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="EditorViewComponent">+updateEditorElements(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="EditorViewComponent">+updateNavElement(): void</text>
+<text x="0.0" y="58.5" stroke="none" data-name="EditorViewComponent">+onElementHover(): void</text>
+<text x="0.0" y="73.5" stroke="none" data-name="EditorViewComponent">+isElementHovered(): boolean</text>
+<text x="0.0" y="88.5" stroke="none" data-name="EditorViewComponent">+updateEditor(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="Root">
+<g fill="#eee8d5" stroke="#33322E" data-name="Root">
+<rect x="192.0" y="1387.0" height="213.0" width="283.0" data-name="Root"></rect>
+<path d="M192.0 1418.0 L475.0 1418.0" fill="none" data-name="Root"></path>
+<path d="M192.0 1464.0 L475.0 1464.0" fill="none" data-name="Root"></path>
+</g>
+<g transform="translate(192, 1387)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Root">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Root">
+<a id="src\app\models\root.ts.Root" xlink:href="src\app\models\root.ts"><text x="133.5" y="13.5" stroke="none" text-anchor="middle" data-name="Root">Root</text></a>
+
+</g>
+</g>
+<g transform="translate(192, 1418)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Root">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Root">
+<text x="0.0" y="13.5" stroke="none" data-name="Root">-static instance: Root</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Root">-children: Element[]</text>
+
+</g>
+</g>
+<g transform="translate(192, 1464)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Root">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Root">
+<text x="0.0" y="13.5" stroke="none" data-name="Root">+static createRoot(): Root</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Root">+addChild(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Root">+removeChild(): boolean</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Root">+searchByID(): Element | null</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Root">+getElementsOfLayer(): Element[]</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Root">-getDepth(): number</text>
+<text x="0.0" y="103.5" stroke="none" data-name="Root">+getChildren(): Element[]</text>
+<text x="0.0" y="118.5" stroke="none" data-name="Root">+clear(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="ElementContentComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="ElementContentComponent">
+<rect x="2014.0" y="53.0" height="47.0" width="233.0" data-name="ElementContentComponent"></rect>
+<path d="M2014.0 84.0 L2247.0 84.0" fill="none" data-name="ElementContentComponent"></path>
+<path d="M2014.0 92.0 L2247.0 92.0" fill="none" data-name="ElementContentComponent"></path>
+</g>
+<g transform="translate(2014, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ElementContentComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ElementContentComponent">
+<a id="src\app\element-content\element-content.component.ts.ElementContentComponent" xlink:href="src\app\element-content\element-content.component.ts"><text x="108.5" y="13.5" stroke="none" text-anchor="middle" data-name="ElementContentComponent">ElementContentComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2014, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ElementContentComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ElementContentComponent">
+
+</g>
+</g>
+<g transform="translate(2014, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ElementContentComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ElementContentComponent">
+
+</g>
+</g>
+</g>
+<g data-name="ElementTitleComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="ElementTitleComponent">
+<rect x="2287.0" y="53.0" height="47.0" width="204.0" data-name="ElementTitleComponent"></rect>
+<path d="M2287.0 84.0 L2491.0 84.0" fill="none" data-name="ElementTitleComponent"></path>
+<path d="M2287.0 92.0 L2491.0 92.0" fill="none" data-name="ElementTitleComponent"></path>
+</g>
+<g transform="translate(2287, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ElementTitleComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ElementTitleComponent">
+<a id="src\app\element-title\element-title.component.ts.ElementTitleComponent" xlink:href="src\app\element-title\element-title.component.ts"><text x="94.0" y="13.5" stroke="none" text-anchor="middle" data-name="ElementTitleComponent">ElementTitleComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2287, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ElementTitleComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ElementTitleComponent">
+
+</g>
+</g>
+<g transform="translate(2287, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ElementTitleComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="ElementTitleComponent">
+
+</g>
+</g>
+</g>
+<g data-name="ErrorPopupComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="ErrorPopupComponent">
+<rect x="2846.0" y="1066.5" height="153.0" width="329.0" data-name="ErrorPopupComponent"></rect>
+<path d="M2846.0 1097.5 L3175.0 1097.5" fill="none" data-name="ErrorPopupComponent"></path>
+<path d="M2846.0 1173.5 L3175.0 1173.5" fill="none" data-name="ErrorPopupComponent"></path>
+</g>
+<g transform="translate(2846, 1066.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ErrorPopupComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ErrorPopupComponent">
+<a id="src\app\error-popup\error-popup.component.ts.ErrorPopupComponent" xlink:href="src\app\error-popup\error-popup.component.ts"><text x="156.5" y="13.5" stroke="none" text-anchor="middle" data-name="ErrorPopupComponent">ErrorPopupComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2846, 1097.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ErrorPopupComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ErrorPopupComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="ErrorPopupComponent">-errorMessage: string | null</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ErrorPopupComponent">-settings: Settings</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ErrorPopupComponent">-errorPopupService: ErrorPopupService</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ErrorPopupComponent">-settingsService: SettingsService</text>
+
+</g>
+</g>
+<g transform="translate(2846, 1173.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ErrorPopupComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ErrorPopupComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="ErrorPopupComponent">+ngOnInit(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ErrorPopupComponent">+getErrorMessage(): string | null</text>
+
+</g>
+</g>
+</g>
+<g data-name="Settings">
+<g fill="lightblue" stroke="#33322E" data-name="Settings">
+<rect x="3705.8" y="1689.0" height="145.0" width="233.0" data-name="Settings"></rect>
+<path d="M3705.8 1720.0 L3938.8 1720.0" fill="none" data-name="Settings"></path>
+<path d="M3705.8 1826.0 L3938.8 1826.0" fill="none" data-name="Settings"></path>
+</g>
+<g transform="translate(3705.75, 1689)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Settings">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Settings">
+<a id="src\app\services\settings.ts.Settings" xlink:href="src\app\services\settings.ts"><text x="108.5" y="13.5" stroke="none" text-anchor="middle" data-name="Settings">Settings</text></a>
+
+</g>
+</g>
+<g transform="translate(3705.75, 1720)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Settings">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Settings">
+<text x="0.0" y="13.5" stroke="none" data-name="Settings">+theme: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Settings">+hideLeavesTree: boolean</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Settings">+deleteCascading: boolean</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Settings">+hideComments: boolean</text>
+<text x="0.0" y="73.5" stroke="none" data-name="Settings">+hideSummaries: boolean</text>
+<text x="0.0" y="88.5" stroke="none" data-name="Settings">+popupDuration: number</text>
+
+</g>
+</g>
+<g transform="translate(3705.75, 1826)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Settings">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Settings">
+
+</g>
+</g>
+</g>
+<g data-name="ErrorPopupService">
+<g fill="#eee8d5" stroke="#33322E" data-name="ErrorPopupService">
+<rect x="871.8" y="1439.5" height="108.0" width="339.0" data-name="ErrorPopupService"></rect>
+<path d="M871.8 1470.5 L1210.8 1470.5" fill="none" data-name="ErrorPopupService"></path>
+<path d="M871.8 1501.5 L1210.8 1501.5" fill="none" data-name="ErrorPopupService"></path>
+</g>
+<g transform="translate(871.75, 1439.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ErrorPopupService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ErrorPopupService">
+<a id="src\app\services\error-popup.service.ts.ErrorPopupService" xlink:href="src\app\services\error-popup.service.ts"><text x="161.5" y="13.5" stroke="none" text-anchor="middle" data-name="ErrorPopupService">ErrorPopupService</text></a>
+
+</g>
+</g>
+<g transform="translate(871.75, 1470.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ErrorPopupService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ErrorPopupService">
+<text x="0.0" y="13.5" stroke="none" data-name="ErrorPopupService">-errorSubject: Subject&lt;string&gt;</text>
+
+</g>
+</g>
+<g transform="translate(871.75, 1501.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ErrorPopupService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ErrorPopupService">
+<text x="0.0" y="13.5" stroke="none" data-name="ErrorPopupService">+setErrorMessage(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ErrorPopupService">+getErrorMessage(): Observable&lt;string&gt;</text>
+
+</g>
+</g>
+</g>
+<g data-name="SettingsService">
+<g fill="#eee8d5" stroke="#33322E" data-name="SettingsService">
+<rect x="3515.5" y="1432.0" height="123.0" width="222.0" data-name="SettingsService"></rect>
+<path d="M3515.5 1463.0 L3737.5 1463.0" fill="none" data-name="SettingsService"></path>
+<path d="M3515.5 1509.0 L3737.5 1509.0" fill="none" data-name="SettingsService"></path>
+</g>
+<g transform="translate(3515.5, 1432)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="SettingsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SettingsService">
+<a id="src\app\services\settings.ts.SettingsService" xlink:href="src\app\services\settings.ts"><text x="103.0" y="13.5" stroke="none" text-anchor="middle" data-name="SettingsService">SettingsService</text></a>
+
+</g>
+</g>
+<g transform="translate(3515.5, 1463)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SettingsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SettingsService">
+<text x="0.0" y="13.5" stroke="none" data-name="SettingsService">+settings: Settings</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SettingsService">-dataService: DataService</text>
+
+</g>
+</g>
+<g transform="translate(3515.5, 1509)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SettingsService">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SettingsService">
+<text x="0.0" y="13.5" stroke="none" data-name="SettingsService">+getSettings(): Settings</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SettingsService">+updateSettings(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="HeaderComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="HeaderComponent">
+<rect x="2531.0" y="53.0" height="47.0" width="165.0" data-name="HeaderComponent"></rect>
+<path d="M2531.0 84.0 L2696.0 84.0" fill="none" data-name="HeaderComponent"></path>
+<path d="M2531.0 92.0 L2696.0 92.0" fill="none" data-name="HeaderComponent"></path>
+</g>
+<g transform="translate(2531, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="HeaderComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="HeaderComponent">
+<a id="src\app\header\header.component.ts.HeaderComponent" xlink:href="src\app\header\header.component.ts"><text x="74.5" y="13.5" stroke="none" text-anchor="middle" data-name="HeaderComponent">HeaderComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2531, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="HeaderComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="HeaderComponent">
+
+</g>
+</g>
+<g transform="translate(2531, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="HeaderComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="HeaderComponent">
+
+</g>
+</g>
+</g>
+<g data-name="ImportComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="ImportComponent">
+<rect x="2416.0" y="641.0" height="243.0" width="350.0" data-name="ImportComponent"></rect>
+<path d="M2416.0 672.0 L2766.0 672.0" fill="none" data-name="ImportComponent"></path>
+<path d="M2416.0 823.0 L2766.0 823.0" fill="none" data-name="ImportComponent"></path>
+</g>
+<g transform="translate(2416, 641)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="ImportComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="ImportComponent">
+<a id="src\app\import\import.component.ts.ImportComponent" xlink:href="src\app\import\import.component.ts"><text x="167.0" y="13.5" stroke="none" text-anchor="middle" data-name="ImportComponent">ImportComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2416, 672)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ImportComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ImportComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="ImportComponent">+folderPath: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ImportComponent">+gitUrl: string</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ImportComponent">+gitUsername: string</text>
+<text x="0.0" y="58.5" stroke="none" data-name="ImportComponent">+gitPassword: string</text>
+<text x="0.0" y="73.5" stroke="none" data-name="ImportComponent">+gitPath: string</text>
+<text x="0.0" y="88.5" stroke="none" data-name="ImportComponent">-backendService: BackendService</text>
+<text x="0.0" y="103.5" stroke="none" data-name="ImportComponent">-converter: JsonToModelConverterService</text>
+<text x="0.0" y="118.5" stroke="none" data-name="ImportComponent">-dataService: DataService</text>
+<text x="0.0" y="133.5" stroke="none" data-name="ImportComponent">-router: Router</text>
+
+</g>
+</g>
+<g transform="translate(2416, 823)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="ImportComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="ImportComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="ImportComponent">+loadFromFolder(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="ImportComponent">+loadFromGit(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="ImportComponent">-startImpuls(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="LatexRenderComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="LatexRenderComponent">
+<rect x="1644.5" y="320.5" height="138.0" width="209.0" data-name="LatexRenderComponent"></rect>
+<path d="M1644.5 351.5 L1853.5 351.5" fill="none" data-name="LatexRenderComponent"></path>
+<path d="M1644.5 412.5 L1853.5 412.5" fill="none" data-name="LatexRenderComponent"></path>
+</g>
+<g transform="translate(1644.5, 320.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="LatexRenderComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="LatexRenderComponent">
+<a id="src\app\latex-render\latex-render.component.ts.LatexRenderComponent" xlink:href="src\app\latex-render\latex-render.component.ts"><text x="96.5" y="13.5" stroke="none" text-anchor="middle" data-name="LatexRenderComponent">LatexRenderComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(1644.5, 351.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="LatexRenderComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="LatexRenderComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="LatexRenderComponent">+latex: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="LatexRenderComponent">-el: ElementRef&lt;any&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="LatexRenderComponent">-renderer: Renderer2</text>
+
+</g>
+</g>
+<g transform="translate(1644.5, 412.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="LatexRenderComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="LatexRenderComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="LatexRenderComponent">+ngOnInit(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="LatexRenderComponent">-renderMath(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="Caption">
+<g fill="#eee8d5" stroke="#33322E" data-name="Caption">
+<rect x="3997.8" y="2116.0" height="108.0" width="179.0" data-name="Caption"></rect>
+<path d="M3997.8 2147.0 L4176.8 2147.0" fill="none" data-name="Caption"></path>
+<path d="M3997.8 2178.0 L4176.8 2178.0" fill="none" data-name="Caption"></path>
+</g>
+<g transform="translate(3997.75, 2116)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Caption">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Caption">
+<a id="src\app\models\caption.ts.Caption" xlink:href="src\app\models\caption.ts"><text x="81.5" y="13.5" stroke="none" text-anchor="middle" data-name="Caption">Caption</text></a>
+
+</g>
+</g>
+<g transform="translate(3997.75, 2147)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Caption">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Caption">
+<text x="0.0" y="13.5" stroke="none" data-name="Caption">-content: string</text>
+
+</g>
+</g>
+<g transform="translate(3997.75, 2178)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Caption">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Caption">
+<text x="0.0" y="13.5" stroke="none" data-name="Caption">+getContent(): string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Caption">+setContent(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="Child">
+<g fill="#eee8d5" stroke="#33322E" data-name="Child">
+<rect x="1703.3" y="1470.0" height="47.0" width="56.0" data-name="Child"></rect>
+<path d="M1703.3 1501.0 L1759.3 1501.0" fill="none" data-name="Child"></path>
+<path d="M1703.3 1509.0 L1759.3 1509.0" fill="none" data-name="Child"></path>
+</g>
+<g transform="translate(1703.25, 1470)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Child">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Child">
+<a id="src\app\models\child.ts.Child" xlink:href="src\app\models\child.ts"><text x="20.0" y="13.5" stroke="none" text-anchor="middle" data-name="Child">Child</text></a>
+
+</g>
+</g>
+<g transform="translate(1703.25, 1501)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Child">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Child">
+
+</g>
+</g>
+<g transform="translate(1703.25, 1509)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Child">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Child">
+
+</g>
+</g>
+</g>
+<g data-name="Environment">
+<g fill="#eee8d5" stroke="#33322E" data-name="Environment">
+<rect x="4029.8" y="1738.0" height="47.0" width="115.0" data-name="Environment"></rect>
+<path d="M4029.8 1769.0 L4144.8 1769.0" fill="none" data-name="Environment"></path>
+<path d="M4029.8 1777.0 L4144.8 1777.0" fill="none" data-name="Environment"></path>
+</g>
+<g transform="translate(4029.75, 1738)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Environment">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Environment">
+<a id="src\app\models\environment.ts.Environment" xlink:href="src\app\models\environment.ts"><text x="49.5" y="13.5" stroke="none" text-anchor="middle" data-name="Environment">Environment</text></a>
+
+</g>
+</g>
+<g transform="translate(4029.75, 1769)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Environment">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Environment">
+
+</g>
+</g>
+<g transform="translate(4029.75, 1777)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Environment">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Environment">
+
+</g>
+</g>
+</g>
+<g data-name="Parent">
+<g fill="#eee8d5" stroke="#33322E" data-name="Parent">
+<rect x="4062.0" y="1424.5" height="138.0" width="249.0" data-name="Parent"></rect>
+<path d="M4062.0 1455.5 L4311.0 1455.5" fill="none" data-name="Parent"></path>
+<path d="M4062.0 1486.5 L4311.0 1486.5" fill="none" data-name="Parent"></path>
+</g>
+<g transform="translate(4062, 1424.5)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Parent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Parent">
+<a id="src\app\models\parent.ts.Parent" xlink:href="src\app\models\parent.ts"><text x="116.5" y="13.5" stroke="none" text-anchor="middle" data-name="Parent">Parent</text></a>
+
+</g>
+</g>
+<g transform="translate(4062, 1455.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Parent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Parent">
+<text x="0.0" y="13.5" stroke="none" data-name="Parent">-children: Element[]</text>
+
+</g>
+</g>
+<g transform="translate(4062, 1486.5)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Parent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Parent">
+<text x="0.0" y="13.5" stroke="none" data-name="Parent">+addChild(): boolean</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Parent">+removeChild(): boolean</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Parent">+getPrevious(): Element | null</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Parent">+getChildren(): Element[]</text>
+
+</g>
+</g>
+</g>
+<g data-name="Input">
+<g fill="#eee8d5" stroke="#33322E" data-name="Input">
+<rect x="4184.8" y="1738.0" height="47.0" width="56.0" data-name="Input"></rect>
+<path d="M4184.8 1769.0 L4240.8 1769.0" fill="none" data-name="Input"></path>
+<path d="M4184.8 1777.0 L4240.8 1777.0" fill="none" data-name="Input"></path>
+</g>
+<g transform="translate(4184.75, 1738)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Input">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Input">
+<a id="src\app\models\input.ts.Input" xlink:href="src\app\models\input.ts"><text x="20.0" y="13.5" stroke="none" text-anchor="middle" data-name="Input">Input</text></a>
+
+</g>
+</g>
+<g transform="translate(4184.75, 1769)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Input">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Input">
+
+</g>
+</g>
+<g transform="translate(4184.75, 1777)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Input">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Input">
+
+</g>
+</g>
+</g>
+<g data-name="Label">
+<g fill="#eee8d5" stroke="#33322E" data-name="Label">
+<rect x="2980.5" y="1470.0" height="47.0" width="60.0" data-name="Label"></rect>
+<path d="M2980.5 1501.0 L3040.5 1501.0" fill="none" data-name="Label"></path>
+<path d="M2980.5 1509.0 L3040.5 1509.0" fill="none" data-name="Label"></path>
+</g>
+<g transform="translate(2980.5, 1470)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Label">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Label">
+<a id="src\app\models\label.ts.Label" xlink:href="src\app\models\label.ts"><text x="22.0" y="13.5" stroke="none" text-anchor="middle" data-name="Label">Label</text></a>
+
+</g>
+</g>
+<g transform="translate(2980.5, 1501)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Label">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Label">
+
+</g>
+</g>
+<g transform="translate(2980.5, 1509)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Label">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Label">
+
+</g>
+</g>
+</g>
+<g data-name="Sectioning">
+<g fill="#eee8d5" stroke="#33322E" data-name="Sectioning">
+<rect x="4280.8" y="1738.0" height="47.0" width="99.0" data-name="Sectioning"></rect>
+<path d="M4280.8 1769.0 L4379.8 1769.0" fill="none" data-name="Sectioning"></path>
+<path d="M4280.8 1777.0 L4379.8 1777.0" fill="none" data-name="Sectioning"></path>
+</g>
+<g transform="translate(4280.75, 1738)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Sectioning">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Sectioning">
+<a id="src\app\models\sectioning.ts.Sectioning" xlink:href="src\app\models\sectioning.ts"><text x="41.5" y="13.5" stroke="none" text-anchor="middle" data-name="Sectioning">Sectioning</text></a>
+
+</g>
+</g>
+<g transform="translate(4280.75, 1769)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Sectioning">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Sectioning">
+
+</g>
+</g>
+<g transform="translate(4280.75, 1777)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Sectioning">
+<g transform="translate(8, 8)" fill="#33322E" data-name="Sectioning">
+
+</g>
+</g>
+</g>
+<g data-name="NavElementComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="NavElementComponent">
+<rect x="2736.0" y="53.0" height="47.0" width="202.0" data-name="NavElementComponent"></rect>
+<path d="M2736.0 84.0 L2938.0 84.0" fill="none" data-name="NavElementComponent"></path>
+<path d="M2736.0 92.0 L2938.0 92.0" fill="none" data-name="NavElementComponent"></path>
+</g>
+<g transform="translate(2736, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="NavElementComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="NavElementComponent">
+<a id="src\app\nav-element\nav-element.component.ts.NavElementComponent" xlink:href="src\app\nav-element\nav-element.component.ts"><text x="93.0" y="13.5" stroke="none" text-anchor="middle" data-name="NavElementComponent">NavElementComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2736, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NavElementComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="NavElementComponent">
+
+</g>
+</g>
+<g transform="translate(2736, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NavElementComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="NavElementComponent">
+
+</g>
+</g>
+</g>
+<g data-name="NavigationPartComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="NavigationPartComponent">
+<rect x="2086.0" y="716.0" height="93.0" width="290.0" data-name="NavigationPartComponent"></rect>
+<path d="M2086.0 747.0 L2376.0 747.0" fill="none" data-name="NavigationPartComponent"></path>
+<path d="M2086.0 778.0 L2376.0 778.0" fill="none" data-name="NavigationPartComponent"></path>
+</g>
+<g transform="translate(2086, 716)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="NavigationPartComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="NavigationPartComponent">
+<a id="src\app\navigation-part\navigation-part.component.ts.NavigationPartComponent" xlink:href="src\app\navigation-part\navigation-part.component.ts"><text x="137.0" y="13.5" stroke="none" text-anchor="middle" data-name="NavigationPartComponent">NavigationPartComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2086, 747)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NavigationPartComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="NavigationPartComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="NavigationPartComponent">+displayedNavElements: Element[]</text>
+
+</g>
+</g>
+<g transform="translate(2086, 778)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="NavigationPartComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="NavigationPartComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="NavigationPartComponent">+ngOnChanges(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="SettingsComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="SettingsComponent">
+<rect x="3737.3" y="1089.0" height="108.0" width="276.0" data-name="SettingsComponent"></rect>
+<path d="M3737.3 1120.0 L4013.3 1120.0" fill="none" data-name="SettingsComponent"></path>
+<path d="M3737.3 1166.0 L4013.3 1166.0" fill="none" data-name="SettingsComponent"></path>
+</g>
+<g transform="translate(3737.25, 1089)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="SettingsComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="SettingsComponent">
+<a id="src\app\settings\settings.component.ts.SettingsComponent" xlink:href="src\app\settings\settings.component.ts"><text x="130.0" y="13.5" stroke="none" text-anchor="middle" data-name="SettingsComponent">SettingsComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(3737.25, 1120)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SettingsComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SettingsComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="SettingsComponent">+settings: Settings</text>
+<text x="0.0" y="28.5" stroke="none" data-name="SettingsComponent">-settingsService: SettingsService</text>
+
+</g>
+</g>
+<g transform="translate(3737.25, 1166)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="SettingsComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="SettingsComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="SettingsComponent">+updateSettings(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="TextEditorComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="TextEditorComponent">
+<rect x="2978.0" y="0.0" height="153.0" width="296.0" data-name="TextEditorComponent"></rect>
+<path d="M2978.0 31.0 L3274.0 31.0" fill="none" data-name="TextEditorComponent"></path>
+<path d="M2978.0 107.0 L3274.0 107.0" fill="none" data-name="TextEditorComponent"></path>
+</g>
+<g transform="translate(2978, 0)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="TextEditorComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="TextEditorComponent">
+<a id="src\app\text-editor\text-editor.component.ts.TextEditorComponent" xlink:href="src\app\text-editor\text-editor.component.ts"><text x="140.0" y="13.5" stroke="none" text-anchor="middle" data-name="TextEditorComponent">TextEditorComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(2978, 31)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TextEditorComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="TextEditorComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="TextEditorComponent">+text: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="TextEditorComponent">+textUpdated: EventEmitter&lt;string&gt;</text>
+<text x="0.0" y="43.5" stroke="none" data-name="TextEditorComponent">+isEditMode: boolean</text>
+<text x="0.0" y="58.5" stroke="none" data-name="TextEditorComponent">+editedText: string</text>
+
+</g>
+</g>
+<g transform="translate(2978, 107)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TextEditorComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="TextEditorComponent">
+<text x="0.0" y="13.5" stroke="none" data-name="TextEditorComponent">+enterEditMode(): void</text>
+<text x="0.0" y="28.5" stroke="none" data-name="TextEditorComponent">+saveText(): void</text>
+
+</g>
+</g>
+</g>
+<g data-name="TreeViewComponent">
+<g fill="#eee8d5" stroke="#33322E" data-name="TreeViewComponent">
+<rect x="3314.0" y="53.0" height="47.0" width="180.0" data-name="TreeViewComponent"></rect>
+<path d="M3314.0 84.0 L3494.0 84.0" fill="none" data-name="TreeViewComponent"></path>
+<path d="M3314.0 92.0 L3494.0 92.0" fill="none" data-name="TreeViewComponent"></path>
+</g>
+<g transform="translate(3314, 53)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="TreeViewComponent">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="TreeViewComponent">
+<a id="src\app\tree-view\tree-view.component.ts.TreeViewComponent" xlink:href="src\app\tree-view\tree-view.component.ts"><text x="82.0" y="13.5" stroke="none" text-anchor="middle" data-name="TreeViewComponent">TreeViewComponent</text></a>
+
+</g>
+</g>
+<g transform="translate(3314, 84)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TreeViewComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="TreeViewComponent">
+
+</g>
+</g>
+<g transform="translate(3314, 92)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="TreeViewComponent">
+<g transform="translate(8, 8)" fill="#33322E" data-name="TreeViewComponent">
+
+</g>
+</g>
+</g>
+<g data-name="Figure">
+<g fill="#eee8d5" stroke="#33322E" data-name="Figure">
+<rect x="3980.3" y="1923.0" height="153.0" width="214.0" data-name="Figure"></rect>
+<path d="M3980.3 1954.0 L4194.3 1954.0" fill="none" data-name="Figure"></path>
+<path d="M3980.3 2000.0 L4194.3 2000.0" fill="none" data-name="Figure"></path>
+</g>
+<g transform="translate(3980.25, 1923)" font-family="Helvetica" font-size="12pt" font-weight="bold" font-style="normal" data-name="Figure">
+<g transform="translate(8, 8)" fill="#33322E" text-align="center" data-name="Figure">
+<a id="src\app\models\environments\figure.ts.Figure" xlink:href="src\app\models\environments\figure.ts"><text x="99.0" y="13.5" stroke="none" text-anchor="middle" data-name="Figure">Figure</text></a>
+
+</g>
+</g>
+<g transform="translate(3980.25, 1954)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Figure">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Figure">
+<text x="0.0" y="13.5" stroke="none" data-name="Figure">-fileLocation: string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Figure">-captions: Caption[]</text>
+
+</g>
+</g>
+<g transform="translate(3980.25, 2000)" font-family="Helvetica" font-size="12pt" font-weight="normal" font-style="normal" data-name="Figure">
+<g transform="translate(8, 8)" fill="#33322E" text-align="left" data-name="Figure">
+<text x="0.0" y="13.5" stroke="none" data-name="Figure">+getFileLocation(): string</text>
+<text x="0.0" y="28.5" stroke="none" data-name="Figure">+setFileLocation(): void</text>
+<text x="0.0" y="43.5" stroke="none" data-name="Figure">+getCaptions(): Caption[]</text>
+<text x="0.0" y="58.5" stroke="none" data-name="Figure">+addCaption(): void</text>
+
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

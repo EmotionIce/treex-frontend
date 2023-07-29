@@ -1,4 +1,21 @@
 <app-header></app-header>
-<p>tree-view works!</p>
 
-<app-error-popup></app-error-popup>
+<!--
+<div>
+    <button class= "collapseButton">Baum einklappen/ausklappen</button>
+</div> -->
+
+<ejs-diagram
+width = "100%" height = "850px" 
+[dataSourceSettings] = "jsonDatasourceSettings"
+[layout] = "layoutSettings"
+[getNodeDefaults] = "getNodeDefaults"
+[getConnectorDefaults] = "getConnectorDefaults"
+[snapSettings] = "RemoveGridLines"
+(drop) = "drop($event)" 
+(mouseOver) = "onNodeHover($event)"
+(doubleClick)= "doubleClick($event)">
+
+</ejs-diagram>
+
+<app-summary></app-summary>

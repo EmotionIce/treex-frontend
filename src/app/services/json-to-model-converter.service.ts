@@ -11,8 +11,6 @@ import { Input } from '../models/input';
 import { Sectioning } from '../models/sectioning';
 import { Environment } from '../models/environment';
 import { Figure } from '../models/environments/figure';
-import { Algorithm } from '../models/environments/algorithm';
-import { Equation } from '../models/environments/equation';
 import { Caption } from '../models/caption';
 
 import { ErrorPopupService } from './error-popup.service';
@@ -23,6 +21,12 @@ import { ErrorPopupService } from './error-popup.service';
 export class JsonToModelConverterService {
   constructor(private errorPopupService: ErrorPopupService) {}
 
+  /**
+   * Converts the given json data to a composite data structure starting with root
+   * 
+   * @param jsonData$ input json data
+   * @returns true if the conversion was successful, false if not
+   */
   public convert(jsonData$: Observable<Object>): Observable<boolean> {
     return jsonData$.pipe(
       map((jsonData) => {
@@ -46,6 +50,12 @@ export class JsonToModelConverterService {
     );
   }
 
+  /**
+   * Generates an element from the given json data and adds it to the given parent
+   * 
+   * @param item json data of the element to be processed
+   * @param parent parent of the element to be processed
+   */
   private processItem(item: any, parent: Parent | Root): void {
     let createdElement: Element | null = null;
     const { id, type, content, comment, summary } = item;
@@ -78,12 +88,6 @@ export class JsonToModelConverterService {
           figure.addCaption(captionModel);
         });
         createdElement = figure;
-        break;
-      case 'Algorithm':
-        createdElement = new Algorithm(id, content, comment, summary, parent);
-        break;
-      case 'Equation':
-        createdElement = new Equation(id, content, comment, summary, parent);
         break;
       case 'Input':
         createdElement = new Input(id, content, comment, summary, parent);

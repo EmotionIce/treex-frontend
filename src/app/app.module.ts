@@ -23,7 +23,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { ErrorPopupComponent } from './error-popup/error-popup.component';
-import { SummaryComponent } from './summary/summary.component';
 import { CommentComponent } from './comment/comment.component';
 import { ContentComponent } from './content/content.component';
 import { TextEditorComponent } from './text-editor/text-editor.component';
@@ -40,6 +39,12 @@ import { BackendService } from './services/backend.service';
 import { ErrorPopupService } from './services/error-popup.service';
 import { SettingsService } from './services/settings';
 import { LatexRenderComponent } from './latex-render/latex-render.component';
+import { SummaryComponent } from './summary/summary.component';
+
+import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
+import {TooltipModule} from '@syncfusion/ej2-angular-popups';
+
+
 
 @NgModule({
   declarations: [
@@ -55,12 +60,12 @@ import { LatexRenderComponent } from './latex-render/latex-render.component';
     NavigationPartComponent,
     SettingsComponent,
     ErrorPopupComponent,
-    SummaryComponent,
     CommentComponent,
     ContentComponent,
     TextEditorComponent,
     ImportComponent,
     LatexRenderComponent,
+    SummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -77,8 +82,11 @@ import { LatexRenderComponent } from './latex-render/latex-render.component';
     MatInputModule,
     MatSnackBarModule,
     DragDropModule,
+    DiagramModule,
+    TooltipModule
   ],
-  providers: [BackendService, ErrorPopupService, SettingsService],
+
+  providers: [SettingsService, DataBindingService, SnappingService, ComplexHierarchicalTreeService, BackendService, ErrorPopupService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

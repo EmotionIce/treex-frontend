@@ -32,34 +32,67 @@ export class BackendService {
     this.handleError = this.handleError.bind(this);
   }
 
+  /**
+   * Returns the base url of the backend
+   * 
+   * @returns the base url of the backend
+   */
   public getBaseUrl(): string {
     return this.baseUrl;
   }
 
+  /**
+   * Sends a request to the backend to push the current data to the git repository / save to folder
+   * 
+   * @returns no specific return value expected
+   */
   public Export(): Observable<any> {
     return this.http
       .get<Array<Object>>(`${this.baseUrl}/Export`)
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Loads data structure that is required for tree view
+   * 
+   * @returns Array of Objects that represent the tree structure for tree view
+   */
   public LoadTree(): Observable<Array<Object>> {
     return this.http
       .get<Array<Object>>(`${this.baseUrl}/LoadTreeData`)
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Loads json data needed to build composite data structure
+   * 
+   * @returns Array of Objects that represent the composite data structure
+   */
   public LoadFullData(): Observable<Array<Object>> {
     return this.http
       .get<Array<Object>>(`${this.baseUrl}/LoadFullData`)
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Asks the backend if there were any external changes to the files / git repository
+   * 
+   * @returns true if the backend has updates, false if not
+   */
   public CheckForUpdates(): Observable<boolean> {
     return this.http
       .get<boolean>(`${this.baseUrl}/CheckForUpdates`)
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Moves an element in the tree view
+   * 
+   * @param e Element to be moved
+   * @param p New Parent
+   * @param pc Previous Child in children list or null if it is the first element
+   * @returns Array of Objects that represent the tree structure for tree view
+   */
   public MoveElementTree(
     e: string,
     p: string,
@@ -76,15 +109,23 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Moves an element in the editor view
+   * 
+   * @param e Element to be moved
+   * @param p  New Parent
+   * @param pc Previous Child in children list or null if it is the first element
+   * @returns Array of Objects that represent the composite data structure
+   */
   public MoveElementEditor(
     e: Element,
     p: Parent,
-    pc: Element
+    pc: Element | null
   ): Observable<Object> {
     let moveData: Object = {
       element: e.getId(),
       newParent: p.getId(),
-      previousElement: pc.getId(),
+      previousElement: (pc) ? pc.getId() : null,
     };
 
     return this.http
@@ -94,6 +135,13 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Edits the summary of an element
+   * 
+   * @param e Element to be edited
+   * @param s New Summary
+   * @returns Array of Objects that represent the composite data structure
+   */
   public EditSummary(e: Element, s: string): Observable<Object> {
     let editData: Object = {
       element: e.getId(),
@@ -105,6 +153,13 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Edits the comment of an element
+   * 
+   * @param e Element to be edited
+   * @param s New Comment
+   * @returns Array of Objects that represent the composite data structure
+   */
   public EditComment(e: Element, s: string): Observable<Object> {
     let editData: Object = {
       element: e.getId(),
@@ -116,6 +171,13 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Edits the content of an element
+   * 
+   * @param e Element to be edited
+   * @param s New Content
+   * @returns Array of Objects that represent the composite data structure
+   */
   public EditContent(e: Element, s: string): Observable<Object> {
     let editData: Object = {
       element: e.getId(),
@@ -127,6 +189,12 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Deletes an element either with or without its children
+   * 
+   * @param e Element to be deleted
+   * @returns Array of Objects that represent the composite data structure
+   */
   public DeleteElement(e: Element): Observable<Object> {
     let delData: Object = {
       element: e.getId(),
@@ -138,6 +206,12 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Imports data from a folder
+   * 
+   * @param destination Path to the folder
+   * @returns Array of Objects that represent the composite data structure
+   */
   public LoadFromFolder(destination: string): Observable<Object> {
     let folderData: Object = {
       path: destination,
@@ -147,7 +221,15 @@ export class BackendService {
       .post<Array<Object>>(`${this.baseUrl}/api`, { LoadFromFolder: folderData })
       .pipe(catchError(this.handleError));
   }
-
+  /**
+   * Imports data from a git repository
+   * 
+   * @param url URL of the repository
+   * @param user username to authenticate to the repository
+   * @param pass password to authenticate to the repository
+   * @param path path where repo will be cloned to
+   * @returns 
+   */
   public LoadFromGit(
     url: string,
     user: string,
@@ -166,6 +248,9 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Starts polling the backend for updates
+   */
   public startPollingData(): void {
     interval(POLLING_INTERVAL)
       .pipe(
@@ -186,6 +271,9 @@ export class BackendService {
       });
   }
 
+  /**
+   * Stops polling the backend for updates
+   */
   public stopPollingData(): void {
     // Emitting a value from stopPolling$ will cause the interval Observable to complete.
     this.stopPolling$.next();
@@ -195,7 +283,12 @@ export class BackendService {
     this.stopPolling$ = new Subject();
   }
 
-  // helper function to handle backend errors
+  /**
+   * Helper function to deal with errors
+   * 
+   * @param error object that contains the error message
+   * @returns observable with a user-facing error message
+   */
   private handleError(error: HttpErrorResponse) {
     let errorMessage: string;
 

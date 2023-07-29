@@ -7,9 +7,15 @@ import { Element } from '../models/element';
 })
 export class DataService {
   private activeElement = new BehaviorSubject<string>('');
+  /**
+   * Emits the currently active element
+   */
   currentActiveElementID = this.activeElement.asObservable();
 
   private changeNotifier = new BehaviorSubject<number>(0);
+  /**
+   * Emits a change notification
+   */
   currentChange = this.changeNotifier.asObservable();
 
   private navigationElements = new BehaviorSubject<string>('');
@@ -20,20 +26,38 @@ export class DataService {
 
   constructor() {}
 
+  /**
+   * Emits the new active element
+   * 
+   * @param data the new active element
+   */
   changeActiveElement(data: any) {
     this.activeElement.next(data);
   }
 
+  /**
+   * Emits a change notification
+   */
   notifyChange() {
     let currentValue = this.changeNotifier.value;
     this.changeNotifier.next(currentValue + 1);
   }
 
-  changeNavigationElements(data: string) {
+  /**
+   * Emits the new navigation elements
+   * 
+   * @param data the new navigation elements
+   */
+  changeNavigationElements(data: any) {
     this.navigationElements.next(data);
   }
 
-  changeEditorElements(data: string) {
+  /**
+   * Emits the new editor elements
+   * 
+   * @param data the new editor elements
+   */
+  changeEditorElements(data: any) {
     this.editorElements.next(data);
   }
 }

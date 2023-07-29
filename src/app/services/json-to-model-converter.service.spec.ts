@@ -175,40 +175,6 @@ describe('JsonToModelConverterService', () => {
     };
   }
 
-  function generateAlgorithmJSON(
-    id: string,
-    content: string,
-    comment: string = '',
-    summary: string = '',
-    children: Array<any> = []
-  ) {
-    return {
-      id: id,
-      type: 'Algorithm',
-      content: content,
-      comment: comment,
-      summary: summary,
-      children: children,
-    };
-  }
-
-  function generateEquationJSON(
-    id: string,
-    content: string,
-    children: Array<any> = [],
-    comment: string = '',
-    summary: string = ''
-  ) {
-    return {
-      id: id,
-      type: 'Equation',
-      content: content,
-      comment: comment,
-      summary: summary,
-      children: children,
-    };
-  }
-
   function generateInputJSON(
     id: string,
     content: string,
@@ -240,23 +206,13 @@ describe('JsonToModelConverterService', () => {
           'Child',
           'Sectioning',
           'Environment',
-          'Figure',
-          'Algorithm',
-          'Equation',
           'Input',
         ];
         let randomType = leafTypes[randomInt(leafTypes.length)];
         result.push(generateNodeJSON(randomType, i));
       } else {
         // Create a parent node, which can be any type except Label and Child
-        let parentTypes = [
-          'Sectioning',
-          'Environment',
-          'Figure',
-          'Algorithm',
-          'Equation',
-          'Input',
-        ];
+        let parentTypes = ['Sectioning', 'Environment', 'Figure', 'Input'];
         let randomType = parentTypes[randomInt(parentTypes.length)];
         let parentNode = generateNodeJSON(randomType, i);
 
@@ -298,13 +254,6 @@ describe('JsonToModelConverterService', () => {
           ],
           `fileLocation${idSuffix}`
         );
-      case 'Algorithm':
-        return generateAlgorithmJSON(
-          `algo${idSuffix}`,
-          `algoContent${idSuffix}`
-        );
-      case 'Equation':
-        return generateEquationJSON(`eq${idSuffix}`, `eqContent${idSuffix}`);
       case 'Input':
         return generateInputJSON(`input${idSuffix}`, `inputContent${idSuffix}`);
       default:
