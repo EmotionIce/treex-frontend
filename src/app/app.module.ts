@@ -33,8 +33,6 @@ import { ImportComponent } from './import/import.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-
-
 import { BackendService } from './services/backend.service';
 import { ErrorPopupService } from './services/error-popup.service';
 import { SettingsService } from './services/settings';

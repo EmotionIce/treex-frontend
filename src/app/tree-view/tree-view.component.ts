@@ -16,7 +16,6 @@ export interface ElementInfo{
     parentID: string
     elementID: string
     summary: string
-    isLeaf: boolean
 }
 
 @Component({
@@ -34,7 +33,7 @@ export class TreeViewComponent {
                 this.treeData = responseData;
             },
             (error) => {
-              // err
+              alert("could not load data from backend")
             }
           );
     }
@@ -91,11 +90,11 @@ export class TreeViewComponent {
     public moveElement(elementId: string, parentId: string, previousChildId: string | null){
         this.backendService.MoveElementTree(elementId, parentId, previousChildId).subscribe(
             (newTreeData: Array<Object>) => {
+                alert("generate new tree")
                 this.generateNewTree(newTreeData)
-                alert("worked")
             },
             (error) => {
-                alert("error")
+                alert("Element could not be moved")
                 this.reloadTree();
             }
           );
