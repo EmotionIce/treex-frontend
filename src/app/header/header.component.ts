@@ -29,6 +29,10 @@ export class HeaderComponent implements OnInit {
   }
 
   exportData() {
-    this.backendService.Export().subscribe();
+    this.backendService.Export().subscribe((data) => {
+      if(data.success) {
+        alert('Export successful');
+      }
+    });
   }
 }
