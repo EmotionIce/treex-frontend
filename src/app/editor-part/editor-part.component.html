@@ -16,7 +16,7 @@
     >
 
 
-    <app-latex-render [latex]="layerElement?.element?.getContent() || ''"></app-latex-render>
+    <app-latex-render [latexCode]="layerElement?.element?.getContent() || ''"></app-latex-render>
 
     <div *ngIf="!settings.hideSummaries">
       <p>Summary: {{ layerElement?.element?.getSummary() }}</p>

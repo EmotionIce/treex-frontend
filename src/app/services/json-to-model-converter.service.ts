@@ -31,7 +31,10 @@ export class JsonToModelConverterService {
     return jsonData$.pipe(
       map((jsonData) => {
         try {
+          console.log("Received data:")
+          console.log(jsonData);
           const root = Root.createRoot();
+          root.clear();
           const items: any = (jsonData as any)['editor'];
 
           for (const item of items) {
@@ -83,10 +86,12 @@ export class JsonToModelConverterService {
           parent,
           fileLocation
         );
-        captions.forEach((caption: any) => {
-          const captionModel = new Caption(caption.content);
-          figure.addCaption(captionModel);
-        });
+        if(captions) {
+          captions.forEach((caption: any) => {
+            const captionModel = new Caption(caption.content);
+            figure.addCaption(captionModel);
+          });
+        }
         createdElement = figure;
         break;
       case 'Input':

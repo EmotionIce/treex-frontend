@@ -24,6 +24,9 @@ export class DataService {
   private editorElements = new BehaviorSubject<string>('');
   currentEditorElements = this.editorElements.asObservable();
 
+  private isDataImported = new BehaviorSubject<boolean>(false);
+  currentImportStatus = this.isDataImported.asObservable();
+
   constructor() {}
 
   /**
@@ -60,4 +63,13 @@ export class DataService {
   changeEditorElements(data: any) {
     this.editorElements.next(data);
   }
+
+    /**
+   * Set the data import status
+   * 
+   * @param status the data import status
+   */
+    setDataImportStatus(status: boolean) {
+      this.isDataImported.next(status);
+    }
 }
