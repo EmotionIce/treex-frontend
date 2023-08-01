@@ -1,25 +1,35 @@
+import { Component, Input, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
 
-
-import { Component, Input, OnInit, ElementRef, Renderer2, AfterViewInit  } from '@angular/core';
-
-declare const MathJax: any;
+declare var MathJax: any;
 
 @Component({
   selector: 'app-latex-render',
-  template: '<div [innerHTML]="latex"></div>',
-  styles: [':host { display: inline-block; }']
+  templateUrl: './latex-render.component.html',
+  styleUrls: ['./latex-render.component.scss']
 })
+export class LatexRenderComponent implements AfterViewInit, OnChanges {
+  @Input() latexCode: string = '';
 
-export class LatexRenderComponent implements OnInit {
-  @Input() latex: string = ''; 
+  constructor() {}
 
-  constructor(private el: ElementRef, private renderer: Renderer2) { }
-
-  ngOnInit() {
-    this.renderMath();
+  ngAfterViewInit(): void {
+    this.renderMathjax();
   }
 
-  private renderMath() {
-    MathJax.Hub.Queue(['Typeset', MathJax.Hub, this.el.nativeElement]);
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['latexCode']) {
+      this.renderMathjax();
+    }
+  }
+
+  renderMathjax(): void {
+    // Check if MathJax object is available
+    if (typeof MathJax !== 'undefined') {
+      setTimeout(() => {
+        // Process the MathJax rendering
+        MathJax.typesetClear();
+        MathJax.typeset();
+      }, 0);
+    }
   }
 }
