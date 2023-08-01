@@ -55,6 +55,7 @@ export class NavigationPartComponent implements OnInit {
 
     this.dataService.currentChange.subscribe(change => { //updates the currently shown element
       if (this.parentElement) {                          //happens when elements are changed
+      
         this.displayedNavigationElements = this.rootInstance.getElementsOfLayer(this.parentElement);
         if (this.displayedNavigationElements.length > 0) {
           this.layerElements = this.displayedNavigationElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));

@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef} from '@angular/core';
 import { Element } from '../models/element';
 import { LayerElement } from '../layer-element';
 import { BackendService } from '../services/backend.service';
@@ -11,6 +11,8 @@ import { JsonToModelConverterService
  import { Root } from '../models/root';
  import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
  import { LatexRenderComponent } from '../latex-render/latex-render.component';
+ import { of } from 'rxjs';
+
 
 
 
@@ -61,7 +63,7 @@ export class EditorPartComponent implements OnInit {
     }
   }
 
-  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService, private settingsService: SettingsService ) {
+  constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService, private settingsService: SettingsService, private cdr: ChangeDetectorRef ) {
 
     this.rootInstance = Root.createRoot();
 
@@ -70,22 +72,54 @@ export class EditorPartComponent implements OnInit {
    
 
   ngOnInit() {
+
+    this.backendService.LoadFullData().subscribe(
+      (fullData: Object) => {
+        // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
+        const converted: Observable<boolean> = this.converter.convert(of(fullData));
+  
+        converted.subscribe((value: boolean) => {
+          if (value) {
+            // Conversion successful, do something if needed
+          } else {
+            // Conversion failed, handle the error if needed
+          }
+        });
+      },
+      (error) => {
+        // Handle the error if the backend service call fails
+        console.error('Error fetching full data:', error);
+      }
+    );
     this.settings = this.settingsService.getSettings();   
     
    
     
-    this.dataService.currentEditorElements.subscribe(newEditorElements => {
+    this.dataService.currentEditorElements.subscribe(newEditorElements => { /*
+      console.log("these are the layerElements at the beginning of newEditorElements: ", this.layerElements);
+      console.log("and the editorelements list:", this.displayedEditorElements);
+      this.layerElements = [];
+      
+      
+      console.log("service gave editorpart new elements", newEditorElements)
       
       this.editorParentElementID = newEditorElements;
       this.editorParentElement = this.rootInstance.searchByID(this.editorParentElementID);
+      console.log("editorpart, editorParentELement: ", this.editorParentElement);
+      
       if (this.editorParentElement) {
       this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.editorParentElement);
+      console.log("editorpart took elements from the root", this.displayedEditorElements, this.editorParentElement)
+      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
+      console.log("now there should be new layerElements which are the children of the clicked parent element", this.layerElements)
+      this.cdr.detectChanges();
+        
       }
 
-      if (this.displayedEditorElements.length > 0) {
-        this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
-      }
-    })
+      
+        
+      */
+    }) 
     this.dataService.currentChange.subscribe(change => {
 
       if (this.editorParentElement) {
@@ -147,10 +181,34 @@ export class EditorPartComponent implements OnInit {
   }
   showChildren(layerElement: LayerElement) { //calles onExtendChild in layerElement
     layerElement.onExtendChild();
+    console.log("the showChildren just was pressed", layerElement);
+    if (layerElement.element instanceof Parent) {
+      console.log("layerElement is an actual parent", layerElement.element.getChildren());
+      this.displayedEditorElements = layerElement.element.getChildren();
+      if (this.displayedEditorElements.length > 0) {
+        console.log("layerElement old", this.layerElements);
+        this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.converter, this.dataService));
+        console.log("displayedEditorElements just were changed in the showChildren in editorpart. layerElements new", this.layerElements)
+        this.cdr.detectChanges();
+  
+        
+      } 
+
+    } console.log("layerElements when the showChildren button is pressed", this.layerElements)
+    
 
   }
   showParent(layerElement : LayerElement) { //calles onBackToParentClick in layerElement
     layerElement.onBackToParentClick();
+    const parent = layerElement.element.getParent() as Element; // Type assertion
+    this.displayedEditorElements = this.rootInstance.getElementsOfLayer(parent);
+    this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.converter, this.dataService));
+    this.cdr.detectChanges();
+  
+  
+    
+
+    
   }
 
 

@@ -31,8 +31,6 @@ export class LayerElement {
   }
 
 
-
-
   @ViewChild(SummaryComponent) summaryComponent!: SummaryComponent;
   @ViewChild(ContentComponent) contentComponent!: ContentComponent;
   @ViewChild(CommentComponent) commentComponent!: CommentComponent;
@@ -51,11 +49,6 @@ export class LayerElement {
       } 
   
    });
-
-
-
-
-
   }
 
   deleteElement() { //Deletes an element. Whether the children should also be deleted is decided by the user
@@ -76,9 +69,11 @@ export class LayerElement {
 }
 
   onBackToParentClick() { // Shows the parent element of the currently displayed element
+    console.log("backtoparent was detected in layerELements")
     if (this.parent instanceof Parent) {
       const parentID = this.parent.getId();
       this.dataService.changeActiveElement(parentID);
+      console.log("test if parent is null")
 
     }
     
@@ -87,12 +82,16 @@ export class LayerElement {
 
   onExtendChild() { // Expands the child elements of the currently displayed element
     if (this.element instanceof Parent) {
+      console.log("beginning of onExtendChild. current element:", this.element);
      
-      const parentElement = this.element as Parent;
       
       
-      const children = parentElement.getChildren();
+      
+      const children = this.element.getChildren();
+      console.log("die kinder:", children);
       const firstChild = children[0];
+      console.log("this should be the first child:", firstChild);
+      
       const firstChildID: string = firstChild.getId();
       console.log("the layerElement concluded a new activeElement:", firstChildID)
       this.dataService.changeActiveElement(firstChildID);

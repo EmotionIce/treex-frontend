@@ -48,8 +48,20 @@ export class EditorViewComponent implements OnInit{
 
 
    this.dataService.currentActiveElementID.subscribe(id => { //if the user wants to see different elements e.g. the children of one
+         
         this.currentElementID = id;
+        console.log("and this element arrived in the editorview", id);
+        
         this.currentElement = this.rootInstance.searchByID(this.currentElementID);
+        console.log ("fouund the element in root",this.currentElement);
+        if (this.currentElement) {
+        
+          console.log("elementsoflayer from currentelement basically what editorpart should show", this.rootInstance.getElementsOfLayer(this.currentElement));
+        }
+
+        
+        
+        
         this.updateEditor();
 
     });
@@ -63,24 +75,15 @@ export class EditorViewComponent implements OnInit{
 
   
   updateEditor() { // gives editorpart and navigationpart the new currentElement so they show it
-
+    
     const parentElement = this.currentElement ? this.currentElement.getParent() : this.rootInstance;
     if (parentElement instanceof Parent) {
-      this.elementIDForEditor = parentElement.getId();
+      this.elementIDForNaviagtion = parentElement.getId();
 
     }
-    const grandparentElement = this.parentElement ? this.parentElement.getParent() : this.rootInstance;
-    if (grandparentElement instanceof Parent) {
-      this.elementIDForNaviagtion = grandparentElement.getId();
-    }
-    
-    
-    const editorElementId: string = this.elementIDForEditor ?? '';
-
-  
-  const navigationElementId: string = this.elementIDForNaviagtion ?? '';
-  this.dataService.changeEditorElements(editorElementId);
-  this.dataService.changeNavigationElements(navigationElementId);
+    //this.dataService.changeEditorElements(this.currentElementID);
+    console.log("changing the elementIDForNavigation:", this.elementIDForNaviagtion);
+    this.dataService.changeNavigationElements(this.elementIDForNaviagtion);
     
   }
 }
