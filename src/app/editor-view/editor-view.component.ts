@@ -41,27 +41,14 @@ export class EditorViewComponent implements OnInit{
     
 
     
-    this.dataService.currentChange.subscribe(change => { //if elements change their value
-
-      this.updateEditor();
-   });
+   
 
 
    this.dataService.currentActiveElementID.subscribe(id => { //if the user wants to see different elements e.g. the children of one
          
         this.currentElementID = id;
-        console.log("and this element arrived in the editorview", id);
-        
+       
         this.currentElement = this.rootInstance.searchByID(this.currentElementID);
-        console.log ("fouund the element in root",this.currentElement);
-        if (this.currentElement) {
-        
-          console.log("elementsoflayer from currentelement basically what editorpart should show", this.rootInstance.getElementsOfLayer(this.currentElement));
-        }
-
-        
-        
-        
         this.updateEditor();
 
     });
@@ -82,7 +69,6 @@ export class EditorViewComponent implements OnInit{
 
     }
     this.dataService.changeEditorElements(this.currentElementID);
-    console.log("changing the elementIDForNavigation:", this.elementIDForNaviagtion);
     this.dataService.changeNavigationElements(this.elementIDForNaviagtion);
     
   }

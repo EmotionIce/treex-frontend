@@ -43,8 +43,6 @@ export class LayerElement {
 
     converted.subscribe((value: boolean) => {
       if (value) {
-        console.log('moved Element');
-        
         this.dataService.notifyChange(); 
       } 
   
@@ -54,12 +52,11 @@ export class LayerElement {
   deleteElement() { //Deletes an element. Whether the children should also be deleted is decided by the user
     
     const backendResponse: Observable<object> = this.backendService.DeleteElement(this.element);
-    
     const converted: Observable<boolean> = this.converter.convert(backendResponse);
   
     converted.subscribe((value: boolean) => {
     if (value) {
-      console.log('deleted Element');
+      
       
       this.onBackToParentClick(); // the active element will always be the parent of the deleted one after this, to avoid 
       //nullpointer exception for the active element
@@ -69,34 +66,21 @@ export class LayerElement {
 }
 
   onBackToParentClick() { // Shows the parent element of the currently displayed element
-    console.log("backtoparent was detected in layerELements")
+    
     if (this.parent instanceof Parent) {
       const parentID = this.parent.getId();
       this.dataService.changeActiveElement(parentID);
-      console.log("test if parent is null")
-
     }
-    
-
   }
 
   onExtendChild() { // Expands the child elements of the currently displayed element
     if (this.element instanceof Parent) {
-      console.log("beginning of onExtendChild. current element:", this.element);
-     
-      
-      
-      
+
       const children = this.element.getChildren();
-      console.log("die kinder:", children);
       const firstChild = children[0];
-      console.log("this should be the first child:", firstChild);
       
       const firstChildID: string = firstChild.getId();
-      console.log("the layerElement concluded a new activeElement:", firstChildID)
       this.dataService.changeActiveElement(firstChildID);
-
-      
     }
 
   }

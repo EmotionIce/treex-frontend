@@ -82,22 +82,15 @@ export class EditorPartComponent implements OnInit {
    
     
     this.dataService.currentEditorElements.subscribe(newEditorElements => { 
-      console.log("these are the layerElements at the beginning of newEditorElements: ", this.layerElements);
-      console.log("and the editorelements list:", this.displayedEditorElements);
       
-      
-      
-      console.log("service gave editorpart new elements", newEditorElements)
       
       this.editorParentElementID = newEditorElements;
       this.editorParentElement = this.rootInstance.searchByID(this.editorParentElementID);
-      console.log("editorpart, editorParentELement: ", this.editorParentElement);
+      
       
       if (this.editorParentElement) {
       this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.editorParentElement);
-      console.log("editorpart took elements from the root", this.displayedEditorElements, this.editorParentElement)
       this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
-      console.log("now there should be new layerElements which are the children of the clicked parent element", this.layerElements)
       this.cdr.detectChanges();
         
       }
@@ -106,16 +99,18 @@ export class EditorPartComponent implements OnInit {
         
       
     }) 
-    this.dataService.currentChange.subscribe(change => {
+    this.dataService.currentChange.subscribe(change => { //should elements be changed, the dataservice.notifyChange will call this to update the elements in the editor.
+      if (this.editorParentElementID) {
+      this.editorParentElement = this.rootInstance.searchByID(this.editorParentElementID);
 
       if (this.editorParentElement) {
         this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.editorParentElement);
         if (this.displayedEditorElements.length > 0) {
           this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
+          this.cdr.detectChanges();
         }
-        }
-
-
+      }
+    }
     });
 
     this.displayedEditorElements = this.rootInstance.getChildren();
@@ -190,10 +185,6 @@ export class EditorPartComponent implements OnInit {
   showParent(layerElement : LayerElement) { //calles onBackToParentClick in layerElement
     layerElement.onBackToParentClick();
     
-  
-  
-    
-
     
   }
 
@@ -248,7 +239,6 @@ export class EditorPartComponent implements OnInit {
     
     return 'Error in showcomment';
   }
-
 
   onCommentUpdated(updatedComment: string) { //gives backend the new comment
   

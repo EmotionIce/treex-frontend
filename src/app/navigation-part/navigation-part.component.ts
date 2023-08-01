@@ -26,10 +26,6 @@ export class NavigationPartComponent implements OnInit {
   navigationParentElementID: string | null = null; //the ID of the parentElement
    layerElements: LayerElement[] = []; //the list of layerElements that are to be shown
 
-
-
-
-
   constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService) {
     this.rootInstance = Root.createRoot();
   }
@@ -38,7 +34,7 @@ export class NavigationPartComponent implements OnInit {
   
   ngOnInit() { 
     this.dataService.currentNavigationElements.subscribe(newNavigationElements => { // responsible for changing the displayed Elements
-      console.log("change in navigationpart elements", newNavigationElements)       // will happen e.g. when the user presses ExtendChild Button
+                                                                                    // will happen e.g. when the user presses ExtendChild Button
       this.navigationParentElementID = newNavigationElements;
       this.parentElement = this.rootInstance.searchByID(this.navigationParentElementID);
       if (this.parentElement) {
@@ -54,16 +50,18 @@ export class NavigationPartComponent implements OnInit {
     }) 
 
     this.dataService.currentChange.subscribe(change => { //updates the currently shown element
-      if (this.parentElement) {                          //happens when elements are changed
+      if (this.navigationParentElementID) {              //happens when elements are changed
+        this.parentElement = this.rootInstance.searchByID(this.navigationParentElementID);
+      if (this.parentElement) {                         
       
         this.displayedNavigationElements = this.rootInstance.getElementsOfLayer(this.parentElement);
         if (this.displayedNavigationElements.length > 0) {
           this.layerElements = this.displayedNavigationElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
         }
         }
-
-
+      }
     });   
+  
     
   }
   getFirstFourtyLetters(content: string): string { //takes the first 40 letters of the content to display them
@@ -71,13 +69,8 @@ export class NavigationPartComponent implements OnInit {
       return content.slice(0, 40);
     }
     return 'empty content';
-    
   }
   highlightElement(layerElement: LayerElement): boolean { // checks which element has the same ID as the element that is to be highlighted
     return this.parentElementID === layerElement.element.getId(); //so the parentElement is highlighted when the user hovers elements in editorpart
-    
-
   }
 }
-
-
