@@ -43,7 +43,7 @@ export class LayerElement {
 
     converted.subscribe((value: boolean) => {
       if (value) {
-        console.log('deleted Element');
+        console.log('moved Element');
         
         this.dataService.notifyChange(); 
       } 

@@ -16,7 +16,7 @@
     >
 
 
-    <app-latex-render [latexCode]="layerElement?.element?.getContent() || ''"></app-latex-render>
+    <app-latex-render [latexCode]="layerElement?.element?.getContent() || 'Empty Content'"></app-latex-render>
 
     <div *ngIf="!settings.hideSummaries">
       <p>Summary: {{ layerElement?.element?.getSummary() }}</p>
@@ -50,11 +50,10 @@
 
         <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button>
         
+        <button *ngIf="isParent(layerElement.element)" class="child-button" (click)="showChildren(layerElement)">Kinder anzeigen</button>
+
         
-        
-        
-        
-        <button *ngIf="isParent(layerElement.element)" class="show-children-button" (click)="showChildren(layerElement)">Kinder anzeigen</button>
+      </div>
 
 
         <div *ngIf="layerElement.showSummaryTextbox">

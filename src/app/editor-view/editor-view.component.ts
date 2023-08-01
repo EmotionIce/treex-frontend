@@ -81,7 +81,7 @@ export class EditorViewComponent implements OnInit{
       this.elementIDForNaviagtion = parentElement.getId();
 
     }
-    //this.dataService.changeEditorElements(this.currentElementID);
+    this.dataService.changeEditorElements(this.currentElementID);
     console.log("changing the elementIDForNavigation:", this.elementIDForNaviagtion);
     this.dataService.changeNavigationElements(this.elementIDForNaviagtion);
     

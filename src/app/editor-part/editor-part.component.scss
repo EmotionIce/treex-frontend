@@ -1,9 +1,10 @@
+
 .element-container {
     display: inline-block;
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 20px;
-    width: 1000px;
+    width: 700px;
     position: relative;
     cursor: move;
     background-color: grey;
@@ -11,6 +12,20 @@
 .element-container.highlighted {
   background-color: rgb(4, 35, 49);
   border: 2px solid red;
+}
+
+.element-container:hover {
+  color: #ffffff; /* Change this to the desired text color */
+}
+
+/* Add this style to change the text color of h3 elements when hovering over .element-container */
+.element-container:hover h3 {
+  color: #ffffff; /* Change this to the desired h3 text color */
+}
+
+/* Add this style to change the text color of p elements when hovering over .element-container */
+.element-container:hover p {
+  color: #ffffff; /* Change this to the desired p text color */
 }
 
 .dragging {
@@ -32,7 +47,15 @@
     justify-content: flex-end;
     align-items: center;
 
-}
+    button {
+      margin-right: 10px;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+
 
 .edit-button {
     background-color: #007bff; 

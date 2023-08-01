@@ -47,21 +47,7 @@ export class EditorPartComponent implements OnInit {
 
   @Output() parentElementIDChange: EventEmitter<string | null> = new EventEmitter<string | null>();
 
-  onElementHover(elementID: string | null) { //gives parentElement of hoveredElement to editorview
-    this.hoveredElementID = elementID;
-    
-    if (elementID) {
-      const element = this.rootInstance.searchByID(elementID);
-      if (element instanceof Element) {
-        const parentElement = element.getParent();
-        
-        if (parentElement instanceof Element) {
-          this.parentElementID = parentElement.getId();
-          this.parentElementIDChange.emit(this.parentElementID);
-        } 
-      }
-    }
-  }
+  
 
   constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService, private settingsService: SettingsService, private cdr: ChangeDetectorRef ) {
 
@@ -95,10 +81,10 @@ export class EditorPartComponent implements OnInit {
     
    
     
-    this.dataService.currentEditorElements.subscribe(newEditorElements => { /*
+    this.dataService.currentEditorElements.subscribe(newEditorElements => { 
       console.log("these are the layerElements at the beginning of newEditorElements: ", this.layerElements);
       console.log("and the editorelements list:", this.displayedEditorElements);
-      this.layerElements = [];
+      
       
       
       console.log("service gave editorpart new elements", newEditorElements)
@@ -118,7 +104,7 @@ export class EditorPartComponent implements OnInit {
 
       
         
-      */
+      
     }) 
     this.dataService.currentChange.subscribe(change => {
 
@@ -152,6 +138,22 @@ export class EditorPartComponent implements OnInit {
     } 
   }
 
+  onElementHover(elementID: string | null) { //gives parentElement of hoveredElement to editorview
+    this.hoveredElementID = elementID;
+    
+    if (elementID) {
+      const element = this.rootInstance.searchByID(elementID);
+      if (element instanceof Element) {
+        const parentElement = element.getParent();
+        
+        if (parentElement instanceof Element) {
+          this.parentElementID = parentElement.getId();
+          this.parentElementIDChange.emit(this.parentElementID);
+        } 
+      }
+    }
+  }
+
   onDragStarted(layerElement: LayerElement) { //saves the element that is being dragged
     this.draggedLayerElement = layerElement;
 
@@ -181,29 +183,13 @@ export class EditorPartComponent implements OnInit {
   }
   showChildren(layerElement: LayerElement) { //calles onExtendChild in layerElement
     layerElement.onExtendChild();
-    console.log("the showChildren just was pressed", layerElement);
-    if (layerElement.element instanceof Parent) {
-      console.log("layerElement is an actual parent", layerElement.element.getChildren());
-      this.displayedEditorElements = layerElement.element.getChildren();
-      if (this.displayedEditorElements.length > 0) {
-        console.log("layerElement old", this.layerElements);
-        this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.converter, this.dataService));
-        console.log("displayedEditorElements just were changed in the showChildren in editorpart. layerElements new", this.layerElements)
-        this.cdr.detectChanges();
-  
-        
-      } 
-
-    } console.log("layerElements when the showChildren button is pressed", this.layerElements)
+    
     
 
   }
   showParent(layerElement : LayerElement) { //calles onBackToParentClick in layerElement
     layerElement.onBackToParentClick();
-    const parent = layerElement.element.getParent() as Element; // Type assertion
-    this.displayedEditorElements = this.rootInstance.getElementsOfLayer(parent);
-    this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.converter, this.dataService));
-    this.cdr.detectChanges();
+    
   
   
     
@@ -295,7 +281,7 @@ export class EditorPartComponent implements OnInit {
       this.elementIDToBeEdited = this.hoveredElementID;
       const layerElementToBeEdited = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
       if (layerElementToBeEdited) {
-        // now i have the LayerElement that matches the hoveredElementID and can acess its Summary
+        
 
         return layerElementToBeEdited.element.getSummary();
 

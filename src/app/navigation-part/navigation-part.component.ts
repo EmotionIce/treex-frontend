@@ -63,13 +63,15 @@ export class NavigationPartComponent implements OnInit {
         }
 
 
-    }); 
-    
-    
+    });   
     
   }
   getFirstFourtyLetters(content: string): string { //takes the first 40 letters of the content to display them
-    return content.slice(0, 40);
+    if (content) {
+      return content.slice(0, 40);
+    }
+    return 'empty content';
+    
   }
   highlightElement(layerElement: LayerElement): boolean { // checks which element has the same ID as the element that is to be highlighted
     return this.parentElementID === layerElement.element.getId(); //so the parentElement is highlighted when the user hovers elements in editorpart
