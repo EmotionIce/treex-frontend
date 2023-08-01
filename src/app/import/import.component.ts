@@ -73,6 +73,8 @@ export class ImportComponent {
   private startImpuls() {
     // Notify the data service that the data has changed
     this.dataService.notifyChange();
+    // Set data service to imported
+    this.dataService.setDataImportStatus(true);
     // Switch to Editor
     this.router.navigate(['/Editor']);
   }
