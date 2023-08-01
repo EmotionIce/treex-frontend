@@ -33,7 +33,7 @@ export class TreeViewComponent {
                 this.treeData = responseData;
             },
             (error) => {
-              alert("could not load data from backend")
+              console.log("could not load data from backend")
             }
           );
     }
