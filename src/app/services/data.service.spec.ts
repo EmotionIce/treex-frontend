@@ -4,14 +4,14 @@ import { Child } from '../models/child';
 
 describe('DataService', () => {
   let service: DataService;
-  let mockElement: Child;
+  let mockParent: string;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(DataService);
 
     // Initializing the mockElement with some default properties. You may need to modify this as per your 'Child' model.
-    mockElement = new Child('test', 'test', 'test', 'test', null);
+    mockParent = "ASD";
   });
 
   it('should be created', () => {
@@ -35,19 +35,17 @@ describe('DataService', () => {
   });
 
   it('should change navigation elements', (done: DoneFn) => {
-    const testArray = [mockElement, mockElement];
-    service.changeNavigationElements(testArray);
+    service.changeNavigationElements(mockParent);
     service.currentNavigationElements.subscribe((value) => {
-      expect(value).toEqual(testArray);
+      expect(value).toEqual(mockParent);
       done();
     });
   });
 
   it('should change editor elements', (done: DoneFn) => {
-    const testArray = [mockElement, mockElement];
-    service.changeEditorElements(testArray);
+    service.changeEditorElements(mockParent);
     service.currentEditorElements.subscribe((value) => {
-      expect(value).toEqual(testArray);
+      expect(value).toEqual(mockParent);
       done();
     });
   });
