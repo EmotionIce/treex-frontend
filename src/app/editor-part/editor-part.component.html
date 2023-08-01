@@ -6,14 +6,15 @@
   <div cdkDropList (cdkDropListDropped)="onDrop($any($event))">
 
     <div *ngFor="let layerElement of layerElements"
-      (cdkDragStarted)="onDragStarted(layerElement)"
-      (cdkDragEnded)="onDrop(layerElement)"
-      [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() }"
-      (mouseenter)="onElementHover(layerElement.element.getId())"
-      (mouseleave)="onElementHover(null)"
-      class="element-container"
-      cdkDrag
-    >
+     [ngClass]="{ 'marked-element': layerElement.element.getId() === editorParentElementID }"
+     (cdkDragStarted)="onDragStarted(layerElement)"
+     (cdkDragEnded)="onDrop(layerElement)"
+     [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() }"
+     (mouseenter)="onElementHover(layerElement.element.getId())"
+     (mouseleave)="onElementHover(null)"
+     class="element-container"
+     cdkDrag>
+     <button *ngIf="layerElement.parent instanceof Root" class="parent-button" (click)="showParent(layerElement)">Eltern anzeigen</button>
 
 
     <app-latex-render [latexCode]="layerElement?.element?.getContent() || 'Empty Content'"></app-latex-render>
@@ -38,7 +39,7 @@
     
 
       <div class="button-container">
-        <button *ngIf="layerElement.parent instanceof Root" class="parent-button" (click)="showParent(layerElement)">Eltern anzeigen</button>
+       
 
         
 
@@ -49,11 +50,12 @@
         <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
 
         <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button>
+      </div>
         
         <button *ngIf="isParent(layerElement.element)" class="child-button" (click)="showChildren(layerElement)">Kinder anzeigen</button>
 
-        
-      </div>
+
+      
 
 
         <div *ngIf="layerElement.showSummaryTextbox">
