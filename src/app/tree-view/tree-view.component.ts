@@ -1,5 +1,5 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-import { NodeModel, ConnectorModel, SnapSettingsModel, LayoutModel, SnapConstraints, NodeConstraints} from '@syncfusion/ej2-angular-diagrams';
+import { NodeModel, ConnectorModel, SnapSettingsModel, LayoutModel, SnapConstraints, NodeConstraints, TreeInfo, DiagramComponent} from '@syncfusion/ej2-angular-diagrams';
 import { DataManager} from '@syncfusion/ej2-data';
 //import { SummaryComponent } from './summary/summary.component';
 
@@ -18,6 +18,11 @@ export interface ElementInfo{
     summary: string
 }
 
+interface ReceivedData{
+    tree: any[]
+}
+
+
 @Component({
     selector: "app-tree-view",
     templateUrl: './tree-view.component.html',
@@ -25,21 +30,26 @@ export interface ElementInfo{
     //encapsulation: ViewEncapsulation.None
 })
 export class TreeViewComponent {
+    @ViewChild('diagramComponent')
+    public diagramComponent!: DiagramComponent;
 
 // When switching to the treeView, get the current treeStructure from the Backend.
     public ngOnInit(){
         this.backendService.LoadTree().subscribe(
-            (responseData: Array<Object>) => {
-                this.treeData = responseData;
+            (responseData: any) => {
+                console.log(this.treeData)
+                console.log((responseData as ReceivedData).tree)
+                let newTreeData = (responseData as ReceivedData).tree
+                this.generateNewTree(newTreeData)
+
             },
-            (error) => {
-              console.log("could not load data from backend")
-            }
-          );
-    }
+            (error :any ) => {
+            })
+        }
+    
     
     // example Default-Data for testing purpose
-    public treeData: object[] = [
+    public treeData: Object[] = [
         {elementID: "000", content: "Einleitung", summary: "Text Zusammenfassung1", isLeaf: false},
         {elementID: "001", content: "Kapitel 1", parentID: "000", summary: "Text Zusammenfassung2", isLeaf: false},
         {elementID: "002", content: "Kapitel 1.1", parentID: "001", summary: "Text Zusammenfassung3", isLeaf: true},
@@ -50,7 +60,6 @@ export class TreeViewComponent {
         {elementID: "007", content: "Kapitel 3.1", parentID: "006", summary: "Text Zusammenfassung8", isLeaf: true},
         {elementID: "008", content: "Kapitel 3.2", parentID: "006", summary: "Text Zusammenfassung9", isLeaf: true},
         {elementID: "009", content: "Kapitel 3.2.2", parentID: "008", summary: "Text Zusammenfassung10", isLeaf: true}];
-
         private timeoutId: any;
 
     // defines the parent/children relationship in the JSON (needed to create the tree) and holds the data of the tree.
@@ -68,7 +77,7 @@ export class TreeViewComponent {
     
     
     // receives a JSON-Tree as input and updates the tree accordingly
-    public generateNewTree(newTreeData: object[]): void{
+    public generateNewTree(newTreeData: Object[]): void{
         this.treeData = newTreeData;
         this.jsonDatasourceSettings = {
             id: "elementID",
@@ -128,9 +137,11 @@ export class TreeViewComponent {
         defaultnode.constraints &= ~NodeConstraints.Rotate; // do not allow to rotate a Node
 
         // Defines content shown within the Node
+        if((defaultnode.data as ElementInfo).content != null){
         defaultnode.annotations = [
             {content: (defaultnode.data as ElementInfo).content, style: { color: "white" }}
         ]
+    }
         
         /*
         defaultnode.tooltip = {
@@ -218,14 +229,17 @@ export class TreeViewComponent {
  
     // show summary when hovering over Node
     public onNodeHover(args: any): void {
-          const node = args.actualObject;   
+          const node = args.actualObject;
+          if(node.data != undefined){
           let summary = (node.data as ElementInfo).summary;
+          
           this.treeViewSummary.setSummaryText(summary);
 
           clearTimeout(this.timeoutId);
           this.timeoutId = setTimeout(() => {
             this.treeViewSummary.setSummaryText(null);
           }, 2000);
+        }
       }
 
 
@@ -239,7 +253,7 @@ export class TreeViewComponent {
             alert("is null");
         } else {
             let nodeID = (args['source'].data as ElementInfo).elementID;
-            alert((args['source'].data as ElementInfo).content + " id: " + nodeID)
+            //alert((args['source'].data as ElementInfo).content + " id: " + nodeID)
             this.dataService.changeActiveElement(nodeID);
             window.location.href = "Editor";
         }

@@ -14,6 +14,10 @@ import { DataService } from './data.service';
 
 const POLLING_INTERVAL = 5000; // Time in milliseconds between each poll
 
+interface ReceivedData{
+  tree: any[]
+}
+
 @Injectable({
   providedIn: 'root', //so every other dependencies can access this service
 })
@@ -52,6 +56,8 @@ export class BackendService {
       .pipe(catchError(this.handleError));
   }
 
+
+
   /**
    * Loads data structure that is required for tree view
    * 
@@ -60,7 +66,7 @@ export class BackendService {
   public LoadTree(): Observable<Array<Object>> {
     return this.http
       .get<Array<Object>>(`${this.baseUrl}/LoadTreeData`)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleError))
   }
 
   /**
