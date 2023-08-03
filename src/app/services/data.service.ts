@@ -72,4 +72,13 @@ export class DataService {
     setDataImportStatus(status: boolean) {
       this.isDataImported.next(status);
     }
+
+    getNavigationElement(): string {
+      return this.navigationElements.value;
+    }
+  
+    getEditorElement(): string {
+      return this.editorElements.value;
+    }
+  
 }
