@@ -73,49 +73,26 @@ export class EditorPartComponent implements OnInit {
         });
       },
       (error) => {
-        // Handle the error if the backend service call fails
+        
         console.error('Error fetching full data:', error);
       }
     );
-    this.settings = this.settingsService.getSettings();   
+    this.settings = this.settingsService.getSettings();
+    this.updateEditor();
     
    
     
-    this.dataService.currentEditorElements.subscribe(newEditorElements => { 
-      
-      
-      this.editorParentElementID = newEditorElements;
-      this.editorParentElement = this.rootInstance.searchByID(this.editorParentElementID);
-      
-      
-      if (this.editorParentElement) {
-      this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.editorParentElement);
-      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
-      this.cdr.detectChanges();
-        
-      }
-
-      
-        
-      
+    this.dataService.currentEditorElements.subscribe(newEditorElements => {
+      this.updateEditor();
     }) 
     this.dataService.currentChange.subscribe(change => { //should elements be changed, the dataservice.notifyChange will call this to update the elements in the editor.
-      if (this.editorParentElementID) {
-      this.editorParentElement = this.rootInstance.searchByID(this.editorParentElementID);
-
-      if (this.editorParentElement) {
-        this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.editorParentElement);
-        if (this.displayedEditorElements.length > 0) {
-          this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
-          this.cdr.detectChanges();
-        }
-      }
-    }
+      this.updateEditor();
+   
     });
 
-    this.displayedEditorElements = this.rootInstance.getChildren();
+  
     
-    if (this.displayedEditorElements.length <= 0) { //test elements used to test the layerElement boxes
+   /* if (this.displayedEditorElements.length <= 0) { //test elements used to test the layerElement boxes
     const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
@@ -124,14 +101,31 @@ export class EditorPartComponent implements OnInit {
     this.displayedEditorElements = [
       element1, element2, element3, element4
       
-    ]; } 
+    ]; }  */
 
-    if (this.displayedEditorElements.length > 0) {
-      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService, this.converter, this.dataService));
-
-      
-    } 
+ 
   }
+
+
+  updateEditor() { 
+    this.editorParentElementID = this.dataService.getEditorElement();
+    console.log("updateEditor was just pressed and the editorParentElementID is this:", this.editorParentElementID)
+    if (this.editorParentElementID.length === 0) {                                    //at the beginning of the program the editor shows the direct children of the root
+      this.displayedEditorElements = this.rootInstance.getChildren();
+      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
+      this.cdr.detectChanges();
+
+   
+    } else {
+      this.editorParentElement = this.rootInstance.searchByID(this.editorParentElementID);
+      if (this.editorParentElement) {
+      this.displayedEditorElements = this.rootInstance.getElementsOfLayer(this.editorParentElement);
+      this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
+      this.cdr.detectChanges();
+      
+    }
+  } 
+}
 
   onElementHover(elementID: string | null) { //gives parentElement of hoveredElement to editorview
     this.hoveredElementID = elementID;
@@ -231,9 +225,14 @@ export class EditorPartComponent implements OnInit {
       this.elementIDToBeEdited = this.hoveredElementID;
       const layerElementToBeEdited = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
       if (layerElementToBeEdited) {
-      
-  
-        return layerElementToBeEdited.element.getComment();
+        const comment = layerElementToBeEdited.element.getComment();
+      if (comment === null || comment.trim() === '') {
+        // If the comment is empty or null, set the default text
+        return 'No comment yet';
+      }
+
+      // If the comment is not empty, show the actual comment
+      return comment;
       }
     }
     
@@ -241,6 +240,9 @@ export class EditorPartComponent implements OnInit {
   }
 
   onCommentUpdated(updatedComment: string) { //gives backend the new comment
+    if(updatedComment !== 'Ist leer') { //if the comment has the text "ist leer, the user did not change it. In this case the backend will not be notified, to avoid giving the element the comment "ist leer"
+
+    
   
     const elementToBeSaved = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
     if (elementToBeSaved) {
@@ -254,10 +256,13 @@ export class EditorPartComponent implements OnInit {
         this.dataService.notifyChange();
 
         
-      } else {
-        
       }
+        
+      
     });
+  }
+  } else {
+    console.log("Kommentar wurde nicht bearbeitet, Änderungen werden nicht vorgenommen")
   }
 }
 
@@ -271,6 +276,9 @@ export class EditorPartComponent implements OnInit {
       this.elementIDToBeEdited = this.hoveredElementID;
       const layerElementToBeEdited = this.layerElements.find(layerElement => layerElement.element.getId() === this.elementIDToBeEdited);
       if (layerElementToBeEdited) {
+        if (layerElementToBeEdited.element.getSummary() === 'null') {
+          return ("Die Zusammenfassung diesen Elements is leer")
+        }
         
 
         return layerElementToBeEdited.element.getSummary();

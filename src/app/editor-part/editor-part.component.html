@@ -14,20 +14,23 @@
      (mouseleave)="onElementHover(null)"
      class="element-container"
      cdkDrag>
-     <button *ngIf="layerElement.parent instanceof Root" class="parent-button" (click)="showParent(layerElement)">Eltern anzeigen</button>
+     <button *ngIf="layerElement.parent instanceof Root && editorParentElementID && editorParentElementID.length > 0" class="parent-button" (click)="showParent(layerElement)">Eltern anzeigen</button>
+
+
 
 
     <app-latex-render [latexCode]="layerElement?.element?.getContent() || 'Empty Content'"></app-latex-render>
 
     <div *ngIf="!settings.hideSummaries">
-      <p>Summary: {{ layerElement?.element?.getSummary() }}</p>
+      <p>Zusammenfassung: {{ layerElement?.element?.getSummary() ||'summary: Null' ? (layerElement?.element?.getContent() ?  layerElement.element.getContent().slice(0, 40) : '') : layerElement?.element?.getComment() }}</p>
     </div>
     
   
   
     <div *ngIf="!settings.hideComments">
-      <p>{{ layerElement?.element?.getComment() }}</p>
+      <p>Kommentar: {{ layerElement?.element?.getComment() || 'Ist leer'}}</p>
     </div>
+    
     
 
   <app-text-editor
@@ -65,6 +68,6 @@
           <app-text-editor [text]="layerElement.element.getContent()" (textUpdated)="onContentUpdated($event)"></app-text-editor>
       </div>
         <div *ngIf="layerElement.showCommentTextbox">
-          <app-text-editor [text]="layerElement.element.getComment()" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
+          <app-text-editor [text]="layerElement?.element?.getComment() || 'Ist leer'" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
       </div>
 

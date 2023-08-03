@@ -38,11 +38,6 @@ export class EditorViewComponent implements OnInit{
 
 
   ngOnInit() {
-    
-
-    
-   
-
 
    this.dataService.currentActiveElementID.subscribe(id => { //if the user wants to see different elements e.g. the children of one
          

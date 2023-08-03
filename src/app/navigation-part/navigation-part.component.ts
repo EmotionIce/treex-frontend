@@ -34,36 +34,36 @@ export class NavigationPartComponent implements OnInit {
   
   ngOnInit() { 
     this.dataService.currentNavigationElements.subscribe(newNavigationElements => { // responsible for changing the displayed Elements
-                                                                                    // will happen e.g. when the user presses ExtendChild Button
-      this.navigationParentElementID = newNavigationElements;
-      this.parentElement = this.rootInstance.searchByID(this.navigationParentElementID);
-      if (this.parentElement) {
-      this.displayedNavigationElements = this.rootInstance.getElementsOfLayer(this.parentElement);
-      }
-      
-      
-      if (this.displayedNavigationElements.length > 0) {
-        this.layerElements = this.displayedNavigationElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
-  
-        
-      }
+      this.updateNavigation();                                                                              // will happen e.g. when the user presses ExtendChild Button
+ 
     }) 
 
     this.dataService.currentChange.subscribe(change => { //updates the currently shown element
-      if (this.navigationParentElementID) {              //happens when elements are changed
-        this.parentElement = this.rootInstance.searchByID(this.navigationParentElementID);
-      if (this.parentElement) {                         
+      this.updateNavigation();             //happens when elements are changed
       
-        this.displayedNavigationElements = this.rootInstance.getElementsOfLayer(this.parentElement);
-        if (this.displayedNavigationElements.length > 0) {
-          this.layerElements = this.displayedNavigationElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
-        }
-        }
-      }
     });   
+    this.updateNavigation();
   
     
   }
+
+  updateNavigation(){
+    this.navigationParentElementID = this.dataService.getNavigationElement();
+    if (this.navigationParentElementID.length !== 0) {
+      this.parentElement = this.rootInstance.searchByID(this.navigationParentElementID);
+      if(this.parentElement) {
+      this.displayedNavigationElements = this.rootInstance.getElementsOfLayer(this.parentElement);
+      this.layerElements = this.displayedNavigationElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
+      
+
+    }
+    }
+    
+
+
+  }
+
+
   getFirstFourtyLetters(content: string): string { //takes the first 40 letters of the content to display them
     if (content) {
       return content.slice(0, 40);
