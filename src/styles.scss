@@ -9,8 +9,6 @@
   border: 2px solid blue;
 }
 
-
-
 // Define a dark theme
 $dark-theme: mat.define-dark-theme(
   (
@@ -34,25 +32,51 @@ $light-theme: mat.define-light-theme(
   )
 );
 
+.dark-theme {
+  /* Default to dark theme */
+  --primary-text-color: white;
+  --secondary-text-color: #aaa;
+  --background-color: #303030;
+  --secondary-background-color: #424242;
+  --accent-color: #d63864;
+  /* ... add more as needed ... */
+}
+
+.light-theme {
+  --primary-text-color: black;
+  --secondary-text-color: #555;
+  --background-color: #f4f4f4;
+  --secondary-background-color: #fff;
+  --accent-color: #d63864;
+  /* ... add more as needed ... */
+}
+
 // Apply the dark theme by default
 @include mat.core-theme($dark-theme);
 @include mat.button-theme($dark-theme);
 
-// Apply the light theme only when the user prefers light themes.
-@media (prefers-color-scheme: light) {
-  // Use the `-color` mixins to only apply color styles without reapplying the same
-  // typography and density styles.
-  @include mat.core-color($light-theme);
-  @include mat.button-color($light-theme);
+// Add classes for light and dark themes.
+.light-theme {
+  @include mat.all-component-themes($light-theme);
 }
+
+.dark-theme {
+  @include mat.all-component-themes($dark-theme);
+}
+
 
 /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
+body, html {
+  margin: 0;
+  padding: 0;
   height: 100%;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.theme-wrapper {
+  min-height: 100vh;
+  background-color: var(--background-color);
 }
