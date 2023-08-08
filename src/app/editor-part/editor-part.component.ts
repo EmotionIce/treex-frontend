@@ -164,7 +164,7 @@ export class EditorPartComponent implements OnInit {
   
 
   onDelete(layerElement: LayerElement) { //calles deleteElement in layerElement
-    layerElement.deleteElement;
+    layerElement.deleteElement();
 
   }
 
