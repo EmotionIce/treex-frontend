@@ -1,3 +1,9 @@
+:host {
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  display: block;
+}
+
 .settings-element {
   margin: 8px;
 }

@@ -1,8 +1,8 @@
 :host {
   display: flex;
   flex-direction: column;
-  background-color: #333; // Dark background
-  color: #fff; // White text
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
   width: 100%;
 }
 
@@ -27,7 +27,7 @@ h2 {
 }
 
 .settings-container {
-  color: #fff;
+  color: var(--primary-text-color);
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -35,4 +35,8 @@ h2 {
 
 .margin-element.mat-card {
   margin-bottom: 20px;
+}
+
+.mat-icon  {
+  color: var(--accent-color) !important; // White background
 }
