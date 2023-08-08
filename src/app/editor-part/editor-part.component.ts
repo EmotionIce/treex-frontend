@@ -59,6 +59,7 @@ export class EditorPartComponent implements OnInit {
 
   ngOnInit() {
 
+    /*
     this.backendService.LoadFullData().subscribe(
       (fullData: Object) => {
         // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
@@ -76,7 +77,7 @@ export class EditorPartComponent implements OnInit {
         
         console.error('Error fetching full data:', error);
       }
-    );
+    ); */
     this.settings = this.settingsService.getSettings();
     this.updateEditor();
     
