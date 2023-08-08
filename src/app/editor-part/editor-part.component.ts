@@ -9,7 +9,7 @@ import { JsonToModelConverterService
  import { Parent } from '../models/parent';
  import { SettingsService } from '../services/settings';
  import { Root } from '../models/root';
- import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
+ import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart, CdkDragEnd } from '@angular/cdk/drag-drop';
  import { LatexRenderComponent } from '../latex-render/latex-render.component';
  import { of } from 'rxjs';
 
@@ -59,7 +59,7 @@ export class EditorPartComponent implements OnInit {
 
   ngOnInit() {
 
-    
+    /*
     this.backendService.LoadFullData().subscribe(
       (fullData: Object) => {
         // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
@@ -77,7 +77,7 @@ export class EditorPartComponent implements OnInit {
         
         console.error('Error fetching full data:', error);
       }
-    ); 
+    ); */
     this.settings = this.settingsService.getSettings();
     this.updateEditor();
     
@@ -108,7 +108,8 @@ export class EditorPartComponent implements OnInit {
   }
 
 
-  updateEditor()  
+  updateEditor()  {
+    /*
   {this.backendService.LoadFullData().subscribe(
     (fullData: Object) => {
       // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
@@ -127,15 +128,13 @@ export class EditorPartComponent implements OnInit {
       console.error('Error fetching full data:', error);
     }
   ); 
+  } */
     this.editorParentElementID = this.dataService.getEditorElement();
     console.log("updateEditor was just pressed and the editorParentElementID is this:", this.editorParentElementID)
-    if (this.editorParentElementID.length === 0) {                                    //at the beginning of the program the editor shows the direct children of the root
-
+    if (this.editorParentElementID.length === 0) {//at the beginning of the program the editor shows the direct children of the root
       this.displayedEditorElements = this.rootInstance.getChildren();
       this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
       this.cdr.detectChanges();
-
-   
     } else {
       this.editorParentElement = this.rootInstance.searchByID(this.editorParentElementID);
       if (this.editorParentElement) {
@@ -144,7 +143,8 @@ export class EditorPartComponent implements OnInit {
       this.cdr.detectChanges();
       
     }
-  } 
+  
+  }
 }
 
   onElementHover(elementID: string | null) { //gives parentElement of hoveredElement to editorview
@@ -163,15 +163,25 @@ export class EditorPartComponent implements OnInit {
     }
   }
 
-  onDragStarted(layerElement: LayerElement) { //saves the element that is being dragged
+  onDragStarted(event: CdkDragStart, layerElement: any) { //saves the element that is being dragged
     this.draggedLayerElement = layerElement;
-
+    event.source.element.nativeElement.classList.add('dragging');
+  setTimeout(() => {
+    const draggingElement = document.querySelector('.cdk-drag-placeholder');
+    if (draggingElement) {
+      draggingElement.classList.add('dragging');
+    }
+  });
+    console.log(event.source.element.nativeElement.classList.value);
+    
   }
 
-  onDrop(event: any) { //handles the dropping of an element
+  onDrop(event: CdkDragEnd, layerElement: any) { //handles the dropping of an element
+    event.source.element.nativeElement.classList.remove('dragging'); 
+    
     const draggedElement = this.draggedLayerElement?.element;
     const draggedParentElement = draggedElement?.getParent();
-    const droppedLayerElement: LayerElement = event.item.data;
+    const droppedLayerElement: LayerElement = layerElement;
     if(draggedElement) {
       if (draggedParentElement instanceof Parent) {
       droppedLayerElement.moveElementEditor(draggedElement, draggedParentElement)

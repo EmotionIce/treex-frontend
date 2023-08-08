@@ -3,12 +3,12 @@
 
 
  
-  <div cdkDropList (cdkDropListDropped)="onDrop($any($event))">
+  <div cdkDropList>
 
     <div *ngFor="let layerElement of layerElements"
      [ngClass]="{ 'marked-element': layerElement.element.getId() === editorParentElementID }"
-     (cdkDragStarted)="onDragStarted(layerElement)"
-     (cdkDragEnded)="onDrop(layerElement)"
+     (cdkDragStarted)="onDragStarted($event, layerElement)"
+     (cdkDragEnded)="onDrop($event, layerElement)"
      [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() }"
      (mouseenter)="onElementHover(layerElement.element.getId())"
      (mouseleave)="onElementHover(null)"
@@ -74,7 +74,7 @@
   </div>
 
   <div *ngIf="layerElement.showSummaryTextbox">
-    <p class="section-title">Zusammenfassung::</p>
+    <p class="section-title">Zusammenfassung:</p>
     
     <app-text-editor [text]="layerElement.element.getSummary()" (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
 </div> 
