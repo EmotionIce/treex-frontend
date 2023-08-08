@@ -3,6 +3,9 @@
     display: flex;
     flex-direction: column;
   } */
+  .navigation-part {
+    color: var(--primary-text-color);
+  }
   .navigation-element-container {
     padding: 5px;
     border: 1px solid #ccc;

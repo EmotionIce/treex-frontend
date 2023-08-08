@@ -1,14 +1,17 @@
+.editor-part {
+  color: var(--primary-text-color);
+}
 .element-container {
-  display: inline-block;
   border: 1px solid var(--secondary-text-color);
   padding: 10px;
   margin-bottom: 20px;
-  width: 500px;
+  width: 100%;
   position: relative;
-  cursor: move;
+  cursor: grab;
   background-color: var(--secondary-background-color);
   position: relative;
-  padding-left: 140px; 
+  padding-left: 140px;
+  box-sizing: border-box;
   padding-right: 140px;
   border-radius: 5px; // Modern border radius
   transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition for hover
@@ -18,6 +21,15 @@
     border-bottom: 1px solid var(--primary-text-color);
     transition: color 0.3s ease; // Smooth transition for hover
   }
+
+}
+
+.cdk-drag-preview {
+  cursor: grabbing !important;
+  background-color: var(--secondary-background-color) !important;
+  border: 2px dashed var(--accent-color) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  opacity: 0.5 !important;
 }
 
 .element-container.highlighted {
@@ -33,13 +45,6 @@
 .marked-element {
   background-color: rgb(38, 0, 255);
   outline: 2px solid #0054dc;
-}
-
-.dragging {
-  cursor: grabbing;
-  background-color: #f0f0f0;
-  border: 1px dashed var(--secondary-text-color);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .button-container {
