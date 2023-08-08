@@ -36,8 +36,8 @@ export class LayerElement {
   @ViewChild(CommentComponent) commentComponent!: CommentComponent;
 
 
-  //Moves elements whose order the user wants to change using drag and drop
-  moveElementEditor(draggedlayerElement: Element, draggedParent: Parent) {
+  
+  moveElementEditor(draggedlayerElement: Element, draggedParent: Parent) {                                    //Moves elements whose order the user wants to change using drag and drop
     const backendResponse: Observable<object> = this.backendService.MoveElementEditor(draggedlayerElement, draggedParent, this.element)
     const converted: Observable<boolean> = this.converter.convert(backendResponse);
 
@@ -49,7 +49,7 @@ export class LayerElement {
    });
   }
 
-  deleteElement() { //Deletes an element. Whether the children should also be deleted is decided by the user
+  deleteElement() {                                                                                           //Deletes an element. Whether the children should also be deleted is decided by the user
     
     const backendResponse: Observable<object> = this.backendService.DeleteElement(this.element);
     const converted: Observable<boolean> = this.converter.convert(backendResponse);
@@ -58,14 +58,14 @@ export class LayerElement {
     if (value) {
       
       
-      this.onBackToParentClick(); // the active element will always be the parent of the deleted one after this, to avoid 
-      //nullpointer exception for the active element
+      this.onBackToParentClick();                                                                           // the active element will always be the parent of the deleted one after this, to avoid 
+                                                                                                            //nullpointer exception for the active element
     } 
 
  });
 }
 
-  onBackToParentClick() { // Shows the parent element of the currently displayed element
+  onBackToParentClick() {                                                                                   // Shows the parent element of the currently displayed element
     
     if (this.parent instanceof Parent) {
       const parentID = this.parent.getId();
@@ -73,7 +73,7 @@ export class LayerElement {
     }
   }
 
-  onExtendChild() { // Expands the child elements of the currently displayed element
+  onExtendChild() {                                                                                         // Expands the child elements of the currently displayed element
     if (this.element instanceof Parent) {
 
       const children = this.element.getChildren();
@@ -82,6 +82,5 @@ export class LayerElement {
       const firstChildID: string = firstChild.getId();
       this.dataService.changeActiveElement(firstChildID);
     }
-
   }
 }

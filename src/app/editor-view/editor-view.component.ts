@@ -39,24 +39,23 @@ export class EditorViewComponent implements OnInit{
 
   ngOnInit() {
 
-   this.dataService.currentActiveElementID.subscribe(id => { //if the user wants to see different elements e.g. the children of one
+   this.dataService.currentActiveElementID.subscribe(id => {                            //if the user wants to see different elements e.g. the children of one
          
         this.currentElementID = id;
        
         this.currentElement = this.rootInstance.searchByID(this.currentElementID);
-        this.updateEditor();
+        this.updateEditorView();
 
     });
   }
 
-  onHoveredParentElementIDChange(parentElementID: string | null) { //to pass the hovered Element from editorpart to navigationpart
+  onHoveredParentElementIDChange(parentElementID: string | null) {                    //to pass the hovered Element from editorpart to navigationpart
    
     this.hoveredParentElementID = parentElementID;
-    
   }
 
   
-  updateEditor() { // gives editorpart and navigationpart the new currentElement so they show it
+  updateEditorView() {                                                                  // gives editorpart and navigationpart the new currentElement so they show it
     
     const parentElement = this.currentElement ? this.currentElement.getParent() : this.rootInstance;
     if (parentElement instanceof Parent) {
@@ -65,6 +64,7 @@ export class EditorViewComponent implements OnInit{
     }
     this.dataService.changeEditorElements(this.currentElementID);
     this.dataService.changeNavigationElements(this.elementIDForNaviagtion);
+    console.log("editorview updated the elements: " ,this.currentElement, this.elementIDForNaviagtion)
     
   }
 }
