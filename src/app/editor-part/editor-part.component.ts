@@ -59,7 +59,7 @@ export class EditorPartComponent implements OnInit {
 
   ngOnInit() {
 
-    /*
+    
     this.backendService.LoadFullData().subscribe(
       (fullData: Object) => {
         // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
@@ -77,7 +77,7 @@ export class EditorPartComponent implements OnInit {
         
         console.error('Error fetching full data:', error);
       }
-    ); */
+    ); 
     this.settings = this.settingsService.getSettings();
     this.updateEditor();
     
@@ -108,10 +108,29 @@ export class EditorPartComponent implements OnInit {
   }
 
 
-  updateEditor() { 
+  updateEditor()  
+  {this.backendService.LoadFullData().subscribe(
+    (fullData: Object) => {
+      // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
+      const converted: Observable<boolean> = this.converter.convert(of(fullData));
+
+      converted.subscribe((value: boolean) => {
+        if (value) {
+          // Conversion successful, do something if needed
+        } else {
+          // Conversion failed, handle the error if needed
+        }
+      });
+    },
+    (error) => {
+      
+      console.error('Error fetching full data:', error);
+    }
+  ); 
     this.editorParentElementID = this.dataService.getEditorElement();
     console.log("updateEditor was just pressed and the editorParentElementID is this:", this.editorParentElementID)
     if (this.editorParentElementID.length === 0) {                                    //at the beginning of the program the editor shows the direct children of the root
+
       this.displayedEditorElements = this.rootInstance.getChildren();
       this.layerElements = this.displayedEditorElements.map(element => new LayerElement(element, this.backendService,  this.converter, this.dataService));
       this.cdr.detectChanges();
@@ -164,7 +183,7 @@ export class EditorPartComponent implements OnInit {
   
 
   onDelete(layerElement: LayerElement) { //calles deleteElement in layerElement
-    layerElement.deleteElement;
+    layerElement.deleteElement();
 
   }
 
@@ -266,6 +285,10 @@ export class EditorPartComponent implements OnInit {
     console.log("Kommentar wurde nicht bearbeitet, Änderungen werden nicht vorgenommen")
   }
 }
+
+
+
+
 
   
 

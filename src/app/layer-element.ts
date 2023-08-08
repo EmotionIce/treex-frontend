@@ -57,7 +57,7 @@ export class LayerElement {
     converted.subscribe((value: boolean) => {
     if (value) {
       
-      
+      this.dataService.notifyChange();
       this.onBackToParentClick();                                                                           // the active element will always be the parent of the deleted one after this, to avoid 
                                                                                                             //nullpointer exception for the active element
     } 
