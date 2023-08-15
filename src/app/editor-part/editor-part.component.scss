@@ -53,7 +53,7 @@
   background-color: rgba(255, 255, 255, 0.1); // Semi-transparent background on hover
 }
 
-.marked-element {
+.current-marked {
   background-color: rgb(38, 0, 255);
   outline: 2px solid #0054dc;
 }
@@ -89,13 +89,13 @@
   }
 }
 
-.edit-button {
+.edit-button, .stop-edit-button {
   background-color: #007bff;
   color: var(--primary-text-color);
 }
 
 .delete-button {
-  background-color: #dff803;
+  background-color: #ff7300;
   color: var(--primary-text-color);
 }
 

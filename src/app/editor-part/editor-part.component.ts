@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef, ElementRef, ViewChild  } from '@angular/core';
 import { Element } from '../models/element';
 import { LayerElement } from '../layer-element';
 import { BackendService } from '../services/backend.service';
@@ -28,7 +28,7 @@ export class ConcreteElement extends Element { //temporary class to test element
 })
 export class EditorPartComponent implements OnInit {
 
-
+  @ViewChild('currentScrollElement', { read: ElementRef, static: false }) currentScrollElement!: ElementRef;
   settings: any;
   displayedEditorElements: Element[] = [];          //the list of elements that are supposed to be shown
   layerElements: LayerElement[] = [];               //the list of layerElements that are shown
@@ -60,7 +60,7 @@ export class EditorPartComponent implements OnInit {
 
   ngOnInit() {
 
-    /*
+    
     this.backendService.LoadFullData().subscribe(
       (fullData: Object) => {
         // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
@@ -78,7 +78,7 @@ export class EditorPartComponent implements OnInit {
         
         console.error('Error fetching full data:', error);
       }
-    ); */
+    ); 
     this.settings = this.settingsService.getSettings();
     this.updateEditor();
 
@@ -89,6 +89,11 @@ export class EditorPartComponent implements OnInit {
     })
     this.dataService.currentChange.subscribe(change => { //should elements be changed, the dataservice.notifyChange will call this to update the elements in the editor.
       this.updateEditor();
+
+
+      if (this.editorParentElementID && this.currentScrollElement) {
+        this.currentScrollElement.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      }
 
     });
 
@@ -107,7 +112,16 @@ export class EditorPartComponent implements OnInit {
 
 
   }
-
+/*
+  ngAfterViewInit() {                               //responsible for scrolling down to the currentElement
+    if (this.editorParentElementID) {
+      const currentScrollElement = this.currentElementRef.nativeElement as HTMLElement;
+      if (currentScrollElement) {
+        currentScrollElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+*/
 
   updateEditor() {
     /*
