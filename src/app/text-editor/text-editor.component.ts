@@ -5,8 +5,8 @@ import { EditorPartComponent } from '../editor-part/editor-part.component';
   selector: 'app-text-editor',
   template: `
     <div *ngIf="!isEditMode" (click)="enterEditMode()">{{ text }}</div>
-    <textarea *ngIf="isEditMode" [(ngModel)]="editedText"></textarea>
-    <button *ngIf="isEditMode" (click)="saveText()">Save</button>
+    <textarea matInput *ngIf="isEditMode" [(ngModel)]="editedText"></textarea>
+    <button mat-raised-button *ngIf="isEditMode" (click)="saveText()">Save</button>
   `,
   styleUrls: ['./text-editor.component.scss']
 })
