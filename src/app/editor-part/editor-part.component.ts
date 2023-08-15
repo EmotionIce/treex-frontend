@@ -241,10 +241,6 @@ export class EditorPartComponent implements OnInit {
         })
       );
 
-      backendResponse.subscribe(data => {
-        console.log("Data received:", data);
-      });
-
       const converted: Observable<boolean> = this.converter.convert(backendResponse);
 
       converted.subscribe(value => {
