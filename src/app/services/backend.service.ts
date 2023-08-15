@@ -332,7 +332,9 @@ export class BackendService {
       console.error(
         `Backend returned code ${error.status}, body was: ${error.error}`
       );
-      errorMessage = `Backend returned code ${error.status}, body was: ${error.error.error}`;
+      let failMessage = (error.error.failureMessage) ? error.error.failureMessage : error.error.error;
+      errorMessage = `Backend returned code ${error.status}, body was: ${failMessage}`;
+      console.log(error);
       if(error.status == 0) errorMessage = "Backend not reachable. Please check your connection or start the server.";
     }
     // Use the ErrorPopupService to display the error message
