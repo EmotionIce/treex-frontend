@@ -7,6 +7,8 @@ export interface Settings {
   deleteCascading: boolean;
   hideComments: boolean;
   hideSummaries: boolean;
+  exportComment: true;
+  exportSummary: true;
   popupDuration: number;
   // Other settings go here
 }
@@ -22,6 +24,8 @@ export class SettingsService {
     deleteCascading: false,
     hideComments: false,
     hideSummaries: false,
+    exportComment: true,
+    exportSummary: true,
     popupDuration: 5000,
   };
 
