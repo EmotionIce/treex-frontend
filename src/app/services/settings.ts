@@ -7,8 +7,8 @@ export interface Settings {
   deleteCascading: boolean;
   hideComments: boolean;
   hideSummaries: boolean;
-  exportComment: true;
-  exportSummary: true;
+  exportComment: boolean;
+  exportSummary: boolean;
   popupDuration: number;
   // Other settings go here
 }
@@ -26,7 +26,7 @@ export class SettingsService {
     hideSummaries: false,
     exportComment: true,
     exportSummary: true,
-    popupDuration: 5000,
+    popupDuration: 5,
   };
 
   constructor(private dataService: DataService) {
