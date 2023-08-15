@@ -222,6 +222,21 @@ export class BackendService {
   }
 
   /**
+   * Adds an element to a parent
+   */
+  public AddElement(content: string, parent: Element, previousElement: Element): Observable<Object> {
+    let addData: Object = {
+      content: content,
+      parent: parent.getId(),
+      previousChild: previousElement.getId()
+    };
+
+    return this.http
+      .post<Array<Object>>(`${this.baseUrl}/api`, { AddElement: addData })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Imports data from a folder
    * 
    * @param destination Path to the folder
