@@ -49,17 +49,6 @@ export class BackendService {
     return this.baseUrl;
   }
 
-  /**
-   * Sends a request to the backend to push the current data to the git repository / save to folder
-   * 
-   * @returns no specific return value expected
-   */
-  public Export(): Observable<any> {
-    return this.http
-      .get<Array<Object>>(`${this.baseUrl}/Export`)
-      .pipe(catchError(this.handleError));
-  }
-
 
 
   /**
@@ -99,6 +88,23 @@ export class BackendService {
       .get<boolean>(`${this.baseUrl}/CheckForUpdates`)
       .pipe(catchError(this.handleError));
   }
+
+  /**
+   * Sends a request to the backend to push the current data to the git repository / save to folder
+   * 
+   * @returns no specific return value expected
+   */
+  public Export(): Observable<any> {
+    let exportData: Object = {
+      exportComment: this.settings.exportComment,
+      exportSummary: this.settings.exportSummary
+    };
+    console.log(exportData);
+    
+    return this.http
+      .post<Array<Object>>(`${this.baseUrl}/api`, { Export: exportData })
+  }
+
 
   /**
    * Moves an element in the tree view
@@ -332,7 +338,9 @@ export class BackendService {
       console.error(
         `Backend returned code ${error.status}, body was: ${error.error}`
       );
-      errorMessage = `Backend returned code ${error.status}, body was: ${error.error.error}`;
+      let failMessage = (error.error.failureMessage) ? error.error.failureMessage : error.error.error;
+      errorMessage = `Backend returned code ${error.status}, body was: ${failMessage}`;
+      console.log(error);
       if(error.status == 0) errorMessage = "Backend not reachable. Please check your connection or start the server.";
     }
     // Use the ErrorPopupService to display the error message

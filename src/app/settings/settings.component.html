@@ -50,6 +50,22 @@
 
   <div mat-card class="margin-element">
     <section class="setting">
+      <mat-checkbox [(ngModel)]="settings.exportComment" (change)="updateSettings()">
+        Export Comments
+      </mat-checkbox>
+    </section>
+  </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-checkbox [(ngModel)]="settings.exportSummary" (change)="updateSettings()">
+        Export Summaries
+      </mat-checkbox>
+    </section>
+  </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
       <mat-form-field class="example-form-field" appearance="fill">
         <mat-label>Popup Duration (sec)</mat-label>
         <input matInput type="number" min="0" [(ngModel)]="settings.popupDuration" title="test">
@@ -60,3 +76,5 @@
     </section>
   </div>
 </div>
+
+<app-error-popup></app-error-popup>
