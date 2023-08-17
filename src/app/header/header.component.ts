@@ -3,6 +3,7 @@ import { DataService } from '../services/data.service';
 import { BackendService } from '../services/backend.service';
 import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
