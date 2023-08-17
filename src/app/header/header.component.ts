@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, Inject, AfterViewInit} from '@angular/core';
 import { DataService } from '../services/data.service';
 import { BackendService } from '../services/backend.service';
 import { Subscription } from 'rxjs';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,7 @@ export class HeaderComponent implements OnInit {
   dataImported: boolean;
   subscription: Subscription = Subscription.EMPTY;
 
-  constructor(private dataService: DataService, private backendService: BackendService) {
+  constructor(private dataService: DataService, private backendService: BackendService, private renderer: Renderer2, @Inject(DOCUMENT) private document: Document) {
     // Initialize as false
     this.dataImported = false;
   }
@@ -34,5 +35,13 @@ export class HeaderComponent implements OnInit {
         alert('Export successful');
       }
     });
+  }
+
+  ngAfterViewInit() {
+    this.renderer.setStyle(this.document.querySelector('app-settings'), 'display', 'none');
+  }
+
+  openSettings() {
+    this.renderer.setStyle(this.document.querySelector('app-settings'), 'display', 'flex');
   }
 }
