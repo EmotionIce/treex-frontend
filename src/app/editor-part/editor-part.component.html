@@ -12,8 +12,9 @@
         [ngClass]="{ 'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': editorParentElementID === layerElement.element.getId(), 'current-marked': editorParentElementID === layerElement.element.getId() }"
         #currentElement (mouseenter)="onElementHover(layerElement.element.getId())" (mouseleave)="onElementHover(null)"
         class="element-container" cdkDrag>
-        <button *ngIf="layerElement.parent instanceof Root && editorParentElementID && editorParentElementID.length > 0"
-          class="parent-button" (click)="showParent(layerElement)">Eltern anzeigen</button>
+        <button *ngIf="parentInstanceOfParent(layerElement)" class="parent-button"
+          (click)="showParent(layerElement)">Eltern anzeigen</button>
+
 
 
 

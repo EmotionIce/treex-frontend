@@ -446,4 +446,12 @@ export class EditorPartComponent implements OnInit {
       });
     }
   }
+
+  parentInstanceOfParent(layerElement: LayerElement): boolean {
+    //checks if the parent of the element is an instance of parent
+    if (layerElement.element.getParent() instanceof Parent) {
+      return true;
+    }
+    return false;
+  }
 }
