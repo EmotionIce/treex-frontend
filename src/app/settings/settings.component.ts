@@ -39,4 +39,11 @@ export class SettingsComponent {
       this.renderer.addClass(this.document.body, 'light-theme');
     }
   }
+
+  /**
+   * Close the settings
+   */
+  closeSettings() {
+    this.renderer.setStyle(this.document.querySelector('app-settings'), 'display', 'none');
+  }
 }

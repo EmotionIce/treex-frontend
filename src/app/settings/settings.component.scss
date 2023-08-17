@@ -30,13 +30,34 @@ h2 {
   color: var(--primary-text-color);
   display: flex;
   flex-direction: column;
-  margin: auto;
+  position: fixed; // changed from absolute to fixed to make it centered in the viewport
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); // Center the popup
+  background-color: var(--background-color);
+  padding: 20px;
+  border-radius: 8px; // Rounded corners
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); // Soft shadow effect
+
+  // Optional: Add a slight transition for a smoother appearance if toggled.
+  transition: all 0.3s ease-out;
+}
+
+// Overlay that sits behind the popup to focus on it.
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); // Semi-transparent black
+  //z-index:  // Ensure it's below the popup but above other page contents
 }
 
 .margin-element.mat-card {
   margin-bottom: 20px;
 }
 
-.mat-icon  {
+.mat-icon {
   color: var(--accent-color) !important; // White background
 }

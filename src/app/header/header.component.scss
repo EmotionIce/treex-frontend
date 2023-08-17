@@ -1,18 +1,52 @@
 .container {
-  display: flex; /* Display elements horizontally */
+  display: flex;
+  justify-content: space-between; // Evenly distribute space
+  align-items: center;
+  padding: 5px 15px; // Give it some space from the top, left, and right
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
 }
 
 ul {
-  list-style: none; /* Remove default bullets */
+  list-style: none;
+  display: flex; // Align list items in a row
+  align-items: center; // Vertically center-align items
+  gap: 15px; // Even space between items
 }
 
 li {
-  display: inline-block;
-  margin-right: 10px; /* Add space between the list items */
-  vertical-align: middle; /* Align list items vertically */
+  display: inline-flex;
+  align-items: center;
 }
 
 .logo {
-  max-width: 100px; /* Adjust the value as per your requirements */
-  height: auto; /* To ensure image doesn't get pixelated */
+  max-width: 100px;
+  height: auto;
+  margin-right: auto; // Pushes the logo to the left, and rest of the items to the right
+}
+
+a[mat-raised-button],
+button[mat-raised-button] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 15px; // Restores some of the padding around the text
+  border-radius: 5px; // Rounded edges for modern look
+  transition: background-color 0.2s; // Smooth transition for hover effects
+
+  &:hover {
+    background-color: var(--header-button-hover-color, #555); // Darkens the button slightly on hover
+  }
+
+  .icon {
+    margin-right: 5px; // Space between the icon and text (if you add text next to icons in the future)
+  }
+}
+
+// If you have buttons without text (just icons), you can target them specifically:
+button[mat-raised-button]:not(:has(>:not(.icon))),
+a[mat-raised-button]:not(:has(>:not(.icon))) {
+  .icon {
+    margin: 0; // If there's no text, keep the icon centered without margin
+  }
 }
