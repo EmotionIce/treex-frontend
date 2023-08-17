@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef, ElementRef, ViewChild  } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ChangeDetectorRef, ElementRef, ViewChild, Input } from '@angular/core';
 import { Element } from '../models/element';
 import { LayerElement } from '../layer-element';
 import { BackendService } from '../services/backend.service';
@@ -14,6 +14,12 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule, CdkDra
 import { LatexRenderComponent } from '../latex-render/latex-render.component';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+
+
+
+
 
 
 
@@ -21,12 +27,16 @@ export class ConcreteElement extends Element { //temporary class to test element
 
 }
 
+
 @Component({
   selector: 'app-editor-part',
   templateUrl: './editor-part.component.html',
-  styleUrls: ['./editor-part.component.scss']
+  styleUrls: ['./editor-part.component.scss'],
+
 })
-export class EditorPartComponent implements OnInit {
+export class EditorPartComponent implements OnInit { 
+
+  @Input() navElementHoverID: string | null = null;
 
   @ViewChild('currentScrollElement', { read: ElementRef, static: false }) currentScrollElement!: ElementRef;
   settings: any;
@@ -162,10 +172,12 @@ export class EditorPartComponent implements OnInit {
     }
   }
 
-  onElementHover(elementID: string | null) { //gives parentElement of hoveredElement to editorview
+  onElementHover(elementID: string | null) { //gives hoveredElement to editorview
     this.hoveredElementID = elementID;
 
     if (elementID) {
+      this.parentElementIDChange.emit(this.hoveredElementID);
+      /*
       const element = this.rootInstance.searchByID(elementID);
       if (element instanceof Element) {
         const parentElement = element.getParent();
@@ -174,9 +186,30 @@ export class EditorPartComponent implements OnInit {
           this.parentElementID = parentElement.getId();
           this.parentElementIDChange.emit(this.parentElementID);
         }
-      }
+      }*/
+    } else {
+      this.parentElementIDChange.emit(null);
     }
   }
+  onNavElementHover(layerElement: LayerElement): boolean {
+
+    console.log("i got an input from nav", this.navElementHoverID);
+    if (this.navElementHoverID) {
+      const navElementHover = this.rootInstance.searchByID(this.navElementHoverID);
+      if (navElementHover instanceof Parent) {
+        const navElementChildren = navElementHover.getChildren(); // Call the function
+  
+        for (const child of navElementChildren) {
+          if (child === layerElement.element) {
+            return true; 
+          }
+        }
+      }
+    } 
+    return false;
+  }
+ 
+  
 
   onDragStarted(event: CdkDragStart, layerElement: any) { //saves the element that is being dragged
     this.draggedLayerElement = layerElement;
@@ -192,6 +225,7 @@ export class EditorPartComponent implements OnInit {
   }
 
   onDrop(event: CdkDragEnd, layerElement: any) { //handles the dropping of an element
+    console.log("dropped this element: ", this.draggedLayerElement, "on this element: ", layerElement.element.getId(), layerElement.element.getContent());
     event.source.element.nativeElement.classList.remove('dragging');
 
     const draggedElement = this.draggedLayerElement?.element;

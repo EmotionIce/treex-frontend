@@ -20,11 +20,17 @@ export class ConcreteElement extends Element {
 export class NavigationPartComponent implements OnInit {
  
   @Input() parentElementID: string | null = null;
+  @Output() navParentElementIDChange = new EventEmitter<string | null>();
+
+  hoveredElementID: string | null = null;           //the element that is highlighted. need it to highlight its corresponding children
   displayedNavigationElements: Element[] = []; // the elements from root
   rootInstance: Root;
   parentElement: Element | null = null; // this element gives back the displayedNavigationElements using root.getElementsOfLayer
   navigationParentElementID: string | null = null; //the ID of the parentElement
    layerElements: LayerElement[] = []; //the list of layerElements that are to be shown
+   hoveredNavElementID: string | null = null;
+
+   
 
   constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService) {
     this.rootInstance = Root.createRoot();
@@ -64,13 +70,61 @@ export class NavigationPartComponent implements OnInit {
   }
 
 
+  onNavElementHover(elementID: string | null) { //gives parentElement of hoveredElement to editorview
+    this.hoveredNavElementID = elementID;
+    console.log("hover basically works", this.hoveredNavElementID);
+    
+
+    if (elementID) {
+      this.navParentElementIDChange.emit(this.hoveredNavElementID);
+    } else {
+      this.navParentElementIDChange.emit(null);
+    }
+   /* this.hoveredElementID = elementID;
+
+    if (elementID) {
+      const element = this.rootInstance.searchByID(elementID);
+      if (element instanceof Element) {
+        const parentElement = element.getParent();
+
+        if (parentElement instanceof Element) {
+          this.parentElementID = parentElement.getId();
+          this.parentElementIDChange.emit(this.parentElementID);
+        }
+      }
+    } else {
+      this.parentElementIDChange.emit(null);
+    }
+  
+*/
+  }
+
+
+
   getFirstFourtyLetters(content: string): string { //takes the first 40 letters of the content to display them
     if (content) {
       return content.slice(0, 40);
     }
     return 'empty content';
   }
+
+
   highlightElement(layerElement: LayerElement): boolean { // checks which element has the same ID as the element that is to be highlighted
-    return this.parentElementID === layerElement.element.getId(); //so the parentElement is highlighted when the user hovers elements in editorpart
-  }
+    if (this.parentElementID) {
+      console.log("es wird gehovert");
+    const element = this.rootInstance.searchByID(this.parentElementID);
+      if (element instanceof Element) {
+        const parentElement = element.getParent();
+
+        if (parentElement instanceof Element) {
+          console.log("parentElement is nicht null");
+          const highlightParent = parentElement.getId();
+
+          return highlightParent === layerElement.element.getId(); //so the parentElement is highlighted when the user hovers elements in editorpart
+          
+        }
+      }
+    
+  } return false;
+}
 }

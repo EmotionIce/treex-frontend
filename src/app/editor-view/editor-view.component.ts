@@ -24,8 +24,10 @@ export class EditorViewComponent implements OnInit{
   parentElement: Element | null = null;           //the element that is given to the navigationpart to highlight the parent of the currently
                                                   //highlighted element in the editor
   hoveredParentElementID: string | null = null;   //the id of that parentElement
+  hoveredNavElement: string | null = null; 
   currentElement: Element | null = null;          //the element from which all the other lists of elements are decided
   currentElementID: string | null = null;         //the ID of that element
+
   
   
   
@@ -52,6 +54,9 @@ export class EditorViewComponent implements OnInit{
   onHoveredParentElementIDChange(parentElementID: string | null) {                    //to pass the hovered Element from editorpart to navigationpart
    
     this.hoveredParentElementID = parentElementID;
+  }
+  onNavParentElementIDChange(elementID: string | null) {
+    this.hoveredNavElement = elementID;
   }
 
   

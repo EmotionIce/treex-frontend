@@ -3,13 +3,15 @@
 
 
  
-  <div cdkDropList>
+  <div cdkDropList [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true">
 
-    <div *ngFor="let layerElement of layerElements"
+    <ng-container *ngFor="let layerElement of layerElements">
+      <div
      [ngClass]="{ 'marked-element': layerElement.element.getId() === editorParentElementID }"
      (cdkDragStarted)="onDragStarted($event, layerElement)"
      (cdkDragEnded)="onDrop($event, layerElement)"
-     [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() }"
+     
+     [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement)}"
      [ngClass]="{ 'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': editorParentElementID === layerElement.element.getId(), 'current-marked': editorParentElementID === layerElement.element.getId() }"
      #currentElement
      (mouseenter)="onElementHover(layerElement.element.getId())"
@@ -90,6 +92,20 @@
     <p class="section-title">Kommentar:</p>
   <app-text-editor [text]="layerElement?.element?.getComment() || 'Ist leer'" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
   </div>
+
+  
+</div>
+</ng-container>
+<div cdkDragPreview class="invisible-placeholder"></div>
+</div>
+</div>
+
+<ng-template #placeholderTemplate let-data="data">
+  <!-- Style the placeholder as desired -->
+  <div class="placeholder">
+    <!-- You can add visual cues or instructions here -->
+  </div>
+</ng-template>
      
       
    
