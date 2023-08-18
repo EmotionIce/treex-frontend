@@ -32,6 +32,9 @@ export class NavigationPartComponent implements OnInit {
 
   constructor(private backendService: BackendService, private converter: JsonToModelConverterService, private dataService: DataService) {
     this.rootInstance = Root.createRoot();
+    
+    console.log("now:")
+    console.log(this.rootInstance)
   }
  
   
