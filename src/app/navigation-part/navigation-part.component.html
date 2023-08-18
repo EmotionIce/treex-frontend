@@ -4,13 +4,14 @@
     <div *ngFor="let layerElement of layerElements">
       <div
       class="navigation-element-container"
-     [class.highlighted]="highlightElement(layerElement)">
+     [class.highlighted]="highlightElement(layerElement)"
+     (mouseenter)="onNavElementHover(layerElement.element.getId())"
+      (mouseleave)="onNavElementHover(null)">>
     
         <p>{{ getFirstFourtyLetters(layerElement.element.getContent()) }}</p>
+        
       </div>
-      
-    
-  
+
     
   </div>
   

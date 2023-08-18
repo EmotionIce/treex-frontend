@@ -7,6 +7,8 @@ export interface Settings {
   deleteCascading: boolean;
   hideComments: boolean;
   hideSummaries: boolean;
+  exportComment: boolean;
+  exportSummary: boolean;
   popupDuration: number;
   // Other settings go here
 }
@@ -22,12 +24,12 @@ export class SettingsService {
     deleteCascading: false,
     hideComments: false,
     hideSummaries: false,
-    popupDuration: 5000,
+    exportComment: true,
+    exportSummary: true,
+    popupDuration: 5,
   };
 
-  private dataService: DataService = new DataService();
-
-  constructor() {
+  constructor(private dataService: DataService) {
     // Try to load settings from localStorage on initialization
     const savedSettings = localStorage.getItem('settings');
     if (savedSettings) {

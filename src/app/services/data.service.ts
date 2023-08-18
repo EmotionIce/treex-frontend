@@ -78,6 +78,7 @@ export class DataService {
     }
   
     getEditorElement(): string {
+      console.log("dataservice just became active and returned this element:", this.editorElements.value);
       return this.editorElements.value;
     }
   

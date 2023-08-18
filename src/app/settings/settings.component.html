@@ -1,9 +1,8 @@
-<app-header></app-header>
-
+<div class="settings-overlay" (click)="closeSettings()"></div>
 <div class="settings-container">
   <h2>User Settings</h2>
 
-<!--  
+ 
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-form-field appearance="fill">
@@ -14,7 +13,7 @@
         </mat-select>
       </mat-form-field>
     </section>
-  </div>-->
+  </div>
 
   <div mat-card class="margin-element">
     <section class="setting">
@@ -44,6 +43,22 @@
     <section class="setting">
       <mat-checkbox [(ngModel)]="settings.hideSummaries" (change)="updateSettings()">
         Hide Summaries
+      </mat-checkbox>
+    </section>
+  </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-checkbox [(ngModel)]="settings.exportComment" (change)="updateSettings()">
+        Export Comments
+      </mat-checkbox>
+    </section>
+  </div>
+
+  <div mat-card class="margin-element">
+    <section class="setting">
+      <mat-checkbox [(ngModel)]="settings.exportSummary" (change)="updateSettings()">
+        Export Summaries
       </mat-checkbox>
     </section>
   </div>

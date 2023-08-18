@@ -24,8 +24,10 @@ export class EditorViewComponent implements OnInit{
   parentElement: Element | null = null;           //the element that is given to the navigationpart to highlight the parent of the currently
                                                   //highlighted element in the editor
   hoveredParentElementID: string | null = null;   //the id of that parentElement
+  hoveredNavElement: string | null = null; 
   currentElement: Element | null = null;          //the element from which all the other lists of elements are decided
   currentElementID: string | null = null;         //the ID of that element
+
   
   
   
@@ -38,49 +40,36 @@ export class EditorViewComponent implements OnInit{
 
 
   ngOnInit() {
-    
 
-    
-    this.dataService.currentChange.subscribe(change => { //if elements change their value
-
-      this.updateEditor();
-   });
-
-
-   this.dataService.currentActiveElementID.subscribe(id => { //if the user wants to see different elements e.g. the children of one
+   this.dataService.currentActiveElementID.subscribe(id => {                            //if the user wants to see different elements e.g. the children of one
+         
         this.currentElementID = id;
+       
         this.currentElement = this.rootInstance.searchByID(this.currentElementID);
-        this.updateEditor();
+        this.updateEditorView();
 
     });
   }
 
-  onHoveredParentElementIDChange(parentElementID: string | null) { //to pass the hovered Element from editorpart to navigationpart
+  onHoveredParentElementIDChange(parentElementID: string | null) {                    //to pass the hovered Element from editorpart to navigationpart
    
     this.hoveredParentElementID = parentElementID;
-    
+  }
+  onNavParentElementIDChange(elementID: string | null) {
+    this.hoveredNavElement = elementID;
   }
 
   
-  updateEditor() { // gives editorpart and navigationpart the new currentElement so they show it
-
+  updateEditorView() {                                                                  // gives editorpart and navigationpart the new currentElement so they show it
+    
     const parentElement = this.currentElement ? this.currentElement.getParent() : this.rootInstance;
     if (parentElement instanceof Parent) {
-      this.elementIDForEditor = parentElement.getId();
+      this.elementIDForNaviagtion = parentElement.getId();
 
     }
-    const grandparentElement = this.parentElement ? this.parentElement.getParent() : this.rootInstance;
-    if (grandparentElement instanceof Parent) {
-      this.elementIDForNaviagtion = grandparentElement.getId();
-    }
-    
-    
-    const editorElementId: string = this.elementIDForEditor ?? '';
-
-  
-  const navigationElementId: string = this.elementIDForNaviagtion ?? '';
-  this.dataService.changeEditorElements(editorElementId);
-  this.dataService.changeNavigationElements(navigationElementId);
+    this.dataService.changeEditorElements(this.currentElementID);
+    this.dataService.changeNavigationElements(this.elementIDForNaviagtion);
+    console.log("editorview updated the elements: " ,this.currentElement, this.elementIDForNaviagtion)
     
   }
 }

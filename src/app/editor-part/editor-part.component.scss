@@ -1,100 +1,150 @@
-.element-container {
-    display: inline-block;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
-    width: 1000px;
-    position: relative;
-    cursor: move;
-    background-color: grey;
+.editor-part {
+  color: var(--primary-text-color);
 }
-.element-container.highlighted {
-  background-color: rgb(4, 35, 49);
-  border: 2px solid red;
+.element-container {  
+  border: 1px solid var(--secondary-text-color);
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+  cursor: grab;
+  background-color: var(--secondary-background-color);
+  position: relative;
+  padding-left: 140px;
+  box-sizing: border-box;
+  padding-right: 140px;
+  border-radius: 5px; // Modern border radius
+  transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition for hover
+  color: var(--primary-text-color);
+
+  .section-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+  }
+
+  .section-heading {
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  h3, p {
+    border-bottom: 1px solid var(--primary-text-color);
+    transition: color 0.3s ease; // Smooth transition for hover
+  }
+
 }
 
-.dragging {
-  cursor: grabbing;
+.cdk-drag-preview {
+  cursor: grabbing !important;
+  background-color: var(--secondary-background-color) !important;
+  border: 2px dashed var(--accent-color) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+  opacity: 0.5 !important;
 }
+
+.element-container.highlighted {
+  background-color: var(--secondary-background-color);
+  border: 2px solid var(--accent-color);
+}
+
+.element-container:hover {
+  color: var(--primary-text-color); 
+  background-color: rgba(255, 255, 255, 0.1); // Semi-transparent background on hover
+}
+
+.current-marked {
+  background-color: rgb(38, 0, 255);
+  outline: 2px solid #0054dc;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 100px;
+
+
+  button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition for hover
+
+
 
 
 .element-container h3 {
     border-bottom: 1px solid #ccc;
 }
+    &:last-child {
+      margin-right: 0;
+    }
 
-.element-container p {
-    border-bottom: 1px solid #ccc; 
-    margin-bottom: 10px; 
+    &:hover {
+      background-color: var(--accent-color);
+      color: var(--primary-text-color);
+    }
   }
-
-.button-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
 }
 
-.edit-button {
-    background-color: #007bff; 
-  color: black; 
-  padding: 5px 10px; 
-  border: none; 
-  border-radius: 3px; 
-  margin-right: 10px; 
-
+.edit-button, .stop-edit-button {
+  background-color: #007bff;
+  color: var(--primary-text-color);
 }
 
 .delete-button {
- 
-  background-color: #dff803; 
-  color: black; 
-  padding: 5px 10px; 
-  border: none; 
-  border-radius: 3px; 
-  margin-right: 10px; 
+  background-color: #ff7300;
+  color: var(--primary-text-color);
+}
 
+.comment-button { // Fixed typo: "comment-buton" -> "comment-button"
+  background-color: #28a745;
+  color: var(--primary-text-color);
 }
-.comment-buton {
-    background-color: #28a745; 
-    color: white; 
-    padding: 5px 10px; 
-    border: none; 
-    border-radius: 3px; 
-    margin-right: 10px;
-}
+
 .summary-button {
-    background-color: #ea00ff; 
-    color: black; 
-    padding: 5px 10px; 
-    border: none; 
-    border-radius: 3px; 
-    margin-right: 10px;
-  }
-  .child-button {
-    background-color:red;
-    color: white; 
-    padding: 5px 10px; 
-    border: none; 
-    border-radius: 3px; 
-    margin-left: 10px;
+  background-color: #ea00ff;
+  color: var(--primary-text-color);
+}
 
-  }
-  .parent-button {
-    
-    background-color: #28a745; 
-    color: white; 
-    padding: 5px 10px; 
-    border: none; 
-    border-radius: 3px; 
-    margin-left: 10px;
+.child-button, .parent-button {
+  width: 75px;
+  height: 100%; 
+  position: absolute;
+  top: 0;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: var(--primary-text-color);
+  z-index: 1;
 
+  &:hover {
+    background-color: var(--accent-color);
   }
+}
 
-  .dragging {
-   
-    background-color: #f0f0f0;
-    border: 1px dashed #ccc;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  }
+.child-button {
+  right: 0;
+  background-color: red;
+  margin-right: 10px;
+}
 
- 
+.parent-button {
+  left: 0;
+  background-color: #28a745;
+  margin-left: 10px;
+}
+
+.invisible-preview {
+  display: none;
+}
+
+.invisible-placeholder {
+  /* Make the placeholder visible during drag */
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 2px dashed rgba(0, 0, 0, 0.5);
+  min-height: 40px; /* Set an appropriate height */
+  width: 100%;
+} 

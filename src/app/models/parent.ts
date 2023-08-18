@@ -22,7 +22,7 @@ export abstract class Parent extends Element {
 
   /**
    * Removes a child from the children list
-   * 
+   *
    * @param childId id of the child to be removed
    * @returns true if the child was found and removed, false if not
    */
@@ -37,9 +37,9 @@ export abstract class Parent extends Element {
 
   /**
    * Return the previous sibling of the given element or null if it is the first element
-   * 
+   *
    * @param e Element whose previous sibling is to be found
-   * @returns 
+   * @returns
    */
   public getPrevious(e: Element): Element | null {
     const index = this.children.findIndex(

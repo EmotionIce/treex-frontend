@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -41,6 +41,8 @@ import { SummaryComponent } from './summary/summary.component';
 
 import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
 import {TooltipModule} from '@syncfusion/ej2-angular-popups';
+import { CommonModule } from '@angular/common';
+
 
 
 
@@ -81,8 +83,10 @@ import {TooltipModule} from '@syncfusion/ej2-angular-popups';
     MatSnackBarModule,
     DragDropModule,
     DiagramModule,
+    CommonModule,
     TooltipModule
   ],
+  schemas: [NO_ERRORS_SCHEMA],
 
   providers: [SettingsService, DataBindingService, SnappingService, ComplexHierarchicalTreeService, BackendService, ErrorPopupService],
   bootstrap: [AppComponent],

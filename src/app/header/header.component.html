@@ -3,9 +3,9 @@
     <li><img class="logo" src="assets/images/logo.png" alt="Logo Image"></li>
     <li><a mat-raised-button routerLink="/Baum">Baum</a></li>
     <li><a mat-raised-button routerLink="/Editor">Editor</a></li>
-    <li><a mat-raised-button>Overleaf</a></li>
+    <li><a mat-raised-button href="https://www.overleaf.com/project">Overleaf</a></li>
     <li><a mat-raised-button routerLink="/Import">Import</a></li>
-    <li *ngIf="dataImported"><a mat-raised-button (click)="exportData()">Export</a></li>
-    <li><a mat-raised-button routerLink="/Einstellungen">Einstellungen</a></li>
+    <li *ngIf="dataImported"><a mat-raised-button (click)="exportData()"><mat-icon class="icon">save</mat-icon></a></li>
+    <li><button mat-raised-button (click)="openSettings()"><mat-icon class="icon">settings</mat-icon></button></li>
   </ul>
 </div>

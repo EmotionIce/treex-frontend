@@ -19,86 +19,80 @@ export class LayerElement {
   showCommentTextbox: boolean;
   public readonly parent: Element | Root | null;
 
-  constructor(element: Element, private backendService: BackendService,  private converter: JsonToModelConverterService,
-    private dataService: DataService) {
-
+  constructor(
+    element: Element,
+    private backendService: BackendService,
+    private converter: JsonToModelConverterService,
+    private dataService: DataService
+  ) {
     this.element = element;
     this.parent = element.getParent();
-    
+
     this.showSummaryTextbox = false;
     this.showContentTextbox = false;
     this.showCommentTextbox = false;
   }
 
-
-
-
   @ViewChild(SummaryComponent) summaryComponent!: SummaryComponent;
   @ViewChild(ContentComponent) contentComponent!: ContentComponent;
   @ViewChild(CommentComponent) commentComponent!: CommentComponent;
 
-
-  //Moves elements whose order the user wants to change using drag and drop
-  moveElementEditor(draggedlayerElement: Element, draggedParent: Parent) {
-    const backendResponse: Observable<object> = this.backendService.MoveElementEditor(draggedlayerElement, draggedParent, this.element)
-    const converted: Observable<boolean> = this.converter.convert(backendResponse);
+  moveElementEditor(
+    draggedElement: Element,
+    newParent: Element | Root | null,
+    previousChild: Element | null
+  ) {
+    const backendResponse: Observable<object> =
+      this.backendService.MoveElementEditor(
+        draggedElement,
+        newParent,
+        previousChild
+      );
+    console.log('backendservice called with these parameters');
+    console.log(draggedElement, newParent, previousChild);
+    const converted: Observable<boolean> =
+      this.converter.convert(backendResponse);
 
     converted.subscribe((value: boolean) => {
       if (value) {
-        console.log('deleted Element');
-        
-        this.dataService.notifyChange(); 
-      } 
-  
-   });
-
-
-
-
-
+        this.dataService.notifyChange();
+      }
+    });
   }
 
-  deleteElement() { //Deletes an element. Whether the children should also be deleted is decided by the user
-    
-    const backendResponse: Observable<object> = this.backendService.DeleteElement(this.element);
-    
-    const converted: Observable<boolean> = this.converter.convert(backendResponse);
-  
+  deleteElement() {
+    //Deletes an element. Whether the children should also be deleted is decided by the user
+
+    const backendResponse: Observable<object> =
+      this.backendService.DeleteElement(this.element);
+    const converted: Observable<boolean> =
+      this.converter.convert(backendResponse);
+
     converted.subscribe((value: boolean) => {
-    if (value) {
-      console.log('deleted Element');
-      
-      this.onBackToParentClick(); // the active element will always be the parent of the deleted one after this, to avoid 
-      //nullpointer exception for the active element
-    } 
+      if (value) {
+        this.dataService.notifyChange();
+        this.onBackToParentClick(); // the active element will always be the parent of the deleted one after this, to avoid
+      }
+    });
+  }
 
- });
-}
+  onBackToParentClick() {
+    // Shows the parent element of the currently displayed element
 
-  onBackToParentClick() { // Shows the parent element of the currently displayed element
     if (this.parent instanceof Parent) {
       const parentID = this.parent.getId();
       this.dataService.changeActiveElement(parentID);
-
     }
-    
-
   }
 
-  onExtendChild() { // Expands the child elements of the currently displayed element
+  onExtendChild() {
+    // Expands the child elements of the currently displayed element
     if (this.element instanceof Parent) {
-     
-      const parentElement = this.element as Parent;
-      
-      
-      const children = parentElement.getChildren();
+      const children = this.element.getChildren();
       const firstChild = children[0];
+
       const firstChildID: string = firstChild.getId();
-      console.log("the layerElement concluded a new activeElement:", firstChildID)
       this.dataService.changeActiveElement(firstChildID);
-
-      
     }
-
   }
 }

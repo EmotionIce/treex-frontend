@@ -1,8 +1,22 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
-import { NodeModel, TextModel, DataBinding, ConnectorModel, SnapSettingsModel, LayoutModel, SnapConstraints, NodeConstraints, Diagram, DiagramComponent, HierarchicalTree, LayoutAnimation} from '@syncfusion/ej2-angular-diagrams';
+import {
+  NodeModel,
+  ConnectorModel,
+  SnapSettingsModel,
+  LayoutModel,
+  SnapConstraints,
+  NodeConstraints,
+  TreeInfo,
+  DiagramComponent,
+  Diagram,
+  DataBinding,
+  HierarchicalTree,
+  LayoutAnimation
+} from '@syncfusion/ej2-angular-diagrams';
+//import { SummaryComponent } from './summary/summary.component';
 
 import { DataService } from '../services/data.service';
-import { BackendService } from '../services/backend.service'
+import { BackendService } from '../services/backend.service';
 import { TreeViewSummaryService } from '../services/tree-view-summary.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { LatexRenderComponent } from '../latex-render/latex-render.component';
@@ -21,16 +35,15 @@ export interface ElementInfo{
     summary: string
 }
 
-interface ReceivedData{
-    tree: any[]
+interface ReceivedData {
+  tree: any[];
 }
 
-
 @Component({
-    selector: "app-tree-view",
-    templateUrl: './tree-view.component.html',
-    styleUrls: ['./tree-view.component.scss'],
-    //encapsulation: ViewEncapsulation.None
+  selector: 'app-tree-view',
+  templateUrl: './tree-view.component.html',
+  styleUrls: ['./tree-view.component.scss'],
+  //encapsulation: ViewEncapsulation.None
 })
 export class TreeViewComponent {
     @ViewChild('diagramComponent')
@@ -79,14 +92,37 @@ export class TreeViewComponent {
                 //console.log(this.treeData)
                 //console.log((responseData as ReceivedData).tree)
                 let newTreeData = (responseData as ReceivedData).tree
-                this.generateNewTree(newTreeData);
+                let processedData = this.processTreeData(newTreeData)
+                this.generateNewTree(processedData);
             },
             (error) => {
                 //alert("err, could not load tree")
             })
         }
-
         private timeoutId: any;
+
+
+        private processTreeData(data: Object[]): Object[] {
+          let rootNodes = data.filter((node: any) => node['parentID'] === 'null');
+          if (rootNodes.length <= 1) return data; // If only one root, return original data
+      
+          let newParent = {
+            elementID: 'root', // Generate a unique ID here if needed
+            content: 'Root', // Provide a meaningful name if needed
+            parentID: 'null',
+            summary: 'null',
+            chooseManualSummary: false,
+          };
+      
+          // Change the parentID of all previous root nodes to newParent's elementID
+          rootNodes.forEach((root: any) => {
+            root['parentID'] = newParent.elementID;
+          });
+      
+          // Add the new parent to the data and return
+          data.push(newParent);
+          return data;
+        }
 
     
 
@@ -171,7 +207,7 @@ export class TreeViewComponent {
             parentId: "parentID",
             dataSource: new DataManager(this.treeData as JSON[])
         }*/
-    }
+  }
 
     
     public moveElement(elementId: string, parentId: string, previousChildId: string | null){
@@ -179,7 +215,8 @@ export class TreeViewComponent {
             (responseData: any) => {
               console.log(responseData)
               let newTreeData = (responseData as ReceivedData).tree
-              this.generateNewTree(newTreeData)
+              let processedData = this.processTreeData(newTreeData)
+              this.generateNewTree(processedData)
               this.reloadTree();
             },
             (error) => {
@@ -242,21 +279,21 @@ export class TreeViewComponent {
         ]
     }
 
-        //define expand/collapse Icons for the Nodes
-        defaultnode.expandIcon = {
-            shape: "Minus",
-            height: 10,
-            // position on the node of the "expandIcon"
-            offset: { 
-                x: 0.5,
-                y: 0.15
-            }
-        }
+    //define expand/collapse Icons for the Nodes
+    defaultnode.expandIcon = {
+      shape: 'Minus',
+      height: 10,
+      // position on the node of the "expandIcon"
+      offset: {
+        x: 0.5,
+        y: 0.15,
+      },
+    };
 
-        defaultnode.collapseIcon = {
-            shape: "Plus"
-        }
-/*
+    defaultnode.collapseIcon = {
+      shape: 'Plus',
+    };
+    /*
         if((defaultnode.data as ElementInfo).isLeaf == true){
             defaultnode.visible = false;
         }
@@ -269,11 +306,18 @@ export class TreeViewComponent {
             defaultnode.isExpanded = false;
         }*/
 
-        defaultnode.style = {fill: '#048785', strokeColor: 'Transparent', strokeWidth: 2}
+       //defaultnode.style = {fill: '#048785', strokeColor: 'Transparent', strokeWidth: 2}
+
+        defaultnode.style = {
+          fill: '#048785',
+          strokeColor: 'Transparent',
+          strokeWidth: 2,
+        };
         
         return defaultnode;
     }
 
+    
 
     // Define the connecters of the Nodes
     public getConnectorDefaults(defaultconnector: ConnectorModel) : ConnectorModel{
@@ -374,6 +418,7 @@ export class TreeViewComponent {
     public emptyAlert(args: any){
         alert("")
     }
+  
 
     public doubleClick = (args: any) : void =>
     {    
@@ -420,10 +465,9 @@ export class TreeViewComponent {
             });*/
         }
     }
-}
+  }
 
-
-
+  
 /*
 function nodeDefaults(defaultnode: NodeModel): NodeModel{
     defaultnode.height = 80;
