@@ -5,6 +5,7 @@ import { Root } from '../models/root';
 import { LayerElement } from '../layer-element';
 import { BackendService } from '../services/backend.service';
 import { JsonToModelConverterService } from '../services/json-to-model-converter.service';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, DragDropModule, CdkDragStart, CdkDragEnd, CdkDragEnter, CdkDragExit } from '@angular/cdk/drag-drop';
 
 
 export class ConcreteElement extends Element {
@@ -29,6 +30,7 @@ export class NavigationPartComponent implements OnInit {
   navigationParentElementID: string | null = null; //the ID of the parentElement
    layerElements: LayerElement[] = []; //the list of layerElements that are to be shown
    hoveredNavElementID: string | null = null;
+   isDropAreaHovered = false;
 
    
 
@@ -70,9 +72,9 @@ export class NavigationPartComponent implements OnInit {
   }
 
 
-  onNavElementHover(elementID: string | null) { //gives parentElement of hoveredElement to editorview
+  onNavElementHover(elementID: string | null) { //gives the hovered Element to to editorpart so it can highlight its children
     this.hoveredNavElementID = elementID;
-    console.log("hover basically works", this.hoveredNavElementID);
+    console.log("working");
     
 
     if (elementID) {
@@ -80,23 +82,6 @@ export class NavigationPartComponent implements OnInit {
     } else {
       this.navParentElementIDChange.emit(null);
     }
-   /* this.hoveredElementID = elementID;
-
-    if (elementID) {
-      const element = this.rootInstance.searchByID(elementID);
-      if (element instanceof Element) {
-        const parentElement = element.getParent();
-
-        if (parentElement instanceof Element) {
-          this.parentElementID = parentElement.getId();
-          this.parentElementIDChange.emit(this.parentElementID);
-        }
-      }
-    } else {
-      this.parentElementIDChange.emit(null);
-    }
-  
-*/
   }
 
 
@@ -112,6 +97,7 @@ export class NavigationPartComponent implements OnInit {
   highlightElement(layerElement: LayerElement): boolean { // checks which element has the same ID as the element that is to be highlighted
     if (this.parentElementID) {
       console.log("es wird gehovert");
+      //this.onNavElementHover(layerElement.element.getId());
     const element = this.rootInstance.searchByID(this.parentElementID);
       if (element instanceof Element) {
         const parentElement = element.getParent();
@@ -127,4 +113,42 @@ export class NavigationPartComponent implements OnInit {
     
   } return false;
 }
+
+
+onDragEnter(): void {
+  this.isDropAreaHovered = true;
 }
+
+onDragExit(): void {
+  this.isDropAreaHovered = false;
+}
+
+
+onDrop(event: CdkDragDrop<any[]>) {
+  if (event.previousContainer === event.container) {
+    moveItemInArray(this.layerElements, event.previousIndex, event.currentIndex);
+  } else {
+    const droppedData = event.previousContainer.data[event.previousIndex].data;
+    const newIndex = event.currentIndex;
+
+    // Insert the dragged data at the specified index
+    this.layerElements.splice(newIndex, 0, droppedData);
+  }
+}
+trackByFn(index: number, item: LayerElement): string {
+  return item.element.getId(); // Use a unique identifier here
+}
+
+/*
+onDrop(layerElementId: string): void {
+ 
+  } */
+  onDragEnded(event: CdkDragDrop<any>) {
+    if (event.previousIndex !== event.currentIndex) {
+      console.log(`Element dragged from index ${event.previousIndex} to index ${event.currentIndex}`);
+      // Handle the reordering or insertion logic here
+    }
+  }
+  
+}
+

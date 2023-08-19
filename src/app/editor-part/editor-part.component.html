@@ -6,7 +6,10 @@
   <div cdkDropList [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true">
 
     <ng-container *ngFor="let layerElement of layerElements">
+     
+
       <div
+      
      [ngClass]="{ 'marked-element': layerElement.element.getId() === editorParentElementID }"
      (cdkDragStarted)="onDragStarted($event, layerElement)"
      (cdkDragEnded)="onDrop($event, layerElement)"
@@ -18,6 +21,7 @@
      (mouseleave)="onElementHover(null)"
      class="element-container"
      cdkDrag>
+     
      <button *ngIf="layerElement.parent instanceof Root && editorParentElementID && editorParentElementID.length > 0" class="parent-button" (click)="showParent(layerElement)">Eltern anzeigen</button>
 
 
@@ -37,7 +41,7 @@
       <p>Kommentar: {{ layerElement?.element?.getComment() || 'Ist leer'}}</p>
     </div>
     
-    
+   
 
   <app-text-editor
     *ngIf="hoveredElementID && inEditMode"
@@ -58,7 +62,7 @@
       
         <button class="edit-button" (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">Editieren</button>
 
-      </div>
+        </div>
         <!--
         <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
         
@@ -66,9 +70,12 @@
          <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button> -->
 
 
-      </div>
+        </div>
         
         <button *ngIf="isParent(layerElement.element)" class="child-button" (click)="showChildren(layerElement)">Kinder anzeigen</button>
+
+
+       
 
 
       
@@ -93,19 +100,22 @@
   <app-text-editor [text]="layerElement?.element?.getComment() || 'Ist leer'" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
   </div>
 
+
+
+  <ul class="drop-area" *ngIf="dragging"></ul>
+
+
+
+
   
 </div>
 </ng-container>
+
 <div cdkDragPreview class="invisible-placeholder"></div>
 </div>
 </div>
 
-<ng-template #placeholderTemplate let-data="data">
-  <!-- Style the placeholder as desired -->
-  <div class="placeholder">
-    <!-- You can add visual cues or instructions here -->
-  </div>
-</ng-template>
+
      
       
    

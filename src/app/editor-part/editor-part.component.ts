@@ -51,6 +51,7 @@ export class EditorPartComponent implements OnInit {
   //is finished to give the backend the correct element
   inEditMode = false;                               //checks whether a text is supposed to be shown in edit mode
   draggedLayerElement: LayerElement | null = null;  //the element that is being dragged
+  dragging = false;
 
   rootInstance: Root;
 
@@ -174,6 +175,7 @@ export class EditorPartComponent implements OnInit {
 
   onElementHover(elementID: string | null) { //gives hoveredElement to editorview
     this.hoveredElementID = elementID;
+    console.log("i can still hover", this.hoveredElementID);
 
     if (elementID) {
       this.parentElementIDChange.emit(this.hoveredElementID);
@@ -193,7 +195,7 @@ export class EditorPartComponent implements OnInit {
   }
   onNavElementHover(layerElement: LayerElement): boolean {
 
-    console.log("i got an input from nav", this.navElementHoverID);
+    
     if (this.navElementHoverID) {
       const navElementHover = this.rootInstance.searchByID(this.navElementHoverID);
       if (navElementHover instanceof Parent) {
@@ -212,6 +214,7 @@ export class EditorPartComponent implements OnInit {
   
 
   onDragStarted(event: CdkDragStart, layerElement: any) { //saves the element that is being dragged
+    this.dragging = true;
     this.draggedLayerElement = layerElement;
     event.source.element.nativeElement.classList.add('dragging');
     setTimeout(() => {
@@ -225,6 +228,7 @@ export class EditorPartComponent implements OnInit {
   }
 
   onDrop(event: CdkDragEnd, layerElement: any) { //handles the dropping of an element
+    this.dragging = false;
     console.log("dropped this element: ", this.draggedLayerElement, "on this element: ", layerElement.element.getId(), layerElement.element.getContent());
     event.source.element.nativeElement.classList.remove('dragging');
 
