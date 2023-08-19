@@ -125,15 +125,8 @@ onDragExit(): void {
 
 
 onDrop(event: CdkDragDrop<any[]>) {
-  if (event.previousContainer === event.container) {
-    moveItemInArray(this.layerElements, event.previousIndex, event.currentIndex);
-  } else {
-    const droppedData = event.previousContainer.data[event.previousIndex].data;
-    const newIndex = event.currentIndex;
-
-    // Insert the dragged data at the specified index
-    this.layerElements.splice(newIndex, 0, droppedData);
-  }
+  const dropIndex = event.currentIndex;
+  console.log(`Element was dropped at index: ${dropIndex}`);
 }
 trackByFn(index: number, item: LayerElement): string {
   return item.element.getId(); // Use a unique identifier here
