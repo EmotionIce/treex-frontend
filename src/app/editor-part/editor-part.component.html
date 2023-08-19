@@ -28,7 +28,7 @@
 
           <!-- Summary -->
           <div
-            *ngIf="!settings.hideSummaries && !layerElement.showSummaryTextbox && (layerElement.element.getSummary() != 'null' || layerElement.element.getContent().length > 40)"
+            *ngIf="!settings.hideSummaries && !layerElement.showSummaryTextbox && (layerElement.element.getSummary() != 'null' || (layerElement.element.getContent() && layerElement.element.getContent().length > 40))"
             class="info-section">
             <div class="info-header">Zusammenfassung:</div>
             <div>{{ (layerElement?.element?.getSummary() != 'null') ? layerElement?.element?.getSummary():
