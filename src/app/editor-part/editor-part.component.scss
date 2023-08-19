@@ -1,7 +1,8 @@
 .editor-part {
   color: var(--primary-text-color);
 }
-.element-container {  
+
+.element-container {
   border: 1px solid var(--secondary-text-color);
   padding: 10px;
   margin-bottom: 20px;
@@ -28,7 +29,8 @@
     font-weight: bold;
   }
 
-  h3, p {
+  h3,
+  p {
     border-bottom: 1px solid var(--primary-text-color);
     transition: color 0.3s ease; // Smooth transition for hover
   }
@@ -49,7 +51,7 @@
 }
 
 .element-container:hover {
-  color: var(--primary-text-color); 
+  color: var(--primary-text-color);
   background-color: rgba(255, 255, 255, 0.1); // Semi-transparent background on hover
 }
 
@@ -60,9 +62,7 @@
 
 .button-container {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 100px;
+  justify-content: space-between;
 
 
   button {
@@ -75,9 +75,10 @@
 
 
 
-.element-container h3 {
-    border-bottom: 1px solid #ccc;
-}
+    .element-container h3 {
+      border-bottom: 1px solid #ccc;
+    }
+
     &:last-child {
       margin-right: 0;
     }
@@ -89,17 +90,24 @@
   }
 }
 
-.edit-button, .stop-edit-button {
-  background-color: #007bff;
+.edit-button,
+.stop-edit-button {
+  background-color: #3466b7;
   color: var(--primary-text-color);
 }
 
 .delete-button {
-  background-color: #ff7300;
+  background-color: var(--danger-color);
   color: var(--primary-text-color);
 }
 
-.comment-button { // Fixed typo: "comment-buton" -> "comment-button"
+mat-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+  color: var(--primary-text-color) !important;
+}
+
+.comment-button {
   background-color: #28a745;
   color: var(--primary-text-color);
 }
@@ -109,9 +117,10 @@
   color: var(--primary-text-color);
 }
 
-.child-button, .parent-button {
+.child-button,
+.parent-button {
   width: 75px;
-  height: 100%; 
+  height: 100%;
   position: absolute;
   top: 0;
   padding: 5px 10px;
@@ -122,18 +131,19 @@
 
   &:hover {
     background-color: var(--accent-color);
+    color: var(--primary-text-color);
   }
 }
 
 .child-button {
   right: 0;
-  background-color: red;
+  background-color: var(--danger-color);
   margin-right: 10px;
 }
 
 .parent-button {
   left: 0;
-  background-color: #28a745;
+  background-color: var(--success-color);
   margin-left: 10px;
 }
 
@@ -145,6 +155,55 @@
   /* Make the placeholder visible during drag */
   background-color: rgba(0, 0, 0, 0.1);
   border: 2px dashed rgba(0, 0, 0, 0.5);
-  min-height: 40px; /* Set an appropriate height */
+  min-height: 40px;
+  /* Set an appropriate height */
   width: 100%;
-} 
+}
+
+.type-section {
+  font-weight: bold;
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.element-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; // For consistent spacing between sections
+
+  .info-section {
+    background-color: rgba(0, 0, 0, 0.03); // Light background for better distinction
+    padding: 10px;
+    border-radius: 5px;
+
+    .info-header {
+      font-weight: bold;
+      margin-bottom: 5px; // Spacing between header and content
+      color: var(--accent-color);
+    }
+  }
+}
+
+.text-editor-section {
+  margin-top: 10px;
+  background-color: rgba(0, 0, 0, 0.05); // Slight background for distinction
+  padding: 10px;
+  border-radius: 5px;
+
+  .section-heading {
+    font-size: 20px; // A slight reduction for better UX
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px; // Spacing after heading
+  }
+}
+
+// Using mat-icon, the edit icon's styles can be adjusted:
+mat-icon {
+  font-size: 20px;
+  vertical-align: middle;
+  color: #007bff;
+  margin-right: 5px;
+}

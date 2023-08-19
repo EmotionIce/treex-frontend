@@ -95,4 +95,8 @@ export class LayerElement {
       this.dataService.changeActiveElement(firstChildID);
     }
   }
+
+  getType(): string {
+    return typeof this.element;
+  }
 }

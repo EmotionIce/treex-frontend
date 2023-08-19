@@ -31,6 +31,7 @@ import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatIconModule } from '@angular/material/icon';
 
 export class ConcreteElement extends Element {
   //temporary class to test elements

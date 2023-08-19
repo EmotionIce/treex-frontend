@@ -29,6 +29,8 @@ $light-theme: mat.define-light-theme((color: (primary: mat.define-palette(mat.$i
   --background-color: #303030;
   --secondary-background-color: #424242;
   --accent-color: #d63864;
+  --danger-color: #e3342f;
+  --success-color: #38c172;
   /* ... add more as needed ... */
 }
 
@@ -38,6 +40,8 @@ $light-theme: mat.define-light-theme((color: (primary: mat.define-palette(mat.$i
   --background-color: #ffffff;
   --secondary-background-color: #e8edf0;
   --accent-color: #d63864;
+  --danger-color: #ff4d4d;
+  --success-color: #4caf50;
   /* ... add more as needed ... */
 }
 

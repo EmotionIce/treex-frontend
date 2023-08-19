@@ -6,6 +6,7 @@ import {
   ViewChild,
   ElementRef,
   AfterViewInit,
+  ɵbypassSanitizationTrustResourceUrl,
 } from '@angular/core';
 import { EditorPartComponent } from '../editor-part/editor-part.component';
 
@@ -40,6 +41,7 @@ export class TextEditorComponent {
   editedText: string = '';
 
   ngAfterViewInit() {
+    this.enterEditMode();
     this.adjustTextareaHeight();
   }
 
