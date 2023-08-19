@@ -1,122 +1,123 @@
 <div class="editor-part">
   <h2>Editor</h2>
 
-
- 
-  <div cdkDropList [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true">
-
+  <div cdkDropList #dropList="cdkDropList" [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true">
     <ng-container *ngFor="let layerElement of layerElements">
      
 
       <div
-      
-     [ngClass]="{ 'marked-element': layerElement.element.getId() === editorParentElementID }"
-     (cdkDragStarted)="onDragStarted($event, layerElement)"
-     (cdkDragEnded)="onDrop($event, layerElement)"
-     
-     [ngClass]="{ 'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement)}"
-     [ngClass]="{ 'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': editorParentElementID === layerElement.element.getId(), 'current-marked': editorParentElementID === layerElement.element.getId() }"
-     #currentElement
-     (mouseenter)="onElementHover(layerElement.element.getId())"
-     (mouseleave)="onElementHover(null)"
-     class="element-container"
-     cdkDrag>
-     
-     <button *ngIf="layerElement.parent instanceof Root && editorParentElementID && editorParentElementID.length > 0" class="parent-button" (click)="showParent(layerElement)">Eltern anzeigen</button>
+        [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement)}"
+        (cdkDragStarted)="onDragStarted($event, layerElement)" (cdkDragEnded)="onDrop($event, dropList)" #currentElement
+        (mouseenter)="onElementHover(layerElement.element.getId())" (mouseleave)="onElementHover(null)"
+        class="element-container" cdkDrag>
 
+        <button *ngIf="parentInstanceOfParent(layerElement)" class="parent-button"
+          (click)="showParent(layerElement)">Eltern anzeigen</button>
 
+        <div class="element-content">
 
-    <div *ngIf="!layerElement.showContentTextbox">
-    <app-latex-render [latexCode]="layerElement?.element?.getContent() || 'Empty Content'"></app-latex-render>
-    </div>
+          <!-- Typ -->
+          <div class="type-section">
+            Typ: {{ layerElement.element.constructor.name }}
+          </div>
 
-    <div *ngIf="!settings.hideSummaries && !layerElement.showSummaryTextbox">
-      <p>Zusammenfassung: {{ layerElement?.element?.getSummary() ||'summary: Null' ? (layerElement?.element?.getContent() ?  layerElement.element.getContent().slice(0, 40) : '') : layerElement?.element?.getComment() }}</p>
-      
-    </div>
-    
-  
-  
-    <div *ngIf="!settings.hideComments && !layerElement.showCommentTextbox">
-      <p>Kommentar: {{ layerElement?.element?.getComment() || 'Ist leer'}}</p>
-    </div>
-    
-   
+          <!-- Content Rendered in Latex -->
+          <div class="info-section">
+            <div class="info-header">Inhalt:</div>
+            <div>
+              <app-latex-render [latexCode]="layerElement?.element?.getContent() || '-'"></app-latex-render>
+            </div>
+          </div>
 
-  <app-text-editor
-    *ngIf="hoveredElementID && inEditMode"
-    [text]="showSummary(layerElement)"
-    (textUpdated)="onSummaryUpdated($event)"
-  ></app-text-editor>
-     
-    
+          <!-- Summary -->
+          <div
+            *ngIf="!settings.hideSummaries && !layerElement.showSummaryTextbox && (layerElement.element.getSummary() != 'null' || (layerElement.element.getContent() && layerElement.element.getContent().length > 40))"
+            class="info-section">
+            <div class="info-header">Zusammenfassung:</div>
+            <div>{{ (layerElement?.element?.getSummary() != 'null') ? layerElement?.element?.getSummary():
+              (layerElement?.element?.getContent() ?
+              layerElement.element.getContent().slice(0, 40) : '-') }}</div>
+          </div>
 
-      <div class="button-container">
-       
-
-        <div *ngIf="layerElement.showCommentTextbox">
-        <button class="stop-edit-button" (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">Editieren beenden</button>
-        </div>
-        <div *ngIf="!layerElement.showCommentTextbox">
-        <button class="delete-button" (click)="onDelete(layerElement)">Löschen</button>
-      
-        <button class="edit-button" (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">Editieren</button>
+          <!-- Comment -->
+          <div *ngIf="!settings.hideComments && !layerElement.showCommentTextbox" class="info-section">
+            <div class="info-header">Kommentar:</div>
+            <div>{{ layerElement?.element?.getComment() || '-'}}</div>
+          </div>
 
         </div>
-        <!--
+
+
+        <!-- Content Textbox -->
+        <div *ngIf="hoveredElementID && inEditMode">
+          <app-text-editor [text]="showSummary(layerElement)"
+            (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
+        </div>
+
+        <div class="button-container">
+
+          <div class="button-container">
+            <div *ngIf="layerElement.showCommentTextbox">
+              <button class="stop-edit-button"
+                (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">
+                <mat-icon>check_circle_outline</mat-icon>Editieren beenden
+              </button>
+            </div>
+            <div *ngIf="!layerElement.showCommentTextbox">
+              <button class="delete-button" (click)="onDelete(layerElement)">
+                <mat-icon>delete_forever</mat-icon>Löschen
+              </button>
+
+              <button class="edit-button"
+                (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">
+                <mat-icon>edit</mat-icon> Editieren
+              </button>
+            </div>
+          </div>
+
+
+          <!--
         <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
-        
+
 
          <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button> -->
 
 
         </div>
-        
-        <button *ngIf="isParent(layerElement.element)" class="child-button" (click)="showChildren(layerElement)">Kinder anzeigen</button>
+
+        <button *ngIf="isParent(layerElement.element)" class="child-button" (click)="showChildren(layerElement)">Kinder
+          anzeigen</button>
 
 
-       
 
 
-      
 
-        
-      
-      
-    <div style="margin-top: 10px;" *ngIf="layerElement.showContentTextbox">
-      <p class="section-heading">Zum Editieren, den Text anklicken</p>
-      <p class="section-title">Inhalt:</p>
-  <app-text-editor [text]="layerElement.element.getContent()" (textUpdated)="onContentUpdated($event)"></app-text-editor>
+
+
+        <div class="text-editor-section" *ngIf="layerElement.showContentTextbox" matTooltip="Click to edit">
+          <h3 class="section-heading">Inhalt:</h3>
+          <app-text-editor [text]="layerElement?.element?.getContent() || ''"
+            (textUpdated)="onContentUpdated($event)"></app-text-editor>
+        </div>
+
+        <div class="text-editor-section" *ngIf="layerElement.showSummaryTextbox">
+          <h3 class="section-heading">Zusammenfassung:</h3>
+          <app-text-editor
+            [text]="((layerElement.element.getSummary() != 'null') ? layerElement?.element?.getSummary() : '') || ''"
+            (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
+        </div>
+
+        <div class="text-editor-section" *ngIf="layerElement.showCommentTextbox">
+          <h3 class="section-heading">Kommentar:</h3>
+          <app-text-editor [text]="layerElement?.element?.getComment() || ''"
+            (textUpdated)="onCommentUpdated($event)"></app-text-editor>
+        </div>
+      </div>
+    </ng-container>
+    <div cdkDragPreview class="invisible-placeholder"></div>
   </div>
-
-  <div *ngIf="layerElement.showSummaryTextbox">
-    <p class="section-title">Zusammenfassung:</p>
-    
-    <app-text-editor [text]="layerElement.element.getSummary()" (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
-</div> 
-
-  <div style="margin-top: 10px;" *ngIf="layerElement.showCommentTextbox">
-    <p class="section-title">Kommentar:</p>
-  <app-text-editor [text]="layerElement?.element?.getComment() || 'Ist leer'" (textUpdated)="onCommentUpdated($event)"></app-text-editor>
-  </div>
-
-
-
-  <ul class="drop-area" *ngIf="dragging"></ul>
-
-
-
-
-  
-</div>
-</ng-container>
-
-<div cdkDragPreview class="invisible-placeholder"></div>
-</div>
 </div>
 
-
-     
-      
-   
-
+<ng-template #placeholderTemplate let-data="data">
+  <div class="placeholder"></div>
+</ng-template>
