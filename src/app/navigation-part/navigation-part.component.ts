@@ -130,36 +130,37 @@ export class NavigationPartComponent implements OnInit {
     }
     return false;
   }
-}
-
-
-onDragEnter(): void {
-  this.isDropAreaHovered = true;
-}
-
-onDragExit(): void {
-  this.isDropAreaHovered = false;
-}
-
-
-onDrop(event: CdkDragDrop<any[]>) {
-  const dropIndex = event.currentIndex;
-  console.log(`Element was dropped at index: ${dropIndex}`);
-}
-trackByFn(index: number, item: LayerElement): string {
-  return item.element.getId(); // Use a unique identifier here
-}
-
-/*
-onDrop(layerElementId: string): void {
- 
-  } */
-  onDragEnded(event: CdkDragDrop<any>) {
-    if (event.previousIndex !== event.currentIndex) {
-      console.log(`Element dragged from index ${event.previousIndex} to index ${event.currentIndex}`);
-      // Handle the reordering or insertion logic here
-    }
+  onDragEnter(): void {
+    this.isDropAreaHovered = true;
   }
   
+  onDragExit(): void {
+    this.isDropAreaHovered = false;
+  }
+  
+  
+  onDrop(event: CdkDragDrop<any[]>) {
+    const dropIndex = event.currentIndex;
+    console.log(`Element was dropped at index: ${dropIndex}`);
+  }
+  trackByFn(index: number, item: LayerElement): string {
+    return item.element.getId(); // Use a unique identifier here
+  }
+  
+  /*
+  onDrop(layerElementId: string): void {
+   
+    } */
+    onDragEnded(event: CdkDragDrop<any>) {
+      if (event.previousIndex !== event.currentIndex) {
+        console.log(`Element dragged from index ${event.previousIndex} to index ${event.currentIndex}`);
+        // Handle the reordering or insertion logic here
+      }
+    }
+    
 }
+
+
+
+
 
