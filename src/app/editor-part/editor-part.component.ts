@@ -85,7 +85,7 @@ export class EditorPartComponent implements OnInit {
 
         converted.subscribe((value: boolean) => {
           if (value) {
-            // Conversion successful, do something if needed
+            this.updateEditor();
           } else {
             // Conversion failed, handle the error if needed
           }
@@ -272,11 +272,13 @@ export class EditorPartComponent implements OnInit {
     const targetparent = tartgetElement ? tartgetElement.getParent() : null;
 
     if (draggedElement) {
-      droppedLayerElement.moveElementEditor(
-        draggedElement,
-        targetparent,
-        tartgetElement
-      );
+      droppedLayerElement
+        .moveElementEditor(draggedElement, targetparent, tartgetElement)
+        .subscribe((value) => {
+          if (value) {
+            this.updateEditor();
+          }
+        });
     }
     this.draggedLayerElement = null;
   }

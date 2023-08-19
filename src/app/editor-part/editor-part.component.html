@@ -5,7 +5,8 @@
     <ng-container *ngFor="let layerElement of layerElements">
       <div
         [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement)}"
-        #currentElement (mouseenter)="onElementHover(layerElement.element.getId())" (mouseleave)="onElementHover(null)"
+        (cdkDragStarted)="onDragStarted($event, layerElement)" (cdkDragEnded)="onDrop($event, dropList)" #currentElement
+        (mouseenter)="onElementHover(layerElement.element.getId())" (mouseleave)="onElementHover(null)"
         class="element-container" cdkDrag>
 
         <button *ngIf="parentInstanceOfParent(layerElement)" class="parent-button"

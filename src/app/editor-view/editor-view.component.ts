@@ -57,10 +57,10 @@ export class EditorViewComponent implements OnInit {
     }
     this.dataService.changeEditorElements(this.currentElementID);
     this.dataService.changeNavigationElements(this.elementIDForNaviagtion);
-    console.log(
+    /*console.log(
       'editorview updated the elements: ',
       this.currentElement,
       this.elementIDForNaviagtion
-    );
+    );*/
   }
 }
