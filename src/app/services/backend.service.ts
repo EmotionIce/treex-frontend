@@ -435,7 +435,7 @@ export class BackendService {
    * @returns Array of Objects that represent the composite data structure
    */
   public LoadFullData(): Observable<Array<Object>> {
-    //return of (this.fullData);
+    return of (this.fullData);
 
     return this.http
       .get<Array<Object>>(`${this.baseUrl}/LoadFullData`)
