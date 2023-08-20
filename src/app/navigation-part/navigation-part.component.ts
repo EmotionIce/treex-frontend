@@ -163,13 +163,10 @@ export class NavigationPartComponent implements OnInit {
     this.dataService.changeDraggedElement(null);
   }
   trackByFn(index: number, item: LayerElement): string {
-    return item.element.getId(); // Use a unique identifier here
+    return item.element.getId(); 
   }
   
-  /*
-  onDrop(layerElementId: string): void {
-   
-    } */
+
     
     
 }
