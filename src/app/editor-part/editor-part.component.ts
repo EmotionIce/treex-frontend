@@ -89,7 +89,7 @@ export class EditorPartComponent implements OnInit {
 
         converted.subscribe((value: boolean) => {
           if (value) {
-            this.updateEditor();
+            this.dataService.notifyChange();
           } else {
             // Conversion failed, handle the error if needed
           }
@@ -100,7 +100,7 @@ export class EditorPartComponent implements OnInit {
       }
     );
     this.settings = this.settingsService.getSettings();
-    this.updateEditor();
+    //this.updateEditor();
 
     this.dataService.currentEditorElements.subscribe((newEditorElements) => {
       this.updateEditor();
@@ -111,7 +111,7 @@ export class EditorPartComponent implements OnInit {
 
       if (this.editorParentElementID && this.currentScrollElement) {
         this.currentScrollElement.nativeElement.scrollIntoView({
-          behavior: 'smooth',
+          behavior: 'auto',
         });
       }
     });
@@ -201,6 +201,7 @@ export class EditorPartComponent implements OnInit {
 
   onElementHover(elementID: string | null) {
     //gives hoveredElement to editorview
+    if (!elementID) return;
     this.hoveredElementID = elementID;
     console.log('i can still hover', this.hoveredElementID);
 
@@ -262,14 +263,8 @@ export class EditorPartComponent implements OnInit {
     const dropTargetIndex = dropList.getSortedItems().indexOf(event.source);
     const droppedLayerElement = this.layerElements[dropTargetIndex];
 
-    console.log(
-      'dropped this element: ',
-      this.draggedLayerElement?.element,
-      'on this element: ',
-      this.rootInstance.searchByID(
-        this.hoveredElementID ? this.hoveredElementID : 'null'
-      )
-    );
+    if (this.draggedLayerElement?.element.getId() === this.hoveredElementID)
+      return;
     console.log(dropList.getSortedItems());
 
     event.source.element.nativeElement.classList.remove('dragging');
@@ -280,6 +275,15 @@ export class EditorPartComponent implements OnInit {
     );
 
     const targetparent = tartgetElement ? tartgetElement.getParent() : null;
+
+    console.log(
+      'dropped this element: ',
+      draggedElement,
+      'on this element: ',
+      tartgetElement,
+      'parent is: ',
+      targetparent
+    );
 
     if (draggedElement) {
       droppedLayerElement
@@ -301,7 +305,8 @@ export class EditorPartComponent implements OnInit {
 
   isParent(element: Element): boolean {
     //checks if element is type of parent
-    return element instanceof Parent;
+
+    return element instanceof Parent && element.getChildren().length > 0;
   }
   showChildren(layerElement: LayerElement) {
     //calles onExtendChild in layerElement
@@ -505,7 +510,6 @@ export class EditorPartComponent implements OnInit {
     converted.subscribe((value: boolean) => {
       if (value) {
         this.dataService.notifyChange();
-        this.updateEditor();
       } else {
       }
     });
