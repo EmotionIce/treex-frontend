@@ -478,6 +478,26 @@ export class EditorPartComponent implements OnInit {
   // Function to handle the textUpdated event of the new content text editor
   onNewElement(content: string) { //gives new element to the backend
     this.newContent = content;
-    //TODO call backendservice, give necessary information, update Editor
+    
+    let lastElement: Element | null = this.displayedEditorElements[this.displayedEditorElements.length - 1];
+    
+    let lastElementParent = lastElement.getParent();
+    if (lastElementParent) {
+      if (!(lastElementParent instanceof Root)) {
+        
+        const backendResponse: Observable<Object> = 
+    
+        this.backendService.AddElement(this.newContent, lastElementParent, lastElement);
+        const converted: Observable<boolean> =
+        this.converter.convert(backendResponse);
+
+        converted.subscribe((value: boolean) => {
+        if (value) {
+        this.dataService.notifyChange();
+          } else {
+          }
+        });
+      }
+    } 
   }
 }

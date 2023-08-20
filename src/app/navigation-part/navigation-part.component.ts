@@ -87,6 +87,7 @@ export class NavigationPartComponent implements OnInit {
 
   onNavElementHover(elementID: string | null) { //gives the hovered Element to to editorpart so it can highlight its children
     this.hoveredNavElementID = elementID;
+    console.log("hovere gerade über ", elementID );
     
     
 
@@ -165,10 +166,7 @@ export class NavigationPartComponent implements OnInit {
   trackByFn(index: number, item: LayerElement): string {
     return item.element.getId(); 
   }
-  
 
-    
-    
 }
 
 
