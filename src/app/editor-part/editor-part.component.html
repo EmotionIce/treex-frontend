@@ -1,27 +1,38 @@
 <div class="editor-part">
   <h2>Editor</h2>
 
-  <div cdkDropList #dropList="cdkDropList" [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true">
-    <ng-container *ngFor="let layerElement of layerElements">
+  <div cdkDropList class="layerElement-list drag-drop-list"
+         (cdkDropListDropped)="onDrop($event)">
+
+
+
+
+    <ng-container *ngFor="let layerElement of layerElements; let i = index">
+      <div class="box-and-droparea">
      
 
-      <div
+      <div class="element-container"
         [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement)}"
-        (cdkDragStarted)="onDragStarted($event, layerElement)" (cdkDragEnded)="onDrop($event, dropList)" #currentElement
-        (mouseenter)="onElementHover(layerElement.element.getId())" (mouseleave)="onElementHover(null)"
-        class="element-container" cdkDrag>
+        
+        (mouseenter)="onElementHover(layerElement.element.getId())" 
+        (mouseleave)="onElementHover(null)"
+         cdkDrag [cdkDragData]="{ data: layerElement, index: i }"
+         [attr.data-layer-element-id]="layerElement.element.getId()" 
+         (cdkDragStarted)="onDragStart()" >
 
         <button *ngIf="parentInstanceOfParent(layerElement)" class="parent-button"
           (click)="showParent(layerElement)">Eltern anzeigen</button>
+         
+          
 
         <div class="element-content">
 
-          <!-- Typ -->
+          
           <div class="type-section">
             Typ: {{ layerElement.element.constructor.name }}
           </div>
 
-          <!-- Content Rendered in Latex -->
+          
           <div class="info-section">
             <div class="info-header">Inhalt:</div>
             <div>
@@ -29,7 +40,7 @@
             </div>
           </div>
 
-          <!-- Summary -->
+         
           <div
             *ngIf="!settings.hideSummaries && !layerElement.showSummaryTextbox && (layerElement.element.getSummary() != 'null' || (layerElement.element.getContent() && layerElement.element.getContent().length > 40))"
             class="info-section">
@@ -39,7 +50,7 @@
               layerElement.element.getContent().slice(0, 40) : '-') }}</div>
           </div>
 
-          <!-- Comment -->
+          
           <div *ngIf="!settings.hideComments && !layerElement.showCommentTextbox" class="info-section">
             <div class="info-header">Kommentar:</div>
             <div>{{ layerElement?.element?.getComment() || '-'}}</div>
@@ -48,7 +59,7 @@
         </div>
 
 
-        <!-- Content Textbox -->
+        
         <div *ngIf="hoveredElementID && inEditMode">
           <app-text-editor [text]="showSummary(layerElement)"
             (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
@@ -76,11 +87,7 @@
           </div>
 
 
-          <!--
-        <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
-
-
-         <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button> -->
+         
 
 
         </div>
@@ -112,7 +119,10 @@
           <app-text-editor [text]="layerElement?.element?.getComment() || ''"
             (textUpdated)="onCommentUpdated($event)"></app-text-editor>
         </div>
-      </div>
+        <div class="drop-placeholder"*cdkDragPlaceholder></div>
+
+      </div> 
+    </div>
     </ng-container>
     <div cdkDragPreview class="invisible-placeholder"></div>
   </div>
@@ -126,6 +136,3 @@
     <app-text-editor [text]="newContent" (textUpdated)="onNewElement($event)"></app-text-editor>
   </div>
 
-<ng-template #placeholderTemplate let-data="data">
-  <div class="placeholder"></div>
-</ng-template>

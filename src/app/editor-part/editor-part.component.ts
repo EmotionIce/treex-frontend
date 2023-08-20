@@ -32,10 +32,9 @@ import { catchError } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
+import { DragDrop } from '@angular/cdk/drag-drop';
 
-export class ConcreteElement extends Element {
-  //temporary class to test elements
-}
+
 
 @Component({
   selector: 'app-editor-part',
@@ -76,6 +75,7 @@ export class EditorPartComponent implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.rootInstance = Root.createRoot();
+    
   }
 
   ngOnInit() {
@@ -115,16 +115,7 @@ export class EditorPartComponent implements OnInit {
       }
     });
 
-    /* if (this.displayedEditorElements.length <= 0) { //test elements used to test the layerElement boxes
-     const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
-     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
-     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
-     const element4 = new ConcreteElement('id4', '\\frac{\\pi}{2}', 'Comment 4', 'Summary 4');
-
-     this.displayedEditorElements = [
-       element1, element2, element3, element4
-
-     ]; }  */
+ 
   }
   /*
   ngAfterViewInit() {                               //responsible for scrolling down to the currentElement
@@ -237,6 +228,10 @@ export class EditorPartComponent implements OnInit {
     }
     return false;
   }
+    onDragStart() {
+
+    }
+  
 
   onDragStarted(event: CdkDragStart, layerElement: any) {
     //saves the element that is being dragged
@@ -255,7 +250,7 @@ export class EditorPartComponent implements OnInit {
     });
     console.log(event.source.element.nativeElement.classList.value);
   }
-
+/*
   onDrop(event: CdkDragEnd, dropList: CdkDropList) {
     // Find the drop target
     const dropTargetIndex = dropList.getSortedItems().indexOf(event.source);
@@ -291,6 +286,10 @@ export class EditorPartComponent implements OnInit {
     }
     this.draggedLayerElement = null;
     this.dataService.changeDraggedElement(null);
+  } */
+  onDrop(event: CdkDragDrop<any[]>) {
+    const dropIndex = event.currentIndex;
+    console.log(`Editor Element was dropped at index: ${dropIndex}`);
   }
 
   onDelete(layerElement: LayerElement) {

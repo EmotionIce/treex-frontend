@@ -19,6 +19,9 @@
     <div cdkDropList class="layerElement-list drag-drop-list"
          (cdkDropListDropped)="onDrop($event)">
       <h2>Editor Navigation</h2>
+
+
+      
       <ng-container *ngFor="let layerElement of layerElements; let i = index; trackBy: trackByFn">
         <div class="box-and-droparea">
           <!-- Draggable box -->
