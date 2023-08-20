@@ -36,6 +36,7 @@
   }
 
 }
+
 .drop-area {
   border: #ccc dashed 2px;
   padding: 20px 10px;
@@ -64,34 +65,34 @@
 .button-container {
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
+}
 
+button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition for hover
 
-  button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition for hover
+  &:last-child {
+    margin-right: 0;
+  }
 
-    &:last-child {
-      margin-right: 0;
-    }
-
-    &:hover {
-      background-color: var(--accent-color);
-      color: var(--primary-text-color);
-    }
+  &:hover {
+    transform: scale(1.01);
+    color: var(--primary-text-color);
   }
 }
 
 .edit-button,
 .stop-edit-button {
-  background-color: #007bff;
+  background-color: #007bff86;
   color: var(--primary-text-color);
 }
 
 .delete-button {
-  background-color: var(--danger-color);
+  background-color: #a8323293;
   color: var(--primary-text-color);
 }
 
@@ -99,16 +100,6 @@ mat-icon {
   vertical-align: middle;
   margin-right: 5px;
   color: var(--primary-text-color) !important;
-}
-
-.comment-button {
-  background-color: #28a745;
-  color: var(--primary-text-color);
-}
-
-.summary-button {
-  background-color: #ea00ff;
-  color: var(--primary-text-color);
 }
 
 .child-button,
@@ -132,14 +123,15 @@ mat-icon {
 .child-button {
   right: 0;
   background-color: var(--danger-color);
-  margin-right: 10px;
+  //margin-right: 10px;
 }
 
 .parent-button {
   left: 0;
   background-color: var(--success-color);
-  margin-left: 10px;
+  //margin-left: 10px;
 }
+
 /*
 .invisible-preview {
   display: none;
@@ -191,14 +183,18 @@ mat-icon {
     color: #007bff;
     margin-bottom: 10px; // Spacing after heading
   }
-  .add-content-button-container {
-    width: 100%;
-    text-align: center; /* Center the button horizontally */
-    margin-top: 10px; /* Adjust the margin as needed */
-  }
-  
-  .add-content-button {
-    /* Your existing button styles */
-    width: 100%; /* Set the button's width to 100% of its container */
-  }
+}
+
+.add-content-button-container {
+  width: 100%;
+  text-align: center;
+  /* Center the button horizontally */
+  margin-top: 10px;
+}
+
+.add-content-button {
+  width: 100%;
+  color: var(--primary-text-color);
+  background-color: #67994187;
+  height: 40px;
 }
