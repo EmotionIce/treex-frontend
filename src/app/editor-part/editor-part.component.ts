@@ -44,9 +44,11 @@ export class ConcreteElement extends Element {
 })
 export class EditorPartComponent implements OnInit {
   @Input() navElementHoverID: string | null = null;
-
+  @ViewChild('textEditorRef', { static: false, read: ElementRef })
+  textEditor!: ElementRef;
   @ViewChild('currentScrollElement', { read: ElementRef, static: false })
   currentScrollElement!: ElementRef;
+
   settings: any;
   displayedEditorElements: Element[] = []; //the list of elements that are supposed to be shown
   layerElements: LayerElement[] = []; //the list of layerElements that are shown
@@ -61,7 +63,6 @@ export class EditorPartComponent implements OnInit {
   draggedLayerElement: LayerElement | null = null; //the element that is being dragged
   showAddElementTextEditor: boolean = false;
   newContent: string = '';
-  
 
   rootInstance: Root;
 
@@ -201,7 +202,7 @@ export class EditorPartComponent implements OnInit {
   onElementHover(elementID: string | null) {
     //gives hoveredElement to editorview
     this.hoveredElementID = elementID;
-    console.log("i can still hover", this.hoveredElementID);
+    console.log('i can still hover', this.hoveredElementID);
 
     if (elementID) {
       this.parentElementIDChange.emit(this.hoveredElementID);
@@ -241,11 +242,11 @@ export class EditorPartComponent implements OnInit {
   onDragStarted(event: CdkDragStart, layerElement: any) {
     //saves the element that is being dragged
     this.draggedLayerElement = layerElement;
-    if(this.draggedLayerElement) {
+    if (this.draggedLayerElement) {
       const draggedElementID = this.draggedLayerElement.element.getId();
       this.dataService.changeDraggedElement(draggedElementID); //gives the ID of the dragged Element to other components so they can accept this element as drop
     }
-    
+
     event.source.element.nativeElement.classList.add('dragging');
     setTimeout(() => {
       const draggingElement = document.querySelector('.cdk-drag-placeholder');
@@ -468,36 +469,45 @@ export class EditorPartComponent implements OnInit {
     return false;
   }
 
-  toggleEmptyTextEditor() { //Toggles the texteditor for a new element
+  toggleEmptyTextEditor() {
+    //Toggles the texteditor for a new element
     this.showAddElementTextEditor = !this.showAddElementTextEditor;
+    console.log('new element editor is shown: ', this.showAddElementTextEditor);
+
     if (!this.showAddElementTextEditor) {
       this.newContent = ''; // Clear the new content when hiding the section
+    }
+    if (this.showAddElementTextEditor) {
+      setTimeout(() => {
+        this.textEditor.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      }, 0);
     }
   }
 
   // Function to handle the textUpdated event of the new content text editor
-  onNewElement(content: string) { //gives new element to the backend
+  onNewElement(content: string) {
+    //gives new element to the backend
     this.newContent = content;
-    
-    let lastElement: Element | null = this.displayedEditorElements[this.displayedEditorElements.length - 1];
-    
-    let lastElementParent = lastElement.getParent();
-    if (lastElementParent) {
-      if (!(lastElementParent instanceof Root)) {
-        
-        const backendResponse: Observable<Object> = 
-    
-        this.backendService.AddElement(this.newContent, lastElementParent, lastElement);
-        const converted: Observable<boolean> =
-        this.converter.convert(backendResponse);
 
-        converted.subscribe((value: boolean) => {
-        if (value) {
+    let lastElement: Element | null =
+      this.displayedEditorElements[this.displayedEditorElements.length - 1];
+
+    let lastElementParent = lastElement.getParent();
+
+    const backendResponse: Observable<Object> = this.backendService.AddElement(
+      this.newContent,
+      lastElementParent,
+      lastElement
+    );
+    const converted: Observable<boolean> =
+      this.converter.convert(backendResponse);
+
+    converted.subscribe((value: boolean) => {
+      if (value) {
         this.dataService.notifyChange();
-          } else {
-          }
-        });
+        this.updateEditor();
+      } else {
       }
-    } 
+    });
   }
 }

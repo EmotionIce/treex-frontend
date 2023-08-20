@@ -3,7 +3,7 @@
 
   <div cdkDropList #dropList="cdkDropList" [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true">
     <ng-container *ngFor="let layerElement of layerElements">
-     
+
 
       <div
         [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement)}"
@@ -54,36 +54,26 @@
             (textUpdated)="onSummaryUpdated($event)"></app-text-editor>
         </div>
 
+
         <div class="button-container">
-
-          <div class="button-container">
-            <div *ngIf="layerElement.showCommentTextbox">
-              <button class="stop-edit-button"
-                (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">
-                <mat-icon>check_circle_outline</mat-icon>Editieren beenden
-              </button>
-            </div>
-            <div *ngIf="!layerElement.showCommentTextbox">
-              <button class="delete-button" (click)="onDelete(layerElement)">
-                <mat-icon>delete_forever</mat-icon>Löschen
-              </button>
-
-              <button class="edit-button"
-                (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">
-                <mat-icon>edit</mat-icon> Editieren
-              </button>
-            </div>
+          <div *ngIf="layerElement.showCommentTextbox">
+            <button class="stop-edit-button"
+              (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">
+              <mat-icon>check_circle_outline</mat-icon>Editieren beenden
+            </button>
           </div>
+          <div *ngIf="!layerElement.showCommentTextbox">
+            <button class="delete-button" (click)="onDelete(layerElement)">
+              <mat-icon>delete_forever</mat-icon>Löschen
+            </button>
 
-
-          <!--
-        <button class="comment-button" (click)="showComment(layerElement)">Komentieren</button>
-
-
-         <button class="summary-button" (click)="showSummary(layerElement)">Zusammenfassen</button> -->
-
-
+            <button class="edit-button"
+              (click)="showComment(layerElement);showSummary(layerElement);showContent(layerElement)">
+              <mat-icon>edit</mat-icon> Editieren
+            </button>
+          </div>
         </div>
+
 
         <button *ngIf="isParent(layerElement.element)" class="child-button" (click)="showChildren(layerElement)">Kinder
           anzeigen</button>
@@ -117,15 +107,17 @@
     <div cdkDragPreview class="invisible-placeholder"></div>
   </div>
   <div class="add-content-button-container">
-    <button class="add-content-button" (click)="toggleEmptyTextEditor()">Neues Element hinzufügen</button>
+    <button class="add-content-button button" (click)="toggleEmptyTextEditor()">
+      <mat-icon>library_add</mat-icon>Neues Element hinzufügen
+    </button>
   </div>
 
   <!-- Empty text editor section -->
   <div class="text-editor-section" *ngIf="showAddElementTextEditor">
     <h3 class="section-heading">Neues Element:</h3>
-    <app-text-editor [text]="newContent" (textUpdated)="onNewElement($event)"></app-text-editor>
+    <app-text-editor #textEditorRef [text]="newContent" (textUpdated)="onNewElement($event)"></app-text-editor>
   </div>
 
-<ng-template #placeholderTemplate let-data="data">
-  <div class="placeholder"></div>
-</ng-template>
+  <ng-template #placeholderTemplate let-data="data">
+    <div class="placeholder"></div>
+  </ng-template>
