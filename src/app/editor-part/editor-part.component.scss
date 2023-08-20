@@ -110,7 +110,6 @@ mat-icon {
   top: 0;
   padding: 5px 10px;
   border: none;
-  border-radius: 5px;
   color: var(--primary-text-color);
   z-index: 1;
 
@@ -124,12 +123,16 @@ mat-icon {
   right: 0;
   background-color: var(--danger-color);
   //margin-right: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 .parent-button {
   left: 0;
   background-color: var(--success-color);
   //margin-left: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 /*
