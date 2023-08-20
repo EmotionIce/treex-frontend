@@ -59,6 +59,9 @@ export class EditorPartComponent implements OnInit {
   //is finished to give the backend the correct element
   inEditMode = false; //checks whether a text is supposed to be shown in edit mode
   draggedLayerElement: LayerElement | null = null; //the element that is being dragged
+  showAddElementTextEditor: boolean = false;
+  newContent: string = '';
+  
 
   rootInstance: Root;
 
@@ -238,6 +241,11 @@ export class EditorPartComponent implements OnInit {
   onDragStarted(event: CdkDragStart, layerElement: any) {
     //saves the element that is being dragged
     this.draggedLayerElement = layerElement;
+    if(this.draggedLayerElement) {
+      const draggedElementID = this.draggedLayerElement.element.getId();
+      this.dataService.changeDraggedElement(draggedElementID); //gives the ID of the dragged Element to other components so they can accept this element as drop
+    }
+    
     event.source.element.nativeElement.classList.add('dragging');
     setTimeout(() => {
       const draggingElement = document.querySelector('.cdk-drag-placeholder');
@@ -282,6 +290,7 @@ export class EditorPartComponent implements OnInit {
         });
     }
     this.draggedLayerElement = null;
+    this.dataService.changeDraggedElement(null);
   }
 
   onDelete(layerElement: LayerElement) {
@@ -457,5 +466,18 @@ export class EditorPartComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  toggleEmptyTextEditor() { //Toggles the texteditor for a new element
+    this.showAddElementTextEditor = !this.showAddElementTextEditor;
+    if (!this.showAddElementTextEditor) {
+      this.newContent = ''; // Clear the new content when hiding the section
+    }
+  }
+
+  // Function to handle the textUpdated event of the new content text editor
+  onNewElement(content: string) { //gives new element to the backend
+    this.newContent = content;
+    //TODO call backendservice, give necessary information, update Editor
   }
 }

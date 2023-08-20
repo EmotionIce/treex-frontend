@@ -28,7 +28,9 @@
           (mouseleave)="onNavElementHover(null)"
           cdkDrag
           [cdkDragData]="{ data: layerElement, index: i }"
-          [attr.data-layer-element-id]="layerElement.element.getId()">
+          [attr.data-layer-element-id]="layerElement.element.getId()"
+          (cdkDragStarted)="onDragStart()">
+          
        <p>{{ getFirstFourtyLetters(layerElement.element.getContent()) }}</p>
        <div class="drop-placeholder"*cdkDragPlaceholder></div>
      </div>

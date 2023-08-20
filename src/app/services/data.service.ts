@@ -27,6 +27,9 @@ export class DataService {
   private isDataImported = new BehaviorSubject<boolean>(false);
   currentImportStatus = this.isDataImported.asObservable();
 
+  private draggedElement = new BehaviorSubject<string>('');
+  currentDraggedElement = this.draggedElement.asObservable();
+
   constructor() {}
 
   /**
@@ -53,6 +56,13 @@ export class DataService {
    */
   changeNavigationElements(data: any) {
     this.navigationElements.next(data);
+  }
+  /**
+   * 
+   * @param data the currently dragged element
+   */
+  changeDraggedElement(data: any) {
+    this.draggedElement.next(data);
   }
 
   /**

@@ -116,7 +116,15 @@
     </ng-container>
     <div cdkDragPreview class="invisible-placeholder"></div>
   </div>
-</div>
+  <div class="add-content-button-container">
+    <button class="add-content-button" (click)="toggleEmptyTextEditor()">Neues Element hinzufügen</button>
+  </div>
+
+  <!-- Empty text editor section -->
+  <div class="text-editor-section" *ngIf="showAddElementTextEditor">
+    <h3 class="section-heading">Neues Element:</h3>
+    <app-text-editor [text]="newContent" (textUpdated)="onNewElement($event)"></app-text-editor>
+  </div>
 
 <ng-template #placeholderTemplate let-data="data">
   <div class="placeholder"></div>

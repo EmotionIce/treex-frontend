@@ -26,6 +26,8 @@ export class NavigationPartComponent implements OnInit {
    layerElements: LayerElement[] = []; //the list of layerElements that are to be shown
    hoveredNavElementID: string | null = null;
    isDropAreaHovered = false;
+   draggedElementServiceID: string | null = null; //the element that the service brings should in another component an element be dragged
+   draggedElementID: string | null = null; //the element that is dragged in this component
 
   constructor(
     private backendService: BackendService,
@@ -48,7 +50,16 @@ export class NavigationPartComponent implements OnInit {
       this.updateNavigation(); //happens when elements are changed
     });
     this.updateNavigation();
+
+
+    this.dataService.currentDraggedElement.subscribe(
+      (newDraggedElementOtherComponent) => {
+        this.draggedElementServiceID = newDraggedElementOtherComponent;
+        console.log("draggedElement: ", this.draggedElementServiceID);
+    
+    })
   }
+  
 
   updateNavigation() {
     this.navigationParentElementID = this.dataService.getNavigationElement();
@@ -76,7 +87,7 @@ export class NavigationPartComponent implements OnInit {
 
   onNavElementHover(elementID: string | null) { //gives the hovered Element to to editorpart so it can highlight its children
     this.hoveredNavElementID = elementID;
-    console.log("working");
+    
     
 
     if (elementID) {
@@ -130,18 +141,26 @@ export class NavigationPartComponent implements OnInit {
     }
     return false;
   }
-  onDragEnter(): void {
-    this.isDropAreaHovered = true;
-  }
-  
-  onDragExit(): void {
-    this.isDropAreaHovered = false;
+
+  onDragStart(){ 
+    this.draggedElementID = this.hoveredNavElementID;
+    console.log("draggedElement", this.draggedElementID);
+    this.dataService.changeDraggedElement(this.draggedElementID);
   }
   
   
   onDrop(event: CdkDragDrop<any[]>) {
+
     const dropIndex = event.currentIndex;
     console.log(`Element was dropped at index: ${dropIndex}`);
+    //TODO get previous element using drop index. get parent of the previous element. check if draggedElementServiceID is null, which means that the element was not dragged from another component
+    //take draggedElementID from this component, give everything to moveElement in layerElement
+
+
+
+
+
+    this.dataService.changeDraggedElement(null);
   }
   trackByFn(index: number, item: LayerElement): string {
     return item.element.getId(); // Use a unique identifier here
@@ -151,12 +170,7 @@ export class NavigationPartComponent implements OnInit {
   onDrop(layerElementId: string): void {
    
     } */
-    onDragEnded(event: CdkDragDrop<any>) {
-      if (event.previousIndex !== event.currentIndex) {
-        console.log(`Element dragged from index ${event.previousIndex} to index ${event.currentIndex}`);
-        // Handle the reordering or insertion logic here
-      }
-    }
+    
     
 }
 

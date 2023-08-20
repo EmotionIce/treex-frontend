@@ -191,4 +191,14 @@ mat-icon {
     color: #007bff;
     margin-bottom: 10px; // Spacing after heading
   }
+  .add-content-button-container {
+    width: 100%;
+    text-align: center; /* Center the button horizontally */
+    margin-top: 10px; /* Adjust the margin as needed */
+  }
+  
+  .add-content-button {
+    /* Your existing button styles */
+    width: 100%; /* Set the button's width to 100% of its container */
+  }
 }
