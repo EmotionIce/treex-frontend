@@ -210,6 +210,7 @@ export class EditorPartComponent implements OnInit {
       this.parentElementIDChange.emit(null);
     }
   }
+  // need something to commit
   onNavElementHover(layerElement: LayerElement): boolean {
     //console.log('i got an input from nav', this.navElementHoverID);
     if (this.navElementHoverID) {
