@@ -229,16 +229,21 @@ export class EditorPartComponent implements OnInit {
     this.scrollTo(this.editorParentElementID)
   }
   scrollTo(layerElementId: string) {
-    const elementToScroll = this.layerElements.find(layerElement => layerElement.element.getId() === layerElementId);
+    setTimeout(() => {
+      const elementToScroll = this.layerElements.find(layerElement => layerElement.element.getId() === layerElementId);
   
-    if (elementToScroll) {
-      const elementRef = this.elementRefs.toArray()[this.layerElements.indexOf(elementToScroll)];
-      if (elementRef) {
-        elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      if (elementToScroll) {
+        const elementRef = this.elementRefs.toArray()[this.layerElements.indexOf(elementToScroll)];
+        if (elementRef) {
+          elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        console.log(`Layer element with ID ${layerElementId} not found.`);
       }
-    } else {
-      console.log(`Layer element with ID ${layerElementId} not found.`);
-    }
+  
+      // Reset scroll position of app component
+      document.documentElement.scrollTop = 0;
+    }, 0); // Adjust the delay as needed
   }
 
   onElementHover(elementID: string | null) {
