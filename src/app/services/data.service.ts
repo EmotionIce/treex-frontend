@@ -92,6 +92,13 @@ export class DataService {
       return this.editorElements.value;
     }
 
+    reset() {
+      this.changeActiveElement('');
+      this.changeNavigationElements('');
+      this.changeEditorElements('');
+      this.changeDraggedElement(null);
+    }
+
     
   
 }
