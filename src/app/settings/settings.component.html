@@ -1,15 +1,14 @@
 <div class="settings-overlay" (click)="closeSettings()"></div>
 <div class="settings-container">
-  <h2>User Settings</h2>
+  <h2>Benutzereinstellungen</h2>
 
- 
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-form-field appearance="fill">
-        <mat-label>Theme</mat-label>
+        <mat-label>Thema</mat-label>
         <mat-select [(value)]="settings.theme" (selectionChange)="updateSettings()">
-          <mat-option value="light">Light</mat-option>
-          <mat-option value="dark">Dark</mat-option>
+          <mat-option value="light">Hell</mat-option>
+          <mat-option value="dark">Dunkel</mat-option>
         </mat-select>
       </mat-form-field>
     </section>
@@ -18,7 +17,7 @@
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-checkbox [(ngModel)]="settings.hideLeavesTree" (change)="updateSettings()">
-        Hide Leaves in Tree
+        Blätter im Baum ausblenden
       </mat-checkbox>
     </section>
   </div>
@@ -26,7 +25,7 @@
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-checkbox [(ngModel)]="settings.deleteCascading" (change)="updateSettings()">
-        Delete Cascading
+        Kaskadierendes Löschen
       </mat-checkbox>
     </section>
   </div>
@@ -34,7 +33,7 @@
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-checkbox [(ngModel)]="settings.hideComments" (change)="updateSettings()">
-        Hide Comments
+        Kommentare ausblenden
       </mat-checkbox>
     </section>
   </div>
@@ -42,7 +41,7 @@
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-checkbox [(ngModel)]="settings.hideSummaries" (change)="updateSettings()">
-        Hide Summaries
+        Zusammenfassungen ausblenden
       </mat-checkbox>
     </section>
   </div>
@@ -50,7 +49,7 @@
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-checkbox [(ngModel)]="settings.exportComment" (change)="updateSettings()">
-        Export Comments
+        Kommentare exportieren
       </mat-checkbox>
     </section>
   </div>
@@ -58,7 +57,7 @@
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-checkbox [(ngModel)]="settings.exportSummary" (change)="updateSettings()">
-        Export Summaries
+        Zusammenfassungen exportieren
       </mat-checkbox>
     </section>
   </div>
@@ -66,7 +65,7 @@
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-form-field class="example-form-field" appearance="fill">
-        <mat-label>Popup Duration (sec)</mat-label>
+        <mat-label>Popup-Dauer (Sek.)</mat-label>
         <input matInput type="number" min="0" [(ngModel)]="settings.popupDuration" title="test">
         <button *ngIf="settings.popupDuration" matSuffix mat-icon-button aria-label="Submit" (click)="updateSettings()">
           <mat-icon>check</mat-icon>

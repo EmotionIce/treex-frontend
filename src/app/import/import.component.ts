@@ -71,6 +71,7 @@ export class ImportComponent {
    * Notifies Components that the data has changed and navigates to Editor
    */
   private startImpuls() {
+    this.dataService.reset();
     // Notify the data service that the data has changed
     this.dataService.notifyChange();
     // Set data service to imported
