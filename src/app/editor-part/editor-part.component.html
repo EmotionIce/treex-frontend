@@ -14,7 +14,7 @@
 
 
 
-    <ng-container *ngFor="let layerElement of layerElements; let i = index">
+         <div #scrollToElement *ngFor="let layerElement of layerElements; let i = index">
       <div class="box-and-droparea">
      
 
@@ -121,7 +121,7 @@
         <div class="drop-placeholder"*cdkDragPlaceholder></div>
       </div>
       </div>
-    </ng-container>
+    
     <div cdkDragPreview class="invisible-placeholder"></div>
   </div>
   <div class="add-content-button-container">

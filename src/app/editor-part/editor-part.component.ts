@@ -7,6 +7,8 @@ import {
   ElementRef,
   ViewChild,
   Input,
+  ViewChildren, 
+  QueryList
 } from '@angular/core';
 import { Element } from '../models/element';
 import { LayerElement } from '../layer-element';
@@ -44,7 +46,7 @@ import { DragDrop } from '@angular/cdk/drag-drop';
 export class EditorPartComponent implements OnInit {
   @Input() navElementHoverID: string | null = null;
 
-  @ViewChild('currentScrollElement', { read: ElementRef, static: false })
+  @ViewChildren('scrollToElement') elementRefs!: QueryList<ElementRef>;
   currentScrollElement!: ElementRef;
   settings: any;
   displayedEditorElements: Element[] = []; //the list of elements that are supposed to be shown
@@ -150,6 +152,7 @@ export class EditorPartComponent implements OnInit {
   );
   } */
     this.editorParentElementID = this.dataService.getEditorElement();
+   
     console.log(
       'updateEditor was just pressed and the editorParentElementID is this:',
       this.editorParentElementID
@@ -185,6 +188,17 @@ export class EditorPartComponent implements OnInit {
             )
         );
         this.cdr.detectChanges();
+      }
+    }
+    this.scrollTo(this.editorParentElementID)
+  }
+  scrollTo(layerElementId: string) {
+    const elementToScroll = this.layerElements.find(layerElement => layerElement.element.getId() === layerElementId);
+  
+    if (elementToScroll) {
+      const elementRef = this.elementRefs.toArray()[this.layerElements.indexOf(elementToScroll)];
+      if (elementRef) {
+        elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }
     }
   }
