@@ -42,7 +42,7 @@ import { SummaryComponent } from './summary/summary.component';
 import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
 import {TooltipModule} from '@syncfusion/ej2-angular-popups';
 import { CommonModule } from '@angular/common';
-import { DropAreaDirective } from './drop-area.directive';
+
 
 
 
@@ -67,7 +67,7 @@ import { DropAreaDirective } from './drop-area.directive';
     ImportComponent,
     LatexRenderComponent,
     SummaryComponent,
-    DropAreaDirective
+    
   ],
   imports: [
     BrowserModule,

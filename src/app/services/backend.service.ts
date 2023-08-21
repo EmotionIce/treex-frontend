@@ -435,7 +435,7 @@ export class BackendService {
    * @returns Array of Objects that represent the composite data structure
    */
   public LoadFullData(): Observable<Array<Object>> {
-    return of (this.fullData);
+    //return of (this.fullData);
 
     return this.http
       .get<Array<Object>>(`${this.baseUrl}/LoadFullData`)
@@ -465,9 +465,11 @@ export class BackendService {
     };
     console.log(exportData);
 
-    return this.http.post<Array<Object>>(`${this.baseUrl}/api`, {
-      Export: exportData,
-    });
+    return this.http
+      .post<Array<Object>>(`${this.baseUrl}/api`, {
+        Export: exportData,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -596,14 +598,16 @@ export class BackendService {
    */
   public AddElement(
     content: string,
-    parent: Element,
+    parent: Element | Root | null,
     previousElement: Element
   ): Observable<Object> {
     let addData: Object = {
       content: content,
-      parent: parent.getId(),
+      parent: parent instanceof Element ? parent.getId() : null,
       previousChild: previousElement.getId(),
     };
+    console.log('addData');
+    console.log(addData);
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, { AddElement: addData })
