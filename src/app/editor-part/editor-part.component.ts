@@ -8,7 +8,9 @@ import {
   ViewChild,
   Input,
   ViewChildren, 
-  QueryList
+  QueryList,
+  OnChanges, 
+  SimpleChanges
 } from '@angular/core';
 import { Element } from '../models/element';
 import { LayerElement } from '../layer-element';
@@ -110,15 +112,49 @@ export class EditorPartComponent implements OnInit {
       //should elements be changed, the dataservice.notifyChange will call this to update the elements in the editor.
       this.updateEditor();
 
-      if (this.editorParentElementID && this.currentScrollElement) {
-        this.currentScrollElement.nativeElement.scrollIntoView({
-          behavior: 'smooth',
-        });
-      }
+      
     });
 
  
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('navElementHoverID' in changes) {
+      const currentValue: string | null = changes['navElementHoverID'].currentValue;
+      
+
+      // Call a method or perform actions based on the input change
+      if (currentValue !== null) {
+        this.scrollToNavElementChildren();
+
+      }
+      
+    }
+  }
+
+  scrollToNavElementChildren() {
+    
+      let matchingElement: LayerElement;
+      for (const layerElement of this.layerElements) {
+        if (this.onNavElementHover(layerElement)) {
+          matchingElement = layerElement;
+          const matchingElementID = layerElement.element.getId();
+          this.scrollTo(matchingElementID);
+          console.log("this is the first element that i found", matchingElement.element.getContent());
+          break;
+
+
+        }
+      }
+  
+      
+
+
+    
+    
+   
+
+  }
+
   /*
   ngAfterViewInit() {                               //responsible for scrolling down to the currentElement
     if (this.editorParentElementID) {
@@ -200,6 +236,8 @@ export class EditorPartComponent implements OnInit {
       if (elementRef) {
         elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
       }
+    } else {
+      console.log(`Layer element with ID ${layerElementId} not found.`);
     }
   }
 
