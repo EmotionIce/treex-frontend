@@ -63,7 +63,6 @@ export class NavigationPartComponent implements OnInit {
     this.dataService.currentDraggedElement.subscribe(
       (newDraggedElementOtherComponent) => {
         this.draggedElementServiceID = newDraggedElementOtherComponent;
-        console.log('draggedElement: ', this.draggedElementServiceID);
       }
     );
   }
@@ -153,54 +152,57 @@ export class NavigationPartComponent implements OnInit {
     console.log('draggedElement', this.draggedElementID);
     this.dataService.changeDraggedElement(this.draggedElementID);
     this.draggedElementServiceID = this.draggedElementID;
-
   }
 
   onDrop(event: CdkDragDrop<any[]>) {
     const dropIndex = event.currentIndex;
     console.log(`Element was dropped at index: ${dropIndex}`);
-    
+
     if (dropIndex >= 0 && dropIndex < this.displayedNavigationElements.length) {
-      const previousElement = dropIndex === 0 ? null : this.displayedNavigationElements[dropIndex - 1];
+      const previousElement =
+        dropIndex === 0
+          ? null
+          : this.displayedNavigationElements[dropIndex - 1];
       const previousLayerElement = this.layerElements[dropIndex];
       let parent: Element | Root | null = null;
       if (previousElement === null) {
-        const tempElement = this.displayedNavigationElements[0];  //if the previous element = null then there is none, but the backend still needs a parent element to know where the new element is to be added. 
-                                                                  //so another element in the same layer is taken and its parent is sent to the backend
-                                                                  
-         parent = tempElement.getParent();
+        const tempElement = this.displayedNavigationElements[0]; //if the previous element = null then there is none, but the backend still needs a parent element to know where the new element is to be added.
+        //so another element in the same layer is taken and its parent is sent to the backend
+
+        parent = tempElement.getParent();
         if (parent instanceof Root) {
           parent = null;
         }
-
       } else {
-         parent = previousElement.getParent();
+        parent = previousElement.getParent();
         if (parent instanceof Root) {
           parent = null;
         }
-
       }
-      if (this.draggedElementServiceID){
-      const draggedElement = this.rootInstance.searchByID(this.draggedElementServiceID);
-      
-      if (draggedElement) {
-        if (parent !== null) {
+      if (this.draggedElementServiceID) {
+        const draggedElement = this.rootInstance.searchByID(
+          this.draggedElementServiceID
+        );
 
-        
-        previousLayerElement
-          .moveElementEditor(draggedElement, parent, previousElement)
-          .subscribe((value) => {
-            if (value) {
-              this.dataService.notifyChange();
-            }
-            
-          });
+        console.log(
+          'dragged: ',
+          draggedElement,
+          ' parent: ',
+          parent,
+          ' previousElement: ',
+          previousElement
+        );
+
+        if (draggedElement) {
+            previousLayerElement
+              .moveElementEditor(draggedElement, parent, previousElement)
+              .subscribe((value) => {
+                if (value) {
+                  this.dataService.notifyChange();
+                }
+              });
         }
       }
-    }
-      
-
-      
     }
     //TODO get previous element using drop index. get parent of the previous element. check if draggedElementServiceID is null, which means that the element was not dragged from another component
     //take draggedElementID from this component, give everything to moveElement in layerElement

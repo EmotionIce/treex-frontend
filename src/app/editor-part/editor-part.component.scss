@@ -37,21 +37,6 @@
 
 }
 
-.drop-area {
-  border: #ccc dashed 2px;
-  padding: 20px 10px;
-  box-sizing: border-box;
-  margin-top: 15px;
-}
-
-.cdk-drag-preview {
-  cursor: grabbing !important;
-  background-color: var(--secondary-background-color) !important;
-  border: 2px dashed var(--accent-color) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
-  opacity: 0.2 !important;
-}
-
 .element-container.highlighted {
   background-color: var(--secondary-background-color);
   border: 2px solid var(--accent-color);
@@ -135,20 +120,6 @@ mat-icon {
   border-bottom-right-radius: 0px;
 }
 
-/*
-.invisible-preview {
-  display: none;
-}
-
-.invisible-placeholder {
-   Make the placeholder visible during drag 
-  background-color: rgba(0, 0, 0, 0.1);
-  border: 2px dashed rgba(0, 0, 0, 0.5);
-  min-height: 40px;
-  /* Set an appropriate height 
-  width: 100%;
-}*/
-
 .type-section {
   font-weight: bold;
   color: var(--accent-color);
@@ -186,6 +157,76 @@ mat-icon {
     color: #007bff;
     margin-bottom: 10px; // Spacing after heading
   }
+
+  .add-content-button-container {
+    width: 100%;
+    text-align: center;
+    /* Center the button horizontally */
+    margin-top: 10px;
+    /* Adjust the margin as needed */
+  }
+
+  .add-content-button {
+
+    width: 100%;
+  }
+
+  .drop-area {
+    border: #ccc dashed 2px;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    margin-top: 15px;
+
+  }
+
+  .drop-area.hovered {
+    border: 2px dashed blue;
+  }
+
+  .cdk-drag-placeholder {
+    border: 2px dashed #ccc;
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 60px;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+
+  .drop-placeholder {
+    background: #f0f0f0; // Light gray background
+    border: 2px dashed #ccc;
+    min-height: 60px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-family: Roboto;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14),
+      0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    opacity: 0.8
+  }
+
+  .cdk-drag-animating {
+    transition: transform 250ms cubic-bezier (0, 0, 0.2, 1);
+
+  }
+
+  .lesson:last-child {
+    border: none;
+  }
+
+  .drag-drop-list.cdk-drop-list-dragging .drag-drop-item:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier (0, 0, 0.2, 1);
+
+  }
+
+  .drop-placeholder {
+    background: #f0f0f0; // Light gray background
+    border: 2px dashed #ccc;
+    min-height: 60px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
 }
 
 .add-content-button-container {
@@ -200,4 +241,56 @@ mat-icon {
   color: var(--primary-text-color);
   background-color: #67994187;
   height: 40px;
+}
+
+.drop-area {
+  border: #ccc dashed 2px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  margin-top: 15px;
+
+}
+
+.drop-area.hovered {
+  border: 2px dashed blue;
+}
+
+.cdk-drag-placeholder {
+  border: 2px dashed #ccc;
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 60px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-family: Roboto;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  opacity: 0.8;
+  transform: scale(0.2); // Add this line to scale down the preview
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier (0, 0, 0.2, 1);
+
+}
+
+.lesson:last-child {
+  border: none;
+}
+
+.drag-drop-list.cdk-drop-list-dragging .drag-drop-item:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier (0, 0, 0.2, 1);
+
+}
+
+.drop-placeholder {
+
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 60px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }

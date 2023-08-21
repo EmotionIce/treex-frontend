@@ -514,6 +514,9 @@ export class BackendService {
       newParent: p instanceof Parent ? p.getId() : null,
       previousElement: pc ? pc.getId() : null,
     };
+    console.log('movedata');
+
+    console.log(moveData);
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, {

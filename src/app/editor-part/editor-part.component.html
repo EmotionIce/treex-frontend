@@ -1,15 +1,24 @@
 <div class="editor-part">
   <h2>Editor</h2>
 
-  <div cdkDropList #dropList="cdkDropList" [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true">
-    <ng-container *ngFor="let layerElement of layerElements">
+  <div cdkDropList class="layerElement-list drag-drop-list"
+         (cdkDropListDropped)="onDrop($event)">
 
 
-      <div
+
+
+    <ng-container *ngFor="let layerElement of layerElements; let i = index">
+      <div class="box-and-droparea">
+     
+
+      <div class="element-container"
         [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement)}"
-        (cdkDragStarted)="onDragStarted($event, layerElement)" (cdkDragEnded)="onDrop($event, dropList)" #currentElement
-        (mouseenter)="onElementHover(layerElement.element.getId())" (mouseleave)="onElementHover(null)"
-        class="element-container" cdkDrag>
+        
+        (mouseenter)="onElementHover(layerElement.element.getId())" 
+        (mouseleave)="onElementHover(null)"
+         cdkDrag [cdkDragData]="{ data: layerElement, index: i }"
+         [attr.data-layer-element-id]="layerElement.element.getId()" 
+         (cdkDragStarted)="onDragStart(layerElement)" >
 
         <button *ngIf="parentInstanceOfParent(layerElement)" class="parent-button"
           (click)="showParent(layerElement)">Eltern anzeigen</button>
@@ -40,7 +49,7 @@
           </div>
 
           <!-- Comment -->
-          <div *ngIf="!settings.hideComments && !layerElement.showCommentTextbox" class="info-section">
+          <div *ngIf="!settings.hideComments && !layerElement.showCommentTextbox && layerElement?.element?.getComment()" class="info-section">
             <div class="info-header">Kommentar:</div>
             <div>{{ layerElement?.element?.getComment() || '-'}}</div>
           </div>
@@ -102,6 +111,8 @@
           <app-text-editor [text]="layerElement?.element?.getComment() || ''"
             (textUpdated)="onCommentUpdated($event)"></app-text-editor>
         </div>
+        <div class="drop-placeholder"*cdkDragPlaceholder></div>
+      </div>
       </div>
     </ng-container>
     <div cdkDragPreview class="invisible-placeholder"></div>
@@ -117,7 +128,3 @@
     <h3 class="section-heading">Neues Element:</h3>
     <app-text-editor #textEditorRef [text]="newContent" (textUpdated)="onNewElement($event)"></app-text-editor>
   </div>
-
-  <ng-template #placeholderTemplate let-data="data">
-    <div class="placeholder"></div>
-  </ng-template>

@@ -28,14 +28,11 @@ import {
 } from '@angular/cdk/drag-drop';
 import { LatexRenderComponent } from '../latex-render/latex-render.component';
 import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
-
-export class ConcreteElement extends Element {
-  //temporary class to test elements
-}
+import { DragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-editor-part',
@@ -61,6 +58,7 @@ export class EditorPartComponent implements OnInit {
   //is finished to give the backend the correct element
   inEditMode = false; //checks whether a text is supposed to be shown in edit mode
   draggedLayerElement: LayerElement | null = null; //the element that is being dragged
+  draggedElement: Element | null = null; //the element that is being dragged
   showAddElementTextEditor: boolean = false;
   newContent: string = '';
 
@@ -90,6 +88,7 @@ export class EditorPartComponent implements OnInit {
         converted.subscribe((value: boolean) => {
           if (value) {
             this.dataService.notifyChange();
+            this.dataService.setDataImportStatus(true);
           } else {
             // Conversion failed, handle the error if needed
           }
@@ -106,6 +105,7 @@ export class EditorPartComponent implements OnInit {
       this.updateEditor();
     });
     this.dataService.currentChange.subscribe((change) => {
+      console.log('Elements changed. Updating editor part.');
       //should elements be changed, the dataservice.notifyChange will call this to update the elements in the editor.
       this.updateEditor();
 
@@ -116,16 +116,12 @@ export class EditorPartComponent implements OnInit {
       }
     });
 
-    /* if (this.displayedEditorElements.length <= 0) { //test elements used to test the layerElement boxes
-     const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
-     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
-     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
-     const element4 = new ConcreteElement('id4', '\\frac{\\pi}{2}', 'Comment 4', 'Summary 4');
-
-     this.displayedEditorElements = [
-       element1, element2, element3, element4
-
-     ]; }  */
+    this.dataService.currentDraggedElement.subscribe(
+      (draggedElement: string | null) => {
+        if (!draggedElement) return;
+        this.draggedElement = this.rootInstance.searchByID(draggedElement);
+      }
+    );
   }
   /*
   ngAfterViewInit() {                               //responsible for scrolling down to the currentElement
@@ -240,62 +236,57 @@ export class EditorPartComponent implements OnInit {
     return false;
   }
 
-  onDragStarted(event: CdkDragStart, layerElement: any) {
-    //saves the element that is being dragged
+  onDragStart(layerElement: LayerElement) {
     this.draggedLayerElement = layerElement;
-    if (this.draggedLayerElement) {
-      const draggedElementID = this.draggedLayerElement.element.getId();
-      this.dataService.changeDraggedElement(draggedElementID); //gives the ID of the dragged Element to other components so they can accept this element as drop
-    }
-
-    event.source.element.nativeElement.classList.add('dragging');
-    setTimeout(() => {
-      const draggingElement = document.querySelector('.cdk-drag-placeholder');
-      if (draggingElement) {
-        draggingElement.classList.add('dragging');
-      }
-    });
-    console.log(event.source.element.nativeElement.classList.value);
+    this.dataService.changeDraggedElement(
+      this.draggedLayerElement.element.getId()
+    );
   }
 
-  onDrop(event: CdkDragEnd, dropList: CdkDropList) {
-    // Find the drop target
-    const dropTargetIndex = dropList.getSortedItems().indexOf(event.source);
-    const droppedLayerElement = this.layerElements[dropTargetIndex];
+  onDrop(event: CdkDragDrop<any[]>) {
+    const dropIndex = event.currentIndex;
 
     if (this.draggedLayerElement?.element.getId() === this.hoveredElementID)
       return;
-    console.log(dropList.getSortedItems());
 
-    event.source.element.nativeElement.classList.remove('dragging');
-    const draggedElement = this.draggedLayerElement?.element;
+    const draggedElement = this.draggedElement;
+    this.dataService.changeDraggedElement(null);
+    if (!draggedElement) return console.log('draggedElement is null');
 
-    const tartgetElement = this.rootInstance.searchByID(
-      this.hoveredElementID ? this.hoveredElementID : 'null'
-    );
+    const tartgetElement: Element = this.displayedEditorElements[dropIndex - 1];
 
-    const targetparent = tartgetElement ? tartgetElement.getParent() : null;
+    let targetparent: Root | Element | null;
+
+    if (tartgetElement) {
+      targetparent = tartgetElement ? tartgetElement.getParent() : null;
+    } else {
+      targetparent = this.displayedEditorElements[0].getParent();
+    }
 
     console.log(
       'dropped this element: ',
       draggedElement,
-      'on this element: ',
+      'previous child: ',
       tartgetElement,
       'parent is: ',
       targetparent
     );
-
-    if (draggedElement) {
-      droppedLayerElement
-        .moveElementEditor(draggedElement, targetparent, tartgetElement)
-        .subscribe((value) => {
-          if (value) {
-            this.updateEditor();
-          }
-        });
-    }
-    this.draggedLayerElement = null;
-    this.dataService.changeDraggedElement(null);
+    const backendResponse: Observable<object> =
+      this.backendService.MoveElementEditor(
+        draggedElement,
+        targetparent,
+        tartgetElement
+      );
+    return this.converter
+      .convert(backendResponse)
+      .subscribe((value: boolean) => {
+        if (value) {
+          console.log('move successful');
+          this.dataService.notifyChange();
+        } else {
+          // Conversion failed, handle the error if needed
+        }
+      });
   }
 
   onDelete(layerElement: LayerElement) {
