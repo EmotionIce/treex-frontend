@@ -33,6 +33,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { DragDrop } from '@angular/cdk/drag-drop';
+import { ErrorPopupService } from '../services/error-popup.service';
 
 @Component({
   selector: 'app-editor-part',
@@ -72,7 +73,8 @@ export class EditorPartComponent implements OnInit {
     private converter: JsonToModelConverterService,
     private dataService: DataService,
     private settingsService: SettingsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private errorPopupService: ErrorPopupService
   ) {
     this.rootInstance = Root.createRoot();
   }
@@ -262,6 +264,11 @@ export class EditorPartComponent implements OnInit {
     } else {
       targetparent = this.displayedEditorElements[0].getParent();
     }
+
+    if (targetparent instanceof Element && draggedElement.getId() === targetparent.getId())
+      return this.errorPopupService.setErrorMessage(
+        'Ein Element kann nicht unter sich selbst geschoben werden.'
+      );
 
     console.log(
       'dropped this element: ',
