@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SettingsComponent } from './settings.component';
-import { SettingsService } from '../services/settings';
+import { SettingsService } from '../services/settings.service';
 import { HeaderComponent } from '../header/header.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';

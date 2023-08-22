@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { BackendService } from './backend.service';
-import { SettingsService } from './settings';
+import { SettingsService } from './settings.service';
 import { ErrorPopupService } from './error-popup.service';
 import { DataService } from './data.service';
 

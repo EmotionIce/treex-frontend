@@ -3,6 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 import { Element } from '../models/element';
 import { Child } from '../models/child';
 
+/**
+ * Service class that manages and provides access to shared data across components.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -20,22 +23,37 @@ export class DataService {
   currentChange = this.changeNotifier.asObservable();
 
   private navigationElements = new BehaviorSubject<string>('');
+  /**
+   * Emits the current navigation elements
+   */
   currentNavigationElements = this.navigationElements.asObservable();
 
   private editorElements = new BehaviorSubject<string>('');
+  /**
+   * Emits the current editor elements
+   */
   currentEditorElements = this.editorElements.asObservable();
 
   private isDataImported = new BehaviorSubject<boolean>(false);
+  /**
+   * Emits the current data import status
+   */
   currentImportStatus = this.isDataImported.asObservable();
 
   private draggedElement = new BehaviorSubject<string | null>(null);
+  /**
+   * Emits the current dragged element
+   */
   currentDraggedElement = this.draggedElement.asObservable();
 
+  /**
+   * Initializes the service
+   */
   constructor() {}
 
   /**
    * Emits the new active element
-   * 
+   *
    * @param data the new active element
    */
   changeActiveElement(data: any) {
@@ -52,14 +70,16 @@ export class DataService {
 
   /**
    * Emits the new navigation elements
-   * 
+   *
    * @param data the new navigation elements
    */
   changeNavigationElements(data: any) {
     this.navigationElements.next(data);
   }
+
   /**
-   * 
+   * Emits the currently dragged element
+   *
    * @param data the currently dragged element
    */
   changeDraggedElement(data: string | null) {
@@ -68,37 +88,47 @@ export class DataService {
 
   /**
    * Emits the new editor elements
-   * 
+   *
    * @param data the new editor elements
    */
   changeEditorElements(data: any) {
     this.editorElements.next(data);
   }
 
-    /**
+  /**
    * Set the data import status
-   * 
+   *
    * @param status the data import status
    */
-    setDataImportStatus(status: boolean) {
-      this.isDataImported.next(status);
-    }
+  setDataImportStatus(status: boolean) {
+    this.isDataImported.next(status);
+  }
 
-    getNavigationElement(): string {
-      return this.navigationElements.value;
-    }
-  
-    getEditorElement(): string {
-      return this.editorElements.value;
-    }
+  /**
+   * Retrieves the current navigation element
+   *
+   * @returns {string} the current navigation element
+   */
+  getNavigationElement(): string {
+    return this.navigationElements.value;
+  }
 
-    reset() {
-      this.changeActiveElement('');
-      this.changeNavigationElements('');
-      this.changeEditorElements('');
-      this.changeDraggedElement(null);
-    }
+  /**
+   * Retrieves the current editor element
+   *
+   * @returns {string} the current editor element
+   */
+  getEditorElement(): string {
+    return this.editorElements.value;
+  }
 
-    
-  
+  /**
+   * Resets the service to initial state
+   */
+  reset() {
+    this.changeActiveElement('');
+    this.changeNavigationElements('');
+    this.changeEditorElements('');
+    this.changeDraggedElement(null);
+  }
 }
