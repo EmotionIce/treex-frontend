@@ -29,10 +29,12 @@ export class ImportComponent implements OnInit {
    * @param {DataService} dataService - Service for managing shared data across components
    * @param {Router} router - Angular router for navigation
    */
-  constructor(private backendService: BackendService,
+  constructor(
+    private backendService: BackendService,
     private converter: JsonToModelConverterService,
     private dataService: DataService,
-    private router: Router) { }
+    private router: Router
+  ) {}
 
   /**
    * Initializes the component by retrieving stored paths and URLs from local storage.
@@ -68,7 +70,8 @@ export class ImportComponent implements OnInit {
     this.saveToLocalStorage();
 
     let backendResponse = this.backendService.LoadFromFolder(this.folderPath);
-    let converted: Observable<boolean> = this.converter.convert(backendResponse);
+    let converted: Observable<boolean> =
+      this.converter.convert(backendResponse);
 
     converted.subscribe((data) => {
       if (!data) return;
@@ -83,14 +86,14 @@ export class ImportComponent implements OnInit {
   loadFromGit() {
     this.saveToLocalStorage();
 
-    let backendResponse: Observable<Object> = this.backendService
-      .LoadFromGit(
-        this.gitUrl,
-        this.gitUsername,
-        this.gitPassword,
-        this.gitPath
-      );
-    let converted: Observable<boolean> = this.converter.convert(backendResponse);
+    let backendResponse: Observable<Object> = this.backendService.LoadFromGit(
+      this.gitUrl,
+      this.gitUsername,
+      this.gitPassword,
+      this.gitPath
+    );
+    let converted: Observable<boolean> =
+      this.converter.convert(backendResponse);
 
     converted.subscribe((data) => {
       if (!data) return;
