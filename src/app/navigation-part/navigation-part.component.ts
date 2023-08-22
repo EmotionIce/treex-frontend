@@ -7,9 +7,6 @@ import { BackendService } from '../services/backend.service';
 import { JsonToModelConverterService } from '../services/json-to-model-converter.service';
 import {
   CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-  DragDropModule,
   CdkDragStart,
   CdkDragEnd,
   CdkDragEnter,
@@ -18,6 +15,9 @@ import {
 
 export class ConcreteElement extends Element {}
 
+/**
+ * Component that represents the navigation part of the application.
+ */
 @Component({
   selector: 'app-navigation-part',
   templateUrl: './navigation-part.component.html',
@@ -26,18 +26,23 @@ export class ConcreteElement extends Element {}
 export class NavigationPartComponent implements OnInit {
   @Input() parentElementID: string | null = null;
   @Output() navParentElementIDChange = new EventEmitter<string | null>();
-
-  hoveredElementID: string | null = null; //the element that is highlighted. need it to highlight its corresponding children
-  displayedNavigationElements: Element[] = []; // the elements from root
+  hoveredElementID: string | null = null; // The element that is highlighted. Needed to highlight its corresponding children
+  displayedNavigationElements: Element[] = []; // The elements from root
   rootInstance: Root;
-  parentElement: Element | null = null; // this element gives back the displayedNavigationElements using root.getElementsOfLayer
-  navigationParentElementID: string | null = null; //the ID of the parentElement
-  layerElements: LayerElement[] = []; //the list of layerElements that are to be shown
+  parentElement: Element | null = null; // This element gives back the displayedNavigationElements using root.getElementsOfLayer
+  navigationParentElementID: string | null = null; // The ID of the parentElement
+  layerElements: LayerElement[] = []; // The list of layerElements that are to be shown
   hoveredNavElementID: string | null = null;
   isDropAreaHovered = false;
-  draggedElementServiceID: string | null = null; //the element that the service brings should in another component an element be dragged
-  draggedElementID: string | null = null; //the element that is dragged in this component
+  draggedElementServiceID: string | null = null; // The element that the service brings should another component have an element dragged
+  draggedElementID: string | null = null; // The element that is dragged in this component
 
+  /**
+   * Constructs the NavigationPartComponent.
+   * @param backendService service to interact with the backend
+   * @param converter service to convert JSON to internal model
+   * @param dataService service for managing shared data across components
+   */
   constructor(
     private backendService: BackendService,
     private converter: JsonToModelConverterService,
@@ -46,6 +51,9 @@ export class NavigationPartComponent implements OnInit {
     this.rootInstance = Root.createRoot();
   }
 
+  /**
+   * Initializes the component by subscribing to changes in the navigation elements and the currently active element.
+   */
   ngOnInit() {
     this.dataService.currentNavigationElements.subscribe(
       (newNavigationElements) => {
@@ -67,6 +75,9 @@ export class NavigationPartComponent implements OnInit {
     );
   }
 
+  /**
+   * Updates the navigation elements according to the current navigation parent element ID.
+   */
   updateNavigation() {
     this.navigationParentElementID = this.dataService.getNavigationElement();
     if (this.navigationParentElementID.length !== 0) {
@@ -90,6 +101,10 @@ export class NavigationPartComponent implements OnInit {
     }
   }
 
+  /**
+   * Handles navigation element hover, and highlights children in the editor part.
+   * @param elementID - The ID of the hovered element.
+   */
   onNavElementHover(elementID: string | null) {
     //gives the hovered Element to to editorpart so it can highlight its children
     this.hoveredNavElementID = elementID;
@@ -100,25 +115,13 @@ export class NavigationPartComponent implements OnInit {
     } else {
       this.navParentElementIDChange.emit(null);
     }
-    /* this.hoveredElementID = elementID;
-
-    if (elementID) {
-      const element = this.rootInstance.searchByID(elementID);
-      if (element instanceof Element) {
-        const parentElement = element.getParent();
-
-        if (parentElement instanceof Element) {
-          this.parentElementID = parentElement.getId();
-          this.parentElementIDChange.emit(this.parentElementID);
-        }
-      }
-    } else {
-      this.parentElementIDChange.emit(null);
-    }
-
-*/
   }
 
+  /**
+   * Returns the first 40 characters of the content.
+   * @param content - The content string to be truncated.
+   * @returns The truncated content.
+   */
   getFirstFourtyLetters(content: string): string {
     //takes the first 40 letters of the content to display them
     if (content) {
@@ -127,6 +130,11 @@ export class NavigationPartComponent implements OnInit {
     return 'empty content';
   }
 
+  /**
+   * Checks which element has the same ID as the element that is to be highlighted.
+   * @param layerElement - The layer element to check.
+   * @returns True if the element is to be highlighted, false otherwise.
+   */
   highlightElement(layerElement: LayerElement): boolean {
     // checks which element has the same ID as the element that is to be highlighted
     if (this.parentElementID) {
@@ -147,6 +155,9 @@ export class NavigationPartComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Handler for drag start event.
+   */
   onDragStart() {
     this.draggedElementID = this.hoveredNavElementID;
     console.log('draggedElement', this.draggedElementID);
@@ -154,6 +165,10 @@ export class NavigationPartComponent implements OnInit {
     this.draggedElementServiceID = this.draggedElementID;
   }
 
+  /**
+   * Handler for drop event.
+   * @param event - The drag-drop event object.
+   */
   onDrop(event: CdkDragDrop<any[]>) {
     const dropIndex = event.currentIndex;
     console.log(`Element was dropped at index: ${dropIndex}`);
@@ -194,21 +209,25 @@ export class NavigationPartComponent implements OnInit {
         );
 
         if (draggedElement) {
-            previousLayerElement
-              .moveElementEditor(draggedElement, parent, previousElement)
-              .subscribe((value) => {
-                if (value) {
-                  this.dataService.notifyChange();
-                }
-              });
+          previousLayerElement
+            .moveElementEditor(draggedElement, parent, previousElement)
+            .subscribe((value) => {
+              if (value) {
+                this.dataService.notifyChange();
+              }
+            });
         }
       }
     }
-    //TODO get previous element using drop index. get parent of the previous element. check if draggedElementServiceID is null, which means that the element was not dragged from another component
-    //take draggedElementID from this component, give everything to moveElement in layerElement
-
     this.dataService.changeDraggedElement(null);
   }
+
+  /**
+   * TrackBy function for ngFor loops.
+   * @param index - Index of the element.
+   * @param item - LayerElement item.
+   * @returns The ID of the element.
+   */
   trackByFn(index: number, item: LayerElement): string {
     return item.element.getId();
   }

@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
+/**
+ * Service class that manages and provides access to the error popup.
+ */
 @Injectable({
   providedIn: 'root',
 })

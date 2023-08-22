@@ -6,6 +6,10 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 
+/**
+ * Component responsible for handling the importing of LaTeX documents.
+ * Provides options for importing documents from a local folder or a git repository.
+ */
 @Component({
   selector: 'app-import',
   templateUrl: './import.component.html',
@@ -19,11 +23,20 @@ export class ImportComponent implements OnInit {
   gitPath: string = '';
   hidePassword: boolean = true;
 
+  /**
+   * @param {BackendService} backendService - Service for interacting with the backend
+   * @param {JsonToModelConverterService} converter - Service to convert JSON to internal model
+   * @param {DataService} dataService - Service for managing shared data across components
+   * @param {Router} router - Angular router for navigation
+   */
   constructor(private backendService: BackendService,
     private converter: JsonToModelConverterService,
     private dataService: DataService,
     private router: Router) { }
 
+  /**
+   * Initializes the component by retrieving stored paths and URLs from local storage.
+   */
   ngOnInit() {
     this.folderPath = localStorage.getItem('folderPath') || '';
     this.gitUrl = localStorage.getItem('gitUrl') || '';
@@ -31,10 +44,16 @@ export class ImportComponent implements OnInit {
     this.gitPath = localStorage.getItem('gitPath') || '';
   }
 
+  /**
+   * Toggles the visibility of the password input field.
+   */
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
 
+  /**
+   * Saves the current paths and URLs to local storage.
+   */
   saveToLocalStorage() {
     localStorage.setItem('folderPath', this.folderPath);
     localStorage.setItem('gitUrl', this.gitUrl);
@@ -42,6 +61,9 @@ export class ImportComponent implements OnInit {
     localStorage.setItem('gitPath', this.gitPath);
   }
 
+  /**
+   * Loads the LaTeX document from a folder path and initiates conversion.
+   */
   loadFromFolder() {
     this.saveToLocalStorage();
 
@@ -51,9 +73,13 @@ export class ImportComponent implements OnInit {
     converted.subscribe((data) => {
       if (!data) return;
       this.startImpuls();
+      this.backendService.startPollingData();
     });
   }
 
+  /**
+   * Loads the LaTeX document from a git repository and initiates conversion.
+   */
   loadFromGit() {
     this.saveToLocalStorage();
 
@@ -73,6 +99,10 @@ export class ImportComponent implements OnInit {
     });
   }
 
+  /**
+   * Resets data service, notifies change, sets import status, and navigates to editor view.
+   * @private
+   */
   private startImpuls() {
     this.dataService.reset();
     this.dataService.notifyChange();

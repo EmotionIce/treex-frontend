@@ -13,7 +13,7 @@ import { EditorLayerComponent } from './editor-layer/editor-layer.component';
 import { ElementTitleComponent } from './element-title/element-title.component';
 import { ElementContentComponent } from './element-content/element-content.component';
 import { EditorPartComponent } from './editor-part/editor-part.component';
-import { NavigationPartComponent} from './navigation-part/navigation-part.component';
+import { NavigationPartComponent } from './navigation-part/navigation-part.component';
 import { SettingsComponent } from './settings/settings.component';
 import { FormsModule } from '@angular/forms'; // add this line
 
@@ -35,17 +35,18 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { BackendService } from './services/backend.service';
 import { ErrorPopupService } from './services/error-popup.service';
-import { SettingsService } from './services/settings';
+import { SettingsService } from './services/settings.service';
 import { LatexRenderComponent } from './latex-render/latex-render.component';
 import { SummaryComponent } from './summary/summary.component';
 
-import { DiagramModule, DataBindingService, SnappingService, ComplexHierarchicalTreeService} from '@syncfusion/ej2-angular-diagrams';
-import {TooltipModule} from '@syncfusion/ej2-angular-popups';
+import {
+  DiagramModule,
+  DataBindingService,
+  SnappingService,
+  ComplexHierarchicalTreeService,
+} from '@syncfusion/ej2-angular-diagrams';
+import { TooltipModule } from '@syncfusion/ej2-angular-popups';
 import { CommonModule } from '@angular/common';
-
-
-
-
 
 @NgModule({
   declarations: [
@@ -67,7 +68,6 @@ import { CommonModule } from '@angular/common';
     ImportComponent,
     LatexRenderComponent,
     SummaryComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -86,11 +86,18 @@ import { CommonModule } from '@angular/common';
     DragDropModule,
     DiagramModule,
     CommonModule,
-    TooltipModule
+    TooltipModule,
   ],
   schemas: [NO_ERRORS_SCHEMA],
 
-  providers: [SettingsService, DataBindingService, SnappingService, ComplexHierarchicalTreeService, BackendService, ErrorPopupService],
+  providers: [
+    SettingsService,
+    DataBindingService,
+    SnappingService,
+    ComplexHierarchicalTreeService,
+    BackendService,
+    ErrorPopupService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -15,23 +15,31 @@ import { Caption } from '../models/caption';
 
 import { ErrorPopupService } from './error-popup.service';
 
+/**
+ * Service responsible for converting JSON data into a composite data structure model.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class JsonToModelConverterService {
+  /**
+   * Constructs the JsonToModelConverterService with the given error popup service.
+   *
+   * @param errorPopupService Service to handle error popup messages
+   */
   constructor(private errorPopupService: ErrorPopupService) {}
 
   /**
-   * Converts the given json data to a composite data structure starting with root
-   * 
-   * @param jsonData$ input json data
-   * @returns true if the conversion was successful, false if not
+   * Converts the given JSON data to a composite data structure starting with the root.
+   *
+   * @param jsonData$ input JSON data
+   * @returns {Observable<boolean>} true if the conversion was successful, false if not
    */
   public convert(jsonData$: Observable<Object>): Observable<boolean> {
     return jsonData$.pipe(
       map((jsonData) => {
         try {
-          console.log("Received data:")
+          console.log("Received data:");
           console.log(jsonData);
           const root = Root.createRoot();
           root.clear();
@@ -54,10 +62,10 @@ export class JsonToModelConverterService {
   }
 
   /**
-   * Generates an element from the given json data and adds it to the given parent
-   * 
-   * @param item json data of the element to be processed
-   * @param parent parent of the element to be processed
+   * Generates an element from the given JSON data and adds it to the given parent.
+   *
+   * @param item JSON data of the element to be processed
+   * @param parent Parent of the element to be processed
    */
   private processItem(item: any, parent: Parent | Root): void {
     let createdElement: Element | null = null;
@@ -87,7 +95,7 @@ export class JsonToModelConverterService {
           image,
           mimeType
         );
-        if(captions) {
+        if (captions) {
           captions.forEach((caption: any) => {
             const captionModel = new Caption(caption.content);
             figure.addCaption(captionModel);

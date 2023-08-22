@@ -1,6 +1,6 @@
 import { Component, Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Settings, SettingsService } from '../services/settings';
+import { Settings, SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -44,6 +44,10 @@ export class SettingsComponent {
    * Close the settings
    */
   closeSettings() {
-    this.renderer.setStyle(this.document.querySelector('app-settings'), 'display', 'none');
+    this.renderer.setStyle(
+      this.document.querySelector('app-settings'),
+      'display',
+      'none'
+    );
   }
 }

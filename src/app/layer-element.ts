@@ -12,6 +12,10 @@ import { JsonToModelConverterService } from './services/json-to-model-converter.
 import { Root } from './models/root';
 
 @Injectable()
+/**
+ * LayerElement class is responsible for handling different types of interactions
+ * with elements including moving, deleting, and extending them.
+ */
 export class LayerElement {
   element: Element;
   showSummaryTextbox: boolean;
@@ -19,6 +23,13 @@ export class LayerElement {
   showCommentTextbox: boolean;
   public readonly parent: Element | Root | null;
 
+  /**
+   * Constructor for LayerElement.
+   * @param element - The element associated with this LayerElement.
+   * @param backendService - Service to communicate with the backend.
+   * @param converter - Service to convert data from the backend.
+   * @param dataService - Service to handle data interactions within the app.
+   */
   constructor(
     element: Element,
     private backendService: BackendService,
@@ -27,7 +38,6 @@ export class LayerElement {
   ) {
     this.element = element;
     this.parent = element.getParent();
-
     this.showSummaryTextbox = false;
     this.showContentTextbox = false;
     this.showCommentTextbox = false;
@@ -37,6 +47,13 @@ export class LayerElement {
   @ViewChild(ContentComponent) contentComponent!: ContentComponent;
   @ViewChild(CommentComponent) commentComponent!: CommentComponent;
 
+  /**
+   * Moves an element within the editor.
+   * @param draggedElement - The element being moved.
+   * @param newParent - The new parent of the element.
+   * @param previousChild - The child element preceding the moved element.
+   * @returns An observable that emits a boolean indicating success or failure.
+   */
   moveElementEditor(
     draggedElement: Element,
     newParent: Element | Root | null,
@@ -56,11 +73,11 @@ export class LayerElement {
       })
     );
   }
-  
 
+  /**
+   * Deletes an element. Whether the children should also be deleted is decided by the user.
+   */
   deleteElement() {
-    //Deletes an element. Whether the children should also be deleted is decided by the user
-
     const backendResponse: Observable<object> =
       this.backendService.DeleteElement(this.element);
     const converted: Observable<boolean> =
@@ -74,26 +91,32 @@ export class LayerElement {
     });
   }
 
+  /**
+   * Navigates to the parent element of the currently displayed element.
+   */
   onBackToParentClick() {
-    // Shows the parent element of the currently displayed element
-
     if (this.parent instanceof Parent) {
       const parentID = this.parent.getId();
       this.dataService.changeActiveElement(parentID);
     }
   }
 
+  /**
+   * Expands the child elements of the currently displayed element.
+   */
   onExtendChild() {
-    // Expands the child elements of the currently displayed element
     if (this.element instanceof Parent) {
       const children = this.element.getChildren();
       const firstChild = children[0];
-
       const firstChildID: string = firstChild.getId();
       this.dataService.changeActiveElement(firstChildID);
     }
   }
 
+  /**
+   * Returns the type of the element.
+   * @returns The type of the element as a string.
+   */
   getType(): string {
     return typeof this.element;
   }

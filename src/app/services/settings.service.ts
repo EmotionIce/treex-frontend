@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 
+/**
+ * Interface for the application's settings.
+ */
 export interface Settings {
   theme: string;
   hideLeavesTree: boolean;
@@ -13,10 +16,16 @@ export interface Settings {
   // Other settings go here
 }
 
+/**
+ * Service responsible for managing application settings.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
+  /**
+   * The current settings for the application.
+   */
   settings: Settings = {
     // default values
     theme: 'dark',
@@ -29,6 +38,11 @@ export class SettingsService {
     popupDuration: 5,
   };
 
+  /**
+   * Constructs the SettingsService with the given data service. Loads settings from localStorage if available.
+   *
+   * @param dataService Service to handle data notifications
+   */
   constructor(private dataService: DataService) {
     // Try to load settings from localStorage on initialization
     const savedSettings = localStorage.getItem('settings');
@@ -36,19 +50,20 @@ export class SettingsService {
       this.settings = JSON.parse(savedSettings);
     }
   }
+
   /**
-   * Get the current settings
-   * 
-   * @returns the current settings
+   * Retrieves the current settings.
+   *
+   * @returns {Settings} the current settings
    */
   getSettings(): Settings {
     return this.settings;
   }
 
   /**
-   * Save the given settings as the new settings
-   * 
-   * @param newSettings the new settings
+   * Updates and saves the settings with the given values.
+   *
+   * @param newSettings {Partial<Settings>} the new settings to apply
    */
   updateSettings(newSettings: Partial<Settings>) {
     this.settings = { ...this.settings, ...newSettings };
