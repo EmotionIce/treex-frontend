@@ -20,7 +20,7 @@ width = "100%" height = "850px"
 </ejs-diagram>-->
 <app-latex-render [latexCode]="'$$\\frac{1}{2}$$'"></app-latex-render>
 
-<div id = "diagram" ></div>
+<div id = "diagram" (cdkDropListDropped) = "testEvent($event)" ></div>
 
 
 <app-summary></app-summary>

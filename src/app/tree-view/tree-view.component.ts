@@ -150,6 +150,7 @@ export class TreeViewComponent {
             //dragEnter: this.emptyAlert,
             //dragLeave: this.emptyAlert,
             //dragOver: this.emptyAlert,
+            dragLeave: this.emptyAlert ,
             doubleClick: this.doubleClick,
             //Define the default node and connector properties
             getNodeDefaults: this.getNodeDefaults,
@@ -365,7 +366,7 @@ export class TreeViewComponent {
       }
 
 
-    public doubleClickc = (args: any) =>{
+    public testEvent = (args: any) =>{
       
       const node = args.source; //....
       alert("m" + node)
