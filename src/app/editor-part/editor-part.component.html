@@ -41,6 +41,9 @@
           <div class="info-section">
             <div class="info-header">Inhalt:</div>
             <div>
+              <div *ngIf="layerElement.element.constructor.name == 'Figure'">
+                <img class="displayImage" [src]="getFigureImage(layerElement?.element) || '-'">
+              </div>            
               <app-latex-render [latexCode]="layerElement?.element?.getContent() || '-'"></app-latex-render>
             </div>
           </div>

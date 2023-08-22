@@ -7,10 +7,10 @@ import {
   ElementRef,
   ViewChild,
   Input,
-  ViewChildren, 
+  ViewChildren,
   QueryList,
-  OnChanges, 
-  SimpleChanges
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { Element } from '../models/element';
 import { LayerElement } from '../layer-element';
@@ -38,8 +38,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
 import { DragDrop } from '@angular/cdk/drag-drop';
 import { ErrorPopupService } from '../services/error-popup.service';
-
-
+import { Figure } from '../models/environments/figure';
 
 @Component({
   selector: 'app-editor-part',
@@ -50,12 +49,12 @@ export class EditorPartComponent implements OnInit {
   @Input() navElementHoverID: string | null = null;
 
   @ViewChildren('scrollToElement') elementRefs!: QueryList<ElementRef>;
- 
+
   @ViewChild('textEditorRef', { static: false, read: ElementRef })
   textEditor!: ElementRef;
   @ViewChild('currentScrollElement', { read: ElementRef, static: false })
   currentScrollElement!: ElementRef;
-  
+
   settings: any;
   displayedEditorElements: Element[] = []; //the list of elements that are supposed to be shown
   layerElements: LayerElement[] = []; //the list of layerElements that are shown
@@ -71,7 +70,6 @@ export class EditorPartComponent implements OnInit {
   draggedElement: Element | null = null; //the element that is being dragged
   showAddElementTextEditor: boolean = false;
   newContent: string = '';
-  
 
   rootInstance: Root;
 
@@ -87,7 +85,6 @@ export class EditorPartComponent implements OnInit {
     private errorPopupService: ErrorPopupService
   ) {
     this.rootInstance = Root.createRoot();
-    
   }
 
   ngOnInit() {
@@ -126,7 +123,6 @@ export class EditorPartComponent implements OnInit {
           behavior: 'auto',
         });
       }
-      
     });
 
     this.dataService.currentDraggedElement.subscribe(
@@ -135,45 +131,33 @@ export class EditorPartComponent implements OnInit {
         this.draggedElement = this.rootInstance.searchByID(draggedElement);
       }
     );
-
- 
   }
   ngOnChanges(changes: SimpleChanges): void {
     if ('navElementHoverID' in changes) {
-      const currentValue: string | null = changes['navElementHoverID'].currentValue;
-      
+      const currentValue: string | null =
+        changes['navElementHoverID'].currentValue;
 
       // Call a method or perform actions based on the input change
       if (currentValue !== null) {
         this.scrollToNavElementChildren();
-
       }
-      
     }
   }
 
   scrollToNavElementChildren() {
-    
-      let matchingElement: LayerElement;
-      for (const layerElement of this.layerElements) {
-        if (this.onNavElementHover(layerElement)) {
-          matchingElement = layerElement;
-          const matchingElementID = layerElement.element.getId();
-          this.scrollTo(matchingElementID);
-          console.log("this is the first element that i found", matchingElement.element.getContent());
-          break;
-
-
-        }
+    let matchingElement: LayerElement;
+    for (const layerElement of this.layerElements) {
+      if (this.onNavElementHover(layerElement)) {
+        matchingElement = layerElement;
+        const matchingElementID = layerElement.element.getId();
+        this.scrollTo(matchingElementID);
+        console.log(
+          'this is the first element that i found',
+          matchingElement.element.getContent()
+        );
+        break;
       }
-  
-      
-
-
-    
-    
-   
-
+    }
   }
 
   /*
@@ -188,7 +172,7 @@ export class EditorPartComponent implements OnInit {
 */
 
   updateEditor() {
-  /*
+    /*
   {this.backendService.LoadFullData().subscribe(
   (fullData: Object) => {
     // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
@@ -208,32 +192,14 @@ export class EditorPartComponent implements OnInit {
   }
 );
 } */
-  this.editorParentElementID = this.dataService.getEditorElement();
-  console.log(
-    'updateEditor was just pressed and the editorParentElementID is this:',
-    this.editorParentElementID
-  );
-  if (this.editorParentElementID.length === 0) {
-    //at the beginning of the program the editor shows the direct children of the root
-    this.displayedEditorElements = this.rootInstance.getChildren();
-    this.layerElements = this.displayedEditorElements.map(
-      (element) =>
-        new LayerElement(
-          element,
-          this.backendService,
-          this.converter,
-          this.dataService
-        )
-    );
-    this.cdr.detectChanges();
-  } else {
-    this.editorParentElement = this.rootInstance.searchByID(
+    this.editorParentElementID = this.dataService.getEditorElement();
+    console.log(
+      'updateEditor was just pressed and the editorParentElementID is this:',
       this.editorParentElementID
     );
-    if (this.editorParentElement) {
-      this.displayedEditorElements = this.rootInstance.getElementsOfLayer(
-        this.editorParentElement
-      );
+    if (this.editorParentElementID.length === 0) {
+      //at the beginning of the program the editor shows the direct children of the root
+      this.displayedEditorElements = this.rootInstance.getChildren();
       this.layerElements = this.displayedEditorElements.map(
         (element) =>
           new LayerElement(
@@ -244,26 +210,47 @@ export class EditorPartComponent implements OnInit {
           )
       );
       this.cdr.detectChanges();
+    } else {
+      this.editorParentElement = this.rootInstance.searchByID(
+        this.editorParentElementID
+      );
+      if (this.editorParentElement) {
+        this.displayedEditorElements = this.rootInstance.getElementsOfLayer(
+          this.editorParentElement
+        );
+        this.layerElements = this.displayedEditorElements.map(
+          (element) =>
+            new LayerElement(
+              element,
+              this.backendService,
+              this.converter,
+              this.dataService
+            )
+        );
+        this.cdr.detectChanges();
+      }
     }
+    this.scrollTo(this.editorParentElementID);
   }
-    this.scrollTo(this.editorParentElementID)
-  }
-
-
 
   scrollTo(layerElementId: string) {
     setTimeout(() => {
-      const elementToScroll = this.layerElements.find(layerElement => layerElement.element.getId() === layerElementId);
-  
+      const elementToScroll = this.layerElements.find(
+        (layerElement) => layerElement.element.getId() === layerElementId
+      );
+
       if (elementToScroll) {
-        const elementRef = this.elementRefs.toArray()[this.layerElements.indexOf(elementToScroll)];
+        const elementRef =
+          this.elementRefs.toArray()[
+            this.layerElements.indexOf(elementToScroll)
+          ];
         if (elementRef) {
           elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
         }
       } else {
         console.log(`Layer element with ID ${layerElementId} not found.`);
       }
-  
+
       // Reset scroll position of app component
       document.documentElement.scrollTop = 0;
     }, 0); // Adjust the delay as needed
@@ -272,7 +259,7 @@ export class EditorPartComponent implements OnInit {
   onElementHover(elementID: string | null) {
     //gives hoveredElement to editorview
     this.hoveredElementID = elementID;
-    console.log("i can still hover", this.hoveredElementID);
+    console.log('i can still hover', this.hoveredElementID);
 
     if (elementID) {
       this.parentElementIDChange.emit(this.hoveredElementID);
@@ -309,16 +296,13 @@ export class EditorPartComponent implements OnInit {
     return false;
   }
 
-
-   onDragStart(layerElement: LayerElement) {
+  onDragStart(layerElement: LayerElement) {
     this.draggedLayerElement = layerElement;
     this.dataService.changeDraggedElement(
       this.draggedLayerElement.element.getId()
     );
   }
-  
 
-  
   onDrop(event: CdkDragDrop<any[]>) {
     const dropIndex = event.currentIndex;
 
@@ -339,7 +323,10 @@ export class EditorPartComponent implements OnInit {
       targetparent = this.displayedEditorElements[0].getParent();
     }
 
-    if (targetparent instanceof Element && draggedElement.getId() === targetparent.getId())
+    if (
+      targetparent instanceof Element &&
+      draggedElement.getId() === targetparent.getId()
+    )
       return this.errorPopupService.setErrorMessage(
         'Ein Element kann nicht unter sich selbst geschoben werden.'
       );
@@ -585,4 +572,12 @@ export class EditorPartComponent implements OnInit {
       }
     });
   }
+
+  getFigureImage(element: Element | undefined): string | undefined {
+    if (element instanceof Figure) {
+        return 'data:' + element.getMimeType() + ';base64,' + element.getImage();
+    }
+    return undefined;
+}
+
 }
