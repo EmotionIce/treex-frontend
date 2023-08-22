@@ -4,8 +4,9 @@ import { Parent } from '../parent';
 import { Root } from '../root';
 
 export class Figure extends Environment {
-  private fileLocation: string;
+  private image: string;
   private captions: Caption[];
+  private type: string = '';
 
   constructor(
     id: string,
@@ -13,19 +14,23 @@ export class Figure extends Environment {
     comment: string,
     summary: string,
     parent: Parent | Root | null = null,
-    fileLocation: string
+    image: string,
+    type: string
   ) {
     super(id, content, comment, summary, parent);
-    this.fileLocation = fileLocation;
+    this.image = image;
     this.captions = [];
+    this.type = type;
   }
 
-  public getFileLocation(): string {
-    return this.fileLocation;
+  // Getter for image
+  public getImage(): string {
+    return this.image;
   }
 
-  public setFileLocation(fileLocation: string): void {
-    this.fileLocation = fileLocation;
+  // Setter for image
+  public setImage(image: string): void {
+    this.image = image;
   }
 
   getCaptions(): Caption[] {
@@ -34,5 +39,9 @@ export class Figure extends Environment {
 
   addCaption(caption: Caption): void {
     this.captions.push(caption);
+  }
+
+  public getMimeType(): string {
+    return this.type;
   }
 }

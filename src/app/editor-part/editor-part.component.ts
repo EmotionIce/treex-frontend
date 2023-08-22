@@ -7,6 +7,10 @@ import {
   ElementRef,
   ViewChild,
   Input,
+  ViewChildren,
+  QueryList,
+  OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { Element } from '../models/element';
 import { LayerElement } from '../layer-element';
@@ -28,13 +32,13 @@ import {
 } from '@angular/cdk/drag-drop';
 import { LatexRenderComponent } from '../latex-render/latex-render.component';
 import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-
-export class ConcreteElement extends Element {
-  //temporary class to test elements
-}
+import { MatIconModule } from '@angular/material/icon';
+import { DragDrop } from '@angular/cdk/drag-drop';
+import { ErrorPopupService } from '../services/error-popup.service';
+import { Figure } from '../models/environments/figure';
 
 @Component({
   selector: 'app-editor-part',
@@ -44,8 +48,13 @@ export class ConcreteElement extends Element {
 export class EditorPartComponent implements OnInit {
   @Input() navElementHoverID: string | null = null;
 
+  @ViewChildren('scrollToElement') elementRefs!: QueryList<ElementRef>;
+
+  @ViewChild('textEditorRef', { static: false, read: ElementRef })
+  textEditor!: ElementRef;
   @ViewChild('currentScrollElement', { read: ElementRef, static: false })
   currentScrollElement!: ElementRef;
+
   settings: any;
   displayedEditorElements: Element[] = []; //the list of elements that are supposed to be shown
   layerElements: LayerElement[] = []; //the list of layerElements that are shown
@@ -58,6 +67,9 @@ export class EditorPartComponent implements OnInit {
   //is finished to give the backend the correct element
   inEditMode = false; //checks whether a text is supposed to be shown in edit mode
   draggedLayerElement: LayerElement | null = null; //the element that is being dragged
+  draggedElement: Element | null = null; //the element that is being dragged
+  showAddElementTextEditor: boolean = false;
+  newContent: string = '';
 
   rootInstance: Root;
 
@@ -69,7 +81,8 @@ export class EditorPartComponent implements OnInit {
     private converter: JsonToModelConverterService,
     private dataService: DataService,
     private settingsService: SettingsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private errorPopupService: ErrorPopupService
   ) {
     this.rootInstance = Root.createRoot();
   }
@@ -84,7 +97,8 @@ export class EditorPartComponent implements OnInit {
 
         converted.subscribe((value: boolean) => {
           if (value) {
-            // Conversion successful, do something if needed
+            this.dataService.notifyChange();
+            this.dataService.setDataImportStatus(true);
           } else {
             // Conversion failed, handle the error if needed
           }
@@ -95,33 +109,57 @@ export class EditorPartComponent implements OnInit {
       }
     );
     this.settings = this.settingsService.getSettings();
-    this.updateEditor();
+    //this.updateEditor();
 
     this.dataService.currentEditorElements.subscribe((newEditorElements) => {
       this.updateEditor();
     });
     this.dataService.currentChange.subscribe((change) => {
+      console.log('Elements changed. Updating editor part.');
       //should elements be changed, the dataservice.notifyChange will call this to update the elements in the editor.
       this.updateEditor();
-
       if (this.editorParentElementID && this.currentScrollElement) {
         this.currentScrollElement.nativeElement.scrollIntoView({
-          behavior: 'smooth',
+          behavior: 'auto',
         });
       }
     });
 
-    /* if (this.displayedEditorElements.length <= 0) { //test elements used to test the layerElement boxes
-     const element1 = new ConcreteElement('id1', 'Content 1Der deutsche Name des Tieres deutet sein auffälligstes Kennzeichen bereits an, den biegsamen Schnabel, der in der Form dem einer Ente ähnelt und dessen Oberfläche etwa die Beschaffenheit von glattem Rindsleder hat. Erwachsene Schnabeltiere haben keine Zähne, sondern lediglich Hornplatten am Ober- und Unterkiefer, die zum Zermahlen der Nahrung dienen. Bei der Geburt besitzen die Tiere noch dreispitzige Backenzähne, verlieren diese jedoch im Laufe ihrer Entwicklung. Um den Schnabel effektiv nutzen zu können, ist die Kaumuskulatur der Tiere modifiziert. Die Nasenlöcher liegen auf dem Oberschnabel ziemlich weit vorn; dies ermöglicht es dem Schnabeltier, in weitgehend untergetauchtem Zustand ', 'Kommentar: Schnabeltier sind die besten, 10 out of 10, toller Service, gerne wieder', 'Summary 1 Das Schnabeltier (Ornithorhynchus anatinus, englisch platypus) ist ein eierlegendes Säugetier aus Australien. Es ist die einzige lebende Art der Familie der Schnabeltiere (Ornithorhynchidae). Zusammen mit den vier Arten der Ameisenigel bildet es das Taxon der Kloakentiere (Monotremata), die sich stark von allen anderen Säugetieren unterscheiden.');
-     const element2 = new ConcreteElement('id2', 'Content 2', 'Comment 2', 'Summary 2');
-     const element3 = new ConcreteElement('id3', 'Content 3', 'Comment 3', 'Summary 3');
-     const element4 = new ConcreteElement('id4', '\\frac{\\pi}{2}', 'Comment 4', 'Summary 4');
-
-     this.displayedEditorElements = [
-       element1, element2, element3, element4
-
-     ]; }  */
+    this.dataService.currentDraggedElement.subscribe(
+      (draggedElement: string | null) => {
+        if (!draggedElement) return;
+        this.draggedElement = this.rootInstance.searchByID(draggedElement);
+      }
+    );
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('navElementHoverID' in changes) {
+      const currentValue: string | null =
+        changes['navElementHoverID'].currentValue;
+
+      // Call a method or perform actions based on the input change
+      if (currentValue !== null) {
+        this.scrollToNavElementChildren();
+      }
+    }
+  }
+
+  scrollToNavElementChildren() {
+    let matchingElement: LayerElement;
+    for (const layerElement of this.layerElements) {
+      if (this.onNavElementHover(layerElement)) {
+        matchingElement = layerElement;
+        const matchingElementID = layerElement.element.getId();
+        this.scrollTo(matchingElementID);
+        console.log(
+          'this is the first element that i found',
+          matchingElement.element.getContent()
+        );
+        break;
+      }
+    }
+  }
+
   /*
   ngAfterViewInit() {                               //responsible for scrolling down to the currentElement
     if (this.editorParentElementID) {
@@ -136,24 +174,24 @@ export class EditorPartComponent implements OnInit {
   updateEditor() {
     /*
   {this.backendService.LoadFullData().subscribe(
-    (fullData: Object) => {
-      // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
-      const converted: Observable<boolean> = this.converter.convert(of(fullData));
+  (fullData: Object) => {
+    // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
+    const converted: Observable<boolean> = this.converter.convert(of(fullData));
 
-      converted.subscribe((value: boolean) => {
-        if (value) {
-          // Conversion successful, do something if needed
-        } else {
-          // Conversion failed, handle the error if needed
-        }
-      });
-    },
-    (error) => {
+    converted.subscribe((value: boolean) => {
+      if (value) {
+        // Conversion successful, do something if needed
+      } else {
+        // Conversion failed, handle the error if needed
+      }
+    });
+  },
+  (error) => {
 
-      console.error('Error fetching full data:', error);
-    }
-  );
-  } */
+    console.error('Error fetching full data:', error);
+  }
+);
+} */
     this.editorParentElementID = this.dataService.getEditorElement();
     console.log(
       'updateEditor was just pressed and the editorParentElementID is this:',
@@ -192,11 +230,36 @@ export class EditorPartComponent implements OnInit {
         this.cdr.detectChanges();
       }
     }
+    this.scrollTo(this.editorParentElementID);
+  }
+
+  scrollTo(layerElementId: string) {
+    setTimeout(() => {
+      const elementToScroll = this.layerElements.find(
+        (layerElement) => layerElement.element.getId() === layerElementId
+      );
+
+      if (elementToScroll) {
+        const elementRef =
+          this.elementRefs.toArray()[
+            this.layerElements.indexOf(elementToScroll)
+          ];
+        if (elementRef) {
+          elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        console.log(`Layer element with ID ${layerElementId} not found.`);
+      }
+
+      // Reset scroll position of app component
+      document.documentElement.scrollTop = 0;
+    }, 0); // Adjust the delay as needed
   }
 
   onElementHover(elementID: string | null) {
     //gives hoveredElement to editorview
     this.hoveredElementID = elementID;
+    console.log('i can still hover', this.hoveredElementID);
 
     if (elementID) {
       this.parentElementIDChange.emit(this.hoveredElementID);
@@ -233,51 +296,65 @@ export class EditorPartComponent implements OnInit {
     return false;
   }
 
-  onDragStarted(event: CdkDragStart, layerElement: any) {
-    //saves the element that is being dragged
+  onDragStart(layerElement: LayerElement) {
     this.draggedLayerElement = layerElement;
-    event.source.element.nativeElement.classList.add('dragging');
-    setTimeout(() => {
-      const draggingElement = document.querySelector('.cdk-drag-placeholder');
-      if (draggingElement) {
-        draggingElement.classList.add('dragging');
-      }
-    });
-    console.log(event.source.element.nativeElement.classList.value);
+    this.dataService.changeDraggedElement(
+      this.draggedLayerElement.element.getId()
+    );
   }
 
-  onDrop(event: CdkDragEnd, dropList: CdkDropList) {
-    // Find the drop target
-    const dropTargetIndex = dropList.getSortedItems().indexOf(event.source);
-    const droppedLayerElement = this.layerElements[dropTargetIndex];
+  onDrop(event: CdkDragDrop<any[]>) {
+    const dropIndex = event.currentIndex;
+
+    if (this.draggedLayerElement?.element.getId() === this.hoveredElementID)
+      return;
+
+    const draggedElement = this.draggedElement;
+    this.dataService.changeDraggedElement(null);
+    if (!draggedElement) return console.log('draggedElement is null');
+
+    const tartgetElement: Element = this.displayedEditorElements[dropIndex - 1];
+
+    let targetparent: Root | Element | null;
+
+    if (tartgetElement) {
+      targetparent = tartgetElement ? tartgetElement.getParent() : null;
+    } else {
+      targetparent = this.displayedEditorElements[0].getParent();
+    }
+
+    if (
+      targetparent instanceof Element &&
+      draggedElement.getId() === targetparent.getId()
+    )
+      return this.errorPopupService.setErrorMessage(
+        'Ein Element kann nicht unter sich selbst geschoben werden.'
+      );
 
     console.log(
       'dropped this element: ',
-      this.draggedLayerElement?.element,
-      'on this element: ',
-      this.rootInstance.searchByID(
-        this.hoveredElementID ? this.hoveredElementID : 'null'
-      )
+      draggedElement,
+      'previous child: ',
+      tartgetElement,
+      'parent is: ',
+      targetparent
     );
-    console.log(dropList.getSortedItems());
-
-    event.source.element.nativeElement.classList.remove('dragging');
-    const draggedElement = this.draggedLayerElement?.element;
-
-    const tartgetElement = this.rootInstance.searchByID(
-      this.hoveredElementID ? this.hoveredElementID : 'null'
-    );
-
-    const targetparent = tartgetElement ? tartgetElement.getParent() : null;
-
-    if (draggedElement) {
-      droppedLayerElement.moveElementEditor(
+    const backendResponse: Observable<object> =
+      this.backendService.MoveElementEditor(
         draggedElement,
         targetparent,
         tartgetElement
       );
-    }
-    this.draggedLayerElement = null;
+    return this.converter
+      .convert(backendResponse)
+      .subscribe((value: boolean) => {
+        if (value) {
+          console.log('move successful');
+          this.dataService.notifyChange();
+        } else {
+          // Conversion failed, handle the error if needed
+        }
+      });
   }
 
   onDelete(layerElement: LayerElement) {
@@ -287,7 +364,7 @@ export class EditorPartComponent implements OnInit {
 
   isParent(element: Element): boolean {
     //checks if element is type of parent
-    return element instanceof Parent;
+    return element instanceof Parent && element.getChildren().length > 0;
   }
   showChildren(layerElement: LayerElement) {
     //calles onExtendChild in layerElement
@@ -454,4 +531,53 @@ export class EditorPartComponent implements OnInit {
     }
     return false;
   }
+
+  toggleEmptyTextEditor() {
+    //Toggles the texteditor for a new element
+    this.showAddElementTextEditor = !this.showAddElementTextEditor;
+    console.log('new element editor is shown: ', this.showAddElementTextEditor);
+
+    if (!this.showAddElementTextEditor) {
+      this.newContent = ''; // Clear the new content when hiding the section
+    }
+    if (this.showAddElementTextEditor) {
+      setTimeout(() => {
+        this.textEditor.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      }, 0);
+    }
+  }
+
+  // Function to handle the textUpdated event of the new content text editor
+  onNewElement(content: string) {
+    //gives new element to the backend
+    this.newContent = content;
+
+    let lastElement: Element | null =
+      this.displayedEditorElements[this.displayedEditorElements.length - 1];
+
+    let lastElementParent = lastElement.getParent();
+
+    const backendResponse: Observable<Object> = this.backendService.AddElement(
+      this.newContent,
+      lastElementParent,
+      lastElement
+    );
+    const converted: Observable<boolean> =
+      this.converter.convert(backendResponse);
+
+    converted.subscribe((value: boolean) => {
+      if (value) {
+        this.dataService.notifyChange();
+      } else {
+      }
+    });
+  }
+
+  getFigureImage(element: Element | undefined): string | undefined {
+    if (element instanceof Figure) {
+        return 'data:' + element.getMimeType() + ';base64,' + element.getImage();
+    }
+    return undefined;
+}
+
 }

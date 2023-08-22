@@ -41,6 +41,8 @@ h2 {
 
   // Optional: Add a slight transition for a smoother appearance if toggled.
   transition: all 0.3s ease-out;
+
+  z-index: 1000; // Ensure it's above other page contents
 }
 
 // Overlay that sits behind the popup to focus on it.

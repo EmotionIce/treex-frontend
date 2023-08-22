@@ -28,7 +28,9 @@ $light-theme: mat.define-light-theme((color: (primary: mat.define-palette(mat.$i
   --secondary-text-color: #aaa;
   --background-color: #303030;
   --secondary-background-color: #424242;
-  --accent-color: #d63864;
+  --accent-color: #408b88;
+  --danger-color: #ba272290;
+  --success-color: #348054a2;
   /* ... add more as needed ... */
 }
 
@@ -37,7 +39,9 @@ $light-theme: mat.define-light-theme((color: (primary: mat.define-palette(mat.$i
   --secondary-text-color: #555;
   --background-color: #ffffff;
   --secondary-background-color: #e8edf0;
-  --accent-color: #d63864;
+  --accent-color: #489c98;
+  --danger-color: #d16060d3;
+  --success-color: #35bf3a9b;
   /* ... add more as needed ... */
 }
 

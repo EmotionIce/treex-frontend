@@ -465,9 +465,11 @@ export class BackendService {
     };
     console.log(exportData);
 
-    return this.http.post<Array<Object>>(`${this.baseUrl}/api`, {
-      Export: exportData,
-    });
+    return this.http
+      .post<Array<Object>>(`${this.baseUrl}/api`, {
+        Export: exportData,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   /**
@@ -512,6 +514,9 @@ export class BackendService {
       newParent: p instanceof Parent ? p.getId() : null,
       previousElement: pc ? pc.getId() : null,
     };
+    console.log('movedata');
+
+    console.log(moveData);
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, {
@@ -596,14 +601,16 @@ export class BackendService {
    */
   public AddElement(
     content: string,
-    parent: Element,
+    parent: Element | Root | null,
     previousElement: Element
   ): Observable<Object> {
     let addData: Object = {
       content: content,
-      parent: parent.getId(),
+      parent: parent instanceof Element ? parent.getId() : null,
       previousChild: previousElement.getId(),
     };
+    console.log('addData');
+    console.log(addData);
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, { AddElement: addData })

@@ -1,10 +1,11 @@
 
-<div class="navigation-part">
+<!--<div class="navigation-part">
+  <div cdkDropList [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true">
     <h2>Editor Navigation</h2>
-    <div *ngFor="let layerElement of layerElements">
+    <ng-container *ngFor="let layerElement of layerElements" >
       <div
       class="navigation-element-container"
-     [class.highlighted]="highlightElement(layerElement)"
+     [class.highlighted]="highlightElement(layerElement) || layerElement.element.getId() === hoveredNavElementID"
      (mouseenter)="onNavElementHover(layerElement.element.getId())"
       (mouseleave)="onNavElementHover(null)">>
     
@@ -13,5 +14,93 @@
       </div>
 
     
+  </div> -->
+  <div class="navigation-part">
+    <div cdkDropList class="layerElement-list drag-drop-list"
+         (cdkDropListDropped)="onDrop($event)">
+      <h2>Editor Navigation</h2>
+
+
+      
+      <ng-container *ngFor="let layerElement of layerElements; let i = index; trackBy: trackByFn">
+        <div class="box-and-droparea">
+          <!-- Draggable box -->
+          <div class="navigation-element-container"
+          [class.highlighted]="highlightElement(layerElement) || layerElement.element.getId() === hoveredNavElementID"
+          (mouseenter)="onNavElementHover(layerElement.element.getId())"
+          (mouseleave)="onNavElementHover(null)"
+          cdkDrag
+          [cdkDragData]="{ data: layerElement, index: i }"
+          [attr.data-layer-element-id]="layerElement.element.getId()"
+          (cdkDragStarted)="onDragStart()">
+          
+       <p>{{ getFirstFourtyLetters(layerElement.element.getContent()) }}</p>
+       <div class="drop-placeholder"*cdkDragPlaceholder></div>
+     </div>
+     
+     
+
+         
+          
+        </div>
+      </ng-container>
+    </div>
   </div>
+  
+  
+  
+  
+  
+
+
+  
+  
+
+  <!--
+    <div class="navigation-part">
+    <div cdkDropList [cdkDropListAutoScrollDisabled]="true" [cdkDropListSortingDisabled]="true" [cdkDropListDisabled]="false">
+      <h2>Editor Navigation</h2>
+      <ng-container *ngFor="let layerElement of layerElements">
+        <div class="box-and-droparea">
+          
+          <div class="navigation-element-container" [class.highlighted]="highlightElement(layerElement) || layerElement.element.getId() === hoveredNavElementID"
+               (mouseenter)="onNavElementHover(layerElement.element.getId())"
+               (mouseleave)="onNavElementHover(null)" cdkDrag>
+            <p>{{ getFirstFourtyLetters(layerElement.element.getContent()) }}</p>
+          </div>
+          
+         
+          
+          
+
+        </div>
+       
+      </ng-container>
+     
+    </div>
+    <ul class="drop-area" cdkDropList (cdkDropListDropped) ="onDrop($event)"></ul>
+  
+   
+  </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="drop-area"
+  (cdkDragEntered)="onDragEnter()"
+  (cdkDragExited)="onDragExit()"
+  [ngClass]="{ 'hovered': isDropAreaHovered }"
+  (cdkDropListDropped)="onDrop(layerElement.element.getId())">-->
+  
+  
   

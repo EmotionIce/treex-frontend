@@ -7,7 +7,7 @@ import { CommentComponent } from './comment/comment.component';
 import { BackendService } from './services/backend.service';
 import { Parent } from './models/parent';
 import { DataService } from './services/data.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { JsonToModelConverterService } from './services/json-to-model-converter.service';
 import { Root } from './models/root';
 
@@ -41,24 +41,22 @@ export class LayerElement {
     draggedElement: Element,
     newParent: Element | Root | null,
     previousChild: Element | null
-  ) {
+  ): Observable<boolean> {
     const backendResponse: Observable<object> =
       this.backendService.MoveElementEditor(
         draggedElement,
         newParent,
         previousChild
       );
-    console.log('backendservice called with these parameters');
-    console.log(draggedElement, newParent, previousChild);
-    const converted: Observable<boolean> =
-      this.converter.convert(backendResponse);
-
-    converted.subscribe((value: boolean) => {
-      if (value) {
-        this.dataService.notifyChange();
-      }
-    });
+    return this.converter.convert(backendResponse).pipe(
+      tap((value: boolean) => {
+        if (value) {
+          this.dataService.notifyChange();
+        }
+      })
+    );
   }
+  
 
   deleteElement() {
     //Deletes an element. Whether the children should also be deleted is decided by the user
@@ -94,5 +92,9 @@ export class LayerElement {
       const firstChildID: string = firstChild.getId();
       this.dataService.changeActiveElement(firstChildID);
     }
+  }
+
+  getType(): string {
+    return typeof this.element;
   }
 }

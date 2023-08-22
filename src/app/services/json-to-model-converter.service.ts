@@ -77,14 +77,15 @@ export class JsonToModelConverterService {
         createdElement = new Environment(id, content, comment, summary, parent);
         break;
       case 'Figure':
-        const { fileLocation, captions } = item;
+        const { image, captions, mimeType } = item;
         const figure = new Figure(
           id,
           content,
           comment,
           summary,
           parent,
-          fileLocation
+          image,
+          mimeType
         );
         if(captions) {
           captions.forEach((caption: any) => {

@@ -5,6 +5,16 @@ import { Root } from '../models/root';
 import { LayerElement } from '../layer-element';
 import { BackendService } from '../services/backend.service';
 import { JsonToModelConverterService } from '../services/json-to-model-converter.service';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+  DragDropModule,
+  CdkDragStart,
+  CdkDragEnd,
+  CdkDragEnter,
+  CdkDragExit,
+} from '@angular/cdk/drag-drop';
 
 export class ConcreteElement extends Element {}
 
@@ -24,6 +34,9 @@ export class NavigationPartComponent implements OnInit {
   navigationParentElementID: string | null = null; //the ID of the parentElement
   layerElements: LayerElement[] = []; //the list of layerElements that are to be shown
   hoveredNavElementID: string | null = null;
+  isDropAreaHovered = false;
+  draggedElementServiceID: string | null = null; //the element that the service brings should in another component an element be dragged
+  draggedElementID: string | null = null; //the element that is dragged in this component
 
   constructor(
     private backendService: BackendService,
@@ -46,6 +59,12 @@ export class NavigationPartComponent implements OnInit {
       this.updateNavigation(); //happens when elements are changed
     });
     this.updateNavigation();
+
+    this.dataService.currentDraggedElement.subscribe(
+      (newDraggedElementOtherComponent) => {
+        this.draggedElementServiceID = newDraggedElementOtherComponent;
+      }
+    );
   }
 
   updateNavigation() {
@@ -72,9 +91,9 @@ export class NavigationPartComponent implements OnInit {
   }
 
   onNavElementHover(elementID: string | null) {
-    //gives parentElement of hoveredElement to editorview
+    //gives the hovered Element to to editorpart so it can highlight its children
     this.hoveredNavElementID = elementID;
-    console.log('hover basically works', this.hoveredNavElementID);
+    console.log('hovere gerade über ', elementID);
 
     if (elementID) {
       this.navParentElementIDChange.emit(this.hoveredNavElementID);
@@ -111,6 +130,8 @@ export class NavigationPartComponent implements OnInit {
   highlightElement(layerElement: LayerElement): boolean {
     // checks which element has the same ID as the element that is to be highlighted
     if (this.parentElementID) {
+      //console.log("es wird gehovert");
+      //this.onNavElementHover(layerElement.element.getId());
       const element = this.rootInstance.searchByID(this.parentElementID);
       if (element instanceof Element) {
         const parentElement = element.getParent();
@@ -124,5 +145,71 @@ export class NavigationPartComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  onDragStart() {
+    this.draggedElementID = this.hoveredNavElementID;
+    console.log('draggedElement', this.draggedElementID);
+    this.dataService.changeDraggedElement(this.draggedElementID);
+    this.draggedElementServiceID = this.draggedElementID;
+  }
+
+  onDrop(event: CdkDragDrop<any[]>) {
+    const dropIndex = event.currentIndex;
+    console.log(`Element was dropped at index: ${dropIndex}`);
+
+    if (dropIndex >= 0 && dropIndex < this.displayedNavigationElements.length) {
+      const previousElement =
+        dropIndex === 0
+          ? null
+          : this.displayedNavigationElements[dropIndex - 1];
+      const previousLayerElement = this.layerElements[dropIndex];
+      let parent: Element | Root | null = null;
+      if (previousElement === null) {
+        const tempElement = this.displayedNavigationElements[0]; //if the previous element = null then there is none, but the backend still needs a parent element to know where the new element is to be added.
+        //so another element in the same layer is taken and its parent is sent to the backend
+
+        parent = tempElement.getParent();
+        if (parent instanceof Root) {
+          parent = null;
+        }
+      } else {
+        parent = previousElement.getParent();
+        if (parent instanceof Root) {
+          parent = null;
+        }
+      }
+      if (this.draggedElementServiceID) {
+        const draggedElement = this.rootInstance.searchByID(
+          this.draggedElementServiceID
+        );
+
+        console.log(
+          'dragged: ',
+          draggedElement,
+          ' parent: ',
+          parent,
+          ' previousElement: ',
+          previousElement
+        );
+
+        if (draggedElement) {
+            previousLayerElement
+              .moveElementEditor(draggedElement, parent, previousElement)
+              .subscribe((value) => {
+                if (value) {
+                  this.dataService.notifyChange();
+                }
+              });
+        }
+      }
+    }
+    //TODO get previous element using drop index. get parent of the previous element. check if draggedElementServiceID is null, which means that the element was not dragged from another component
+    //take draggedElementID from this component, give everything to moveElement in layerElement
+
+    this.dataService.changeDraggedElement(null);
+  }
+  trackByFn(index: number, item: LayerElement): string {
+    return item.element.getId();
   }
 }

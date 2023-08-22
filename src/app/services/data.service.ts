@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Element } from '../models/element';
+import { Child } from '../models/child';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,9 @@ export class DataService {
 
   private isDataImported = new BehaviorSubject<boolean>(false);
   currentImportStatus = this.isDataImported.asObservable();
+
+  private draggedElement = new BehaviorSubject<string | null>(null);
+  currentDraggedElement = this.draggedElement.asObservable();
 
   constructor() {}
 
@@ -54,6 +58,13 @@ export class DataService {
   changeNavigationElements(data: any) {
     this.navigationElements.next(data);
   }
+  /**
+   * 
+   * @param data the currently dragged element
+   */
+  changeDraggedElement(data: string | null) {
+    this.draggedElement.next(data);
+  }
 
   /**
    * Emits the new editor elements
@@ -78,8 +89,16 @@ export class DataService {
     }
   
     getEditorElement(): string {
-      console.log("dataservice just became active and returned this element:", this.editorElements.value);
       return this.editorElements.value;
     }
+
+    reset() {
+      this.changeActiveElement('');
+      this.changeNavigationElements('');
+      this.changeEditorElements('');
+      this.changeDraggedElement(null);
+    }
+
+    
   
 }

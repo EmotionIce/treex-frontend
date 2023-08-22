@@ -46,6 +46,7 @@ import { CommonModule } from '@angular/common';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +66,8 @@ import { CommonModule } from '@angular/common';
     TextEditorComponent,
     ImportComponent,
     LatexRenderComponent,
-    SummaryComponent
+    SummaryComponent,
+    
   ],
   imports: [
     BrowserModule,

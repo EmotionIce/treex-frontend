@@ -1,8 +1,9 @@
 .editor-part {
   color: var(--primary-text-color);
 }
-.element-container {  
-  border: 1px solid var(--secondary-text-color);
+
+.element-container {
+  border: 2px solid rgba(0, 0, 0, 0.05);
   padding: 10px;
   margin-bottom: 20px;
   width: 100%;
@@ -28,20 +29,14 @@
     font-weight: bold;
   }
 
-  h3, p {
+  h3,
+  p {
     border-bottom: 1px solid var(--primary-text-color);
     transition: color 0.3s ease; // Smooth transition for hover
   }
 
 }
 
-.cdk-drag-preview {
-  cursor: grabbing !important;
-  background-color: var(--secondary-background-color) !important;
-  border: 2px dashed var(--accent-color) !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
-  opacity: 0.5 !important;
-}
 
 .element-container.highlighted {
   background-color: var(--secondary-background-color);
@@ -49,102 +44,260 @@
 }
 
 .element-container:hover {
-  color: var(--primary-text-color); 
+  color: var(--primary-text-color);
   background-color: rgba(255, 255, 255, 0.1); // Semi-transparent background on hover
-}
-
-.current-marked {
-  background-color: rgb(38, 0, 255);
-  outline: 2px solid #0054dc;
 }
 
 .button-container {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-right: 100px;
-
-
-  button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition for hover
-
-
-
-
-.element-container h3 {
-    border-bottom: 1px solid #ccc;
+  justify-content: space-between;
+  margin-top: 10px;
 }
-    &:last-child {
-      margin-right: 0;
-    }
 
-    &:hover {
-      background-color: var(--accent-color);
-      color: var(--primary-text-color);
-    }
+button {
+  margin-right: 10px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition for hover
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    transform: scale(1.01);
+    color: var(--primary-text-color);
   }
 }
 
-.edit-button, .stop-edit-button {
-  background-color: #007bff;
+.edit-button,
+.stop-edit-button {
+  background-color: #007bff86;
   color: var(--primary-text-color);
 }
 
 .delete-button {
-  background-color: #ff7300;
+  background-color: #a8323293;
   color: var(--primary-text-color);
 }
 
-.comment-button { // Fixed typo: "comment-buton" -> "comment-button"
-  background-color: #28a745;
-  color: var(--primary-text-color);
+mat-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+  color: var(--primary-text-color) !important;
 }
 
-.summary-button {
-  background-color: #ea00ff;
-  color: var(--primary-text-color);
-}
-
-.child-button, .parent-button {
+.child-button,
+.parent-button {
   width: 75px;
-  height: 100%; 
+  height: 100%;
   position: absolute;
   top: 0;
   padding: 5px 10px;
   border: none;
-  border-radius: 5px;
   color: var(--primary-text-color);
   z-index: 1;
 
   &:hover {
     background-color: var(--accent-color);
+    color: var(--primary-text-color);
   }
 }
 
 .child-button {
   right: 0;
-  background-color: red;
-  margin-right: 10px;
+  background-color: var(--danger-color);
+  //margin-right: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 .parent-button {
   left: 0;
-  background-color: #28a745;
-  margin-left: 10px;
+  background-color: var(--success-color);
+  //margin-left: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
-.invisible-preview {
-  display: none;
+
+.type-section {
+  font-weight: bold;
+  color: var(--accent-color);
+  padding-bottom: 5px;
+  margin-bottom: 10px;
 }
 
-.invisible-placeholder {
-  /* Make the placeholder visible during drag */
-  background-color: rgba(0, 0, 0, 0.1);
-  border: 2px dashed rgba(0, 0, 0, 0.5);
-  min-height: 40px; /* Set an appropriate height */
+.element-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; // For consistent spacing between sections
+
+  .info-section {
+    background-color: rgba(0, 0, 0, 0.03); // Light background for better distinction
+    padding: 10px;
+    border-radius: 5px;
+
+    .info-header {
+      font-weight: bold;
+      margin-bottom: 5px; // Spacing between header and content
+      color: var(--accent-color);
+    }
+  }
+}
+
+.text-editor-section {
+  margin-top: 10px;
+  background-color: rgba(0, 0, 0, 0.05); // Slight background for distinction
+  padding: 10px;
+  border-radius: 5px;
+
+  .section-heading {
+    font-size: 20px; // A slight reduction for better UX
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px; // Spacing after heading
+  }
+
+  .add-content-button-container {
+    width: 100%;
+    text-align: center;
+    /* Center the button horizontally */
+    margin-top: 10px;
+    /* Adjust the margin as needed */
+  }
+
+  .add-content-button {
+
+    width: 100%;
+  }
+
+  .drop-area {
+    border: #ccc dashed 2px;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    margin-top: 15px;
+
+  }
+
+  .drop-area.hovered {
+    border: 2px dashed blue;
+  }
+
+  .cdk-drag-placeholder {
+    border: 2px dashed #ccc;
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 60px;
+    transition: background-color 0.2s, border-color 0.2s;
+  }
+
+  .drop-placeholder {
+    background: #f0f0f0; // Light gray background
+    border: 2px dashed #ccc;
+    min-height: 60px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    font-family: Roboto;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14),
+      0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    opacity: 0.8
+  }
+
+  .cdk-drag-animating {
+    transition: transform 250ms cubic-bezier (0, 0, 0.2, 1);
+
+  }
+
+  .lesson:last-child {
+    border: none;
+  }
+
+  .drag-drop-list.cdk-drop-list-dragging .drag-drop-item:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier (0, 0, 0.2, 1);
+
+  }
+
+  .drop-placeholder {
+    background: #f0f0f0; // Light gray background
+    border: 2px dashed #ccc;
+    min-height: 60px;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+}
+
+.add-content-button-container {
   width: 100%;
-} 
+  text-align: center;
+  /* Center the button horizontally */
+  margin-top: 10px;
+}
+
+.add-content-button {
+  width: 100%;
+  color: var(--primary-text-color);
+  background-color: #67994187;
+  height: 40px;
+}
+
+.drop-area {
+  border: #ccc dashed 2px;
+  padding: 20px 10px;
+  box-sizing: border-box;
+  margin-top: 15px;
+
+}
+
+.drop-area.hovered {
+  border: 2px dashed blue;
+}
+
+.cdk-drag-placeholder {
+  border: 2px dashed #ccc;
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 60px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-family: Roboto;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  opacity: 0.8;
+  transform: scale(0.2); // Add this line to scale down the preview
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier (0, 0, 0.2, 1);
+
+}
+
+.lesson:last-child {
+  border: none;
+}
+
+.drag-drop-list.cdk-drop-list-dragging .drag-drop-item:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier (0, 0, 0.2, 1);
+
+}
+
+.drop-placeholder {
+
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 60px;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.displayImage {
+  width: 95%;
+  object-fit: contain;
+}
