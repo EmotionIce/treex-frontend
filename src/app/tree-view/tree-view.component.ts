@@ -11,7 +11,9 @@ import {
   Diagram,
   DataBinding,
   HierarchicalTree,
-  LayoutAnimation
+  LayoutAnimation,
+  TextStyleModel,
+  DiagramConstraints
 } from '@syncfusion/ej2-angular-diagrams';
 //import { SummaryComponent } from './summary/summary.component';
 
@@ -53,6 +55,7 @@ export class TreeViewComponent {
     public items?: DataManager;
     public diagram: Diagram|null;
     rootInstance: Root;
+    public style?: TextStyleModel;
 
 
     constructor(private dataService: DataService, private backendService: BackendService, private treeViewSummary: TreeViewSummaryService){
@@ -61,27 +64,13 @@ export class TreeViewComponent {
         this.treeViewSummary = treeViewSummary;
         this.rootInstance = Root.createRoot();
         this.diagram = null;
-
-        
-        // example Default-Data for testing purpose
-      /*  this.treeData = [
-            {elementID: "000", content: "Einleitung", summary: "Text Zusammenfassung1", isLeaf: false},
-            {elementID: "001", content: "Kapitel 1", parentID: "000", summary: "Text Zusammenfassung2", isLeaf: false},
-            {elementID: "002", content: "Kapitel 1.1", parentID: "001", summary: "Text Zusammenfassung3", isLeaf: true},
-            {elementID: "003", content: "Kapitel 1.2", parentID: "001", summary: "Text Zusammenfassung4", isLeaf: true},
-            {elementID: "004", content: "Kapitel 1.3", parentID: "001", summary: "Text Zusammenfassung5", isLeaf: true},
-            {elementID: "005", content: "Kapitel 2", parentID: "000", summary: "Text Zusammenfassung6", isLeaf: true},
-            {elementID: "006", content: "Kapitel 3", parentID: "000", summary: "Text Zusammenfassung7", isLeaf: false},
-            {elementID: "007", content: "Kapitel 3.1", parentID: "006", summary: "Text Zusammenfassung8", isLeaf: true},
-            {elementID: "008", content: "Kapitel 3.2", parentID: "006", summary: "Text Zusammenfassung9", isLeaf: true},
-            {elementID: "009", content: "Kapitel 3.2.2", parentID: "008", summary: "Text Zusammenfassung10", isLeaf: true}];*/
-
-        //this.items = new DataManager(this.treeData as JSON[])
     } 
 
     // When switching to the treeView, get the current treeStructure from the Backend.
     public ngOnInit(){
+
         this.diagram = this.createNewDiagram()
+
             
         console.log("final:")
         console.log(this.diagram)
@@ -129,31 +118,17 @@ export class TreeViewComponent {
     // defines how the diagram/tree should look like
     public layoutSettings: LayoutModel = {
         type: 'HierarchicalTree',
-        //type: 'OrganizationalChart',
         orientation: 'LeftToRight',
         verticalSpacing: 30,
         horizontalSpacing: 40,
         enableAnimation: true,
-
         margin: {
             left: 100,
             top: 100
         }
     }
-/*
-    public Data: Object[] = [
-        {elementID: "000", content: "Leitung", summary: "Text Zusammenfassung1", isLeaf: false},
-        {elementID: "001", content: "Kapitel 1", parentID: "000", summary: "Text Zusammenfassung2", isLeaf: false},
-        {elementID: "002", content: "Kapitel 1.1", parentID: "001", summary: "Text Zusammenfassung3", isLeaf: true},
-        {elementID: "003", content: "Kapitel 1.2", parentID: "001", summary: "Text Zusammenfassung4", isLeaf: true},
-        {elementID: "004", content: "Kapitel 1.3", parentID: "001", summary: "Text Zusammenfassung5", isLeaf: true},
-        {elementID: "005", content: "Kapitel 2", parentID: "000", summary: "Text Zusammenfassung6", isLeaf: true},
-        {elementID: "006", content: "Kapitel 3", parentID: "000", summary: "Text Zusammenfassung7", isLeaf: false},
-        {elementID: "007", content: "Kapitel 3.1", parentID: "006", summary: "Text Zusammenfassung8", isLeaf: true},
-        {elementID: "008", content: "Kapitel 3.2", parentID: "006", summary: "Text Zusammenfassung9", isLeaf: true},
-        {elementID: "009", content: "Kapitel 3.2.2", parentID: "008", summary: "Text Zusammenfassung10", isLeaf: true}];*/
     
-    // creates a default diagram (without JSON binding yet)
+    // creates a default diagram 
     public createNewDiagram(): Diagram{
         let diagram = new Diagram({
             width: '100%',
@@ -168,22 +143,44 @@ export class TreeViewComponent {
         
             //Configures automatic layout
             layout: this.layoutSettings,
-        
+
+            nodeTemplate: this.createNodeTemplate,
             mouseOver: this.onNodeHover,
             drop: this.dropElement,
             //dragEnter: this.emptyAlert,
             //dragLeave: this.emptyAlert,
             //dragOver: this.emptyAlert,
             doubleClick: this.doubleClick,
-
             //Define the default node and connector properties
             getNodeDefaults: this.getNodeDefaults,
-            getConnectorDefaults: this.getConnectorDefaults,
-           // nodeTemplate: this.nodeTemplate,
+            getConnectorDefaults: this.getConnectorDefaults
+            
           });
-          console.log(diagram)
           return diagram;
         }
+
+      
+      public createNodeTemplate(obj: any){
+          alert("")
+          //let template = document.createElement("div");
+          //template.className = "custom-node";
+          //return template;
+          return "";
+      }
+      /*public createNodeTemplate(node: NodeModel) {
+          // Create a div element representing the custom node
+          let template = document.createElement("dive");
+          template.className = "custom-node";
+
+          
+          
+          // Optionally, set node content using data binding
+          if (node.annotations && node.annotations[0] && node.annotations[0].content) {
+              template.textContent = "node.annotations[0].content";
+          }
+          
+          return template; // Return the custom template element
+      }*/
     
     
     // receives a JSON-Tree as input and updates the diagram accordingly
@@ -194,19 +191,27 @@ export class TreeViewComponent {
             this.diagram.dataBind();
         
            for(let i = 0 ; i < this.diagram.nodes.length; i++){
-            this.diagram.nodes[i].isExpanded = false;
+            //this.diagram.nodes[i].isExpanded = false;
         }
       }
     }
 
     
     public reloadTree(): void{
-        window.location.reload();
+        //window.location.reload();
         /*this.jsonDatasourceSettings = {
             id: "elementID",
             parentId: "parentID",
             dataSource: new DataManager(this.treeData as JSON[])
         }*/
+  }
+
+  public collapseAll(){
+      if(this.diagram != null){
+      for(let i = 0 ; i < this.diagram.nodes.length; i++){
+      this.diagram.nodes[i].isExpanded = false;
+      }
+    }
   }
 
     
@@ -220,7 +225,7 @@ export class TreeViewComponent {
               this.reloadTree();
             },
             (error) => {
-                this.reloadTree();
+                //this.reloadTree();
             }
           );
     }
@@ -243,10 +248,11 @@ export class TreeViewComponent {
         defaultnode.width = 150;
         //(defaultnode.shape as TextModel).margin = { left: 50, right: 5, bottom: 500, top: 5 };
 
-        defaultnode.constraints = NodeConstraints.Default  /*| NodeConstraints.Tooltip*/ | NodeConstraints.AllowDrop; // allow all default constraints as well as Dragg & Drop
+        defaultnode.constraints = NodeConstraints.Default  /*| NodeConstraints.Tooltip*/ | NodeConstraints.AllowDrop ; // allow all default constraints as well as Dragg & Drop
         defaultnode.constraints &= ~NodeConstraints.Delete; // do not allow deleting a Node
         defaultnode.constraints &= ~NodeConstraints.Rotate; // do not allow rotating a Node
-        //defaultnode.isExpanded = false;
+        
+        //defaultnode.isExpanded = true;
 
         let id = defaultnode.id
         
@@ -271,18 +277,23 @@ export class TreeViewComponent {
           
 
         // Defines the content shown within the Node
-        if((defaultnode.data as ElementInfo).content != null){
-          defaultnode.annotations = [
-            {
-             content: (defaultnode.data as ElementInfo).content.substring(0,200), style: { color: "white" }
-            }
-        ]
-    }
+        let nodeContent = (defaultnode.data as ElementInfo).content 
+        if(nodeContent != null){
+          if(nodeContent === "\n"){
+            defaultnode.height = 10;
+          } else {
+            defaultnode.annotations = [
+              {
+                content: nodeContent.substring(0,100), style: { color: "white" }
+              }
+          ]
+        }
+      }
 
     //define expand/collapse Icons for the Nodes
     defaultnode.expandIcon = {
       shape: 'Minus',
-      height: 10,
+      //height: 10,
       // position on the node of the "expandIcon"
       offset: {
         x: 0.5,
@@ -353,9 +364,32 @@ export class TreeViewComponent {
         }
       }
 
+
+    public doubleClickc = (args: any) =>{
+      
+      const node = args.source; //....
+      alert("m" + node)
+      //alert(node)
+          let pc = null
+          if(node.data != undefined){
+            alert("search..")
+            alert((node.data as ElementInfo).content)
+            let element = this.rootInstance.searchByID((node.data as ElementInfo).elementID)
+            alert(element)
+            if(element != null){
+                pc = this.getPreviousElementByYoffset(element)
+                alert((pc.data as ElementInfo).content)
+                console.log((pc.data as ElementInfo).content)
+                //this.moveElement()
+            }
+        }
+
+    }
+
     // show summary when hovering over Node
     public onNodeHover = (args: any): void => {
           const node = args.actualObject;
+         // alert("h" + node)
           let pc = null
           if(node.data != undefined){
             let summary = this.getSummary(node);
@@ -415,7 +449,7 @@ export class TreeViewComponent {
           return nodes
       }
 
-    public emptyAlert(args: any){
+    public emptyAlert(){
         alert("")
     }
   
@@ -428,41 +462,8 @@ export class TreeViewComponent {
             let nodeID = (args['source'].data as ElementInfo).elementID;
             let newID: string = args['source'].id;
 
-            console.log(nodeID)
-            console.log(this.rootInstance)
-            console.log(this.rootInstance.searchByID(nodeID));
-            //console.log(newID)
-
-            //alert((args['source'].data as ElementInfo).content + " id: " + nodeID)
             this.dataService.changeActiveElement(nodeID);
             window.location.href = "Editor";
-            
-            //let node = this.diagramComponent.getNodeObject(newID);
-            //alert((node.data as ElementInfo).content);
-            
-            
-           /* let node2: NodeModel = {
-                // Position of the node
-                offsetX: 0,
-                offsetY: 0,
-                // Size of the node
-                width: 100,
-                height: 100,
-                style: {
-                    fill: '#6BA5D7',
-                    strokeColor: 'white'
-                },
-                annotations: [{content : "empty"}],
-            };
-
-            (this.diagramComponent as Diagram).removeData();
-            alert(this.treeData);
-
-            (this.diagramComponent as Diagram).dataBind();
-
-            this.dataService.currentActiveElementID.subscribe(id => { 
-                console.log("active: " + id)
-            });*/
         }
     }
   }

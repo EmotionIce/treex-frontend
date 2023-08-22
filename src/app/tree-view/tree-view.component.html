@@ -1,11 +1,11 @@
 <app-header></app-header>
 
-<!--
+
 <div>
-    <button class= "collapseButton">Baum einklappen/ausklappen</button>
+    <button class= "collapseButton" (click) = "collapseAll()"> collapse tree</button>
 </div> 
 
-
+<!--
 
 <ejs-diagram #diagramComponent
 width = "100%" height = "850px" 
@@ -20,7 +20,8 @@ width = "100%" height = "850px"
 </ejs-diagram>-->
 <app-latex-render [latexCode]="'$$\\frac{1}{2}$$'"></app-latex-render>
 
-<div id = "diagram"></div>
+<div id = "diagram" ></div>
+
 
 <app-summary></app-summary>
 <app-error-popup></app-error-popup>
