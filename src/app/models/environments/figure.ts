@@ -20,6 +20,7 @@ export class Figure extends Environment {
     super(id, content, comment, summary, parent);
     this.image = image;
     this.captions = [];
+    this.type = type;
   }
 
   // Getter for image
