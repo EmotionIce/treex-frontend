@@ -620,6 +620,7 @@ export class EditorPartComponent implements OnInit {
   onNewElement(content: string) {
     // Gives new element to the backend
     this.newContent = content;
+    this.showAddElementTextEditor = false;
 
     let lastElement: Element | null =
       this.displayedEditorElements[this.displayedEditorElements.length - 1];
@@ -651,15 +652,18 @@ export class EditorPartComponent implements OnInit {
    * @returns {string | undefined} The base64 representation of the image or undefined.
    */
   getFigureImage(element: Element | undefined): string {
+    const notFoundString: string = '/assets/images/not_found.png';
     if (element instanceof Figure) {
       const content = element.getContent();
       const mimeType = element.getMimeType();
 
-
-      if(content) return 'data:' + element.getMimeType() + ';base64,' + element.getImage();
-      return '/assets/images/not_found.png';
+      if (content)
+        return (
+          'data:' + element.getMimeType() + ';base64,' + element.getImage()
+        );
+      return notFoundString;
     }
-    return '/assets/images/not_found.png';
+    return notFoundString;
   }
 
   isContentEmpty(element: Element | undefined): boolean {
@@ -667,5 +671,5 @@ export class EditorPartComponent implements OnInit {
       return !element.getContent();
     }
     return true; // default to true (considering content as empty) if element isn't an instance of Figure
-}
+  }
 }

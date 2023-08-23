@@ -139,7 +139,8 @@ export class TreeViewComponent {
   public createNewDiagram(): Diagram {
     let diagram = new Diagram({
       width: '100%',
-      height: '499px',
+      height: '1500px',
+      
       snapSettings: { constraints: SnapConstraints.None },
       // defines the parent/children relationship in the JSON (needed to create the tree) and holds the data of the tree.
       dataSourceSettings: {

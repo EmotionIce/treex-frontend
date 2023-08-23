@@ -1,9 +1,25 @@
-.collapseButton {
-    margin-top: 3em;
-    margin-left:10em;
-    //margin-bottom: 10em;
-    color: red;
-}
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+  
+  button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease; // Smooth transition for hover
+  
+    &:last-child {
+      margin-right: 0;
+    }
+  
+    &:hover {
+      transform: scale(1.01);
+      color: var(--primary-text-color);
+    }
+  }
 
 .tree{
     margin-right: 10em;
