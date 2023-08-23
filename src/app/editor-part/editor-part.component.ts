@@ -650,10 +650,22 @@ export class EditorPartComponent implements OnInit {
    * @param {Element | undefined} element - The element for which to get the image.
    * @returns {string | undefined} The base64 representation of the image or undefined.
    */
-  getFigureImage(element: Element | undefined): string | undefined {
+  getFigureImage(element: Element | undefined): string {
     if (element instanceof Figure) {
-      return 'data:' + element.getMimeType() + ';base64,' + element.getImage();
+      const content = element.getContent();
+      const mimeType = element.getMimeType();
+
+
+      if(content) return 'data:' + element.getMimeType() + ';base64,' + element.getImage();
+      return '/assets/images/not_found.png';
     }
-    return undefined;
+    return '/assets/images/not_found.png';
   }
+
+  isContentEmpty(element: Element | undefined): boolean {
+    if (element instanceof Figure) {
+      return !element.getContent();
+    }
+    return true; // default to true (considering content as empty) if element isn't an instance of Figure
+}
 }
