@@ -7,15 +7,18 @@ export abstract class Element {
   private comment: string;
   private summary: string;
   private parent: Element | Root | null;
+  private type: string;
 
   constructor(
     id: string,
+    type: string,
     content: string,
     comment: string,
     summary: string,
     parent: Element | Root | null = null
   ) {
     this.id = id;
+    this.type = type;
     this.content = content;
     this.comment = comment;
     this.summary = summary;
@@ -44,6 +47,10 @@ export abstract class Element {
 
   public setId(id: string): void {
     this.id = id;
+  }
+
+  public getType(): string {
+    return this.type;
   }
 
   public setContent(content: string): void {

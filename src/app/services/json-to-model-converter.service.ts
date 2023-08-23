@@ -73,21 +73,22 @@ export class JsonToModelConverterService {
 
     switch (type) {
       case 'Label':
-        createdElement = new Label(id, content, comment, summary, parent);
+        createdElement = new Label(id, type, content, comment, summary, parent);
         break;
       case 'Child':
-        createdElement = new Child(id, content, comment, summary, parent);
+        createdElement = new Child(id, type, content, comment, summary, parent);
         break;
       case 'Sectioning':
-        createdElement = new Sectioning(id, content, comment, summary, parent);
+        createdElement = new Sectioning(id, type, content, comment, summary, parent);
         break;
       case 'Environment':
-        createdElement = new Environment(id, content, comment, summary, parent);
+        createdElement = new Environment(id, type, content, comment, summary, parent);
         break;
       case 'Figure':
         const { image, captions, mimeType } = item;
         const figure = new Figure(
           id,
+          type,
           content,
           comment,
           summary,
@@ -104,7 +105,7 @@ export class JsonToModelConverterService {
         createdElement = figure;
         break;
       case 'Input':
-        createdElement = new Input(id, content, comment, summary, parent);
+        createdElement = new Input(id, type, content, comment, summary, parent);
         break;
       default:
         console.error(`Unknown item type: ${type}`);
