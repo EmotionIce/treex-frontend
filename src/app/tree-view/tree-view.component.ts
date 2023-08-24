@@ -1,4 +1,5 @@
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   NodeModel,
   ConnectorModel,
@@ -132,7 +133,7 @@ export class TreeViewComponent {
     ];
 
 
-    constructor(private dataService: DataService, private backendService: BackendService, private treeViewSummary: TreeViewSummaryService){
+    constructor(private router: Router, private dataService: DataService, private backendService: BackendService, private treeViewSummary: TreeViewSummaryService){
         this.dataService = dataService;
         this.backendService = backendService;
         this.treeViewSummary = treeViewSummary;
@@ -553,7 +554,9 @@ export class TreeViewComponent {
             let newID: string = args['source'].id;
 
             this.dataService.changeActiveElement(nodeID);
-            window.location.href = "Editor";
+            
+            this.router.navigate(['Editor'])
+            //window.location.href = "Editor";
         }
     }
   }
