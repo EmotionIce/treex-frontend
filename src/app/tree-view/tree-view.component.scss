@@ -1,8 +1,10 @@
 .collapseButton {
-    margin-top: 3em;
-    margin-left:10em;
+    margin-top: 1em;
+    margin-left:6em;
     //margin-bottom: 10em;
-    color: red;
+    position: fixed;
+    color: black;
+    z-index: 2;
 }
 
 .tree{

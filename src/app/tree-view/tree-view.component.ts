@@ -38,6 +38,8 @@ export interface ElementInfo{
     parentID: string
     elementID: string
     summary: string
+    mimtype: string
+    image: object|null|undefined
 }
 
 interface ReceivedData {
@@ -292,7 +294,6 @@ export class TreeViewComponent {
 
   public collapseAll(){
       if(this.diagram != null){
-        alert("collapse...")
       for(let i = 0 ; i < this.diagram.nodes.length; i++){
       this.diagram.nodes[i].isExpanded = false;
       }
@@ -329,6 +330,7 @@ export class TreeViewComponent {
 
     // Define Nodes
     public getNodeDefaults(defaultnode: NodeModel): NodeModel{
+        let nodeBackgroundColor = '#107700'
         defaultnode.height = 80;
         defaultnode.width = 150;
         //(defaultnode.shape as TextModel).margin = { left: 50, right: 5, bottom: 500, top: 5 };
@@ -362,6 +364,16 @@ export class TreeViewComponent {
 
         // Defines the content shown within the Node
         let nodeContent = (defaultnode.data as ElementInfo).content 
+        let nodeIsImage = String((defaultnode.data as ElementInfo).image) != "undefined"
+        
+        if(nodeIsImage){
+          nodeBackgroundColor = "#0000AA"
+          defaultnode.annotations = [
+            {
+              content: "Image", style: { color: "white" }
+            }
+          ]
+        } else {
         if(nodeContent != null){
           if(nodeContent === "\n"){
             defaultnode.height = 10;
@@ -373,6 +385,7 @@ export class TreeViewComponent {
           ]
         }
       }
+    }
 
     //define expand/collapse Icons for the Nodes
     defaultnode.expandIcon = {
@@ -406,7 +419,7 @@ export class TreeViewComponent {
        //defaultnode.style = {fill: '#048785', strokeColor: 'Transparent', strokeWidth: 2}
 
         defaultnode.style = {
-          fill: '#107700',
+          fill: nodeBackgroundColor,
           strokeColor: 'Transparent',
           strokeWidth: 2,
         };
@@ -554,9 +567,7 @@ export class TreeViewComponent {
             let newID: string = args['source'].id;
 
             this.dataService.changeActiveElement(nodeID);
-            
             this.router.navigate(['Editor'])
-            //window.location.href = "Editor";
         }
     }
   }
