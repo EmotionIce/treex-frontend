@@ -97,6 +97,31 @@ export class EditorPartComponent implements OnInit {
     private errorPopupService: ErrorPopupService
   ) {
     this.rootInstance = Root.createRoot();
+
+    // Subscribe to the data change event
+    this.backendService.reloadData.subscribe(() => {
+      this.reloadData();
+    });
+  }
+
+  /**
+   * Reloads the data from the backend.
+   */
+  public reloadData() {
+    this.backendService.LoadFullData().subscribe((fullData: Object) => {
+        // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
+        const converted: Observable<boolean> = this.converter.convert(of(fullData));
+
+        converted.subscribe((value: boolean) => {
+          if (value) {
+            this.dataService.notifyChange();
+            this.dataService.setDataImportStatus(true);
+            this.backendService.startPollingData();
+          } else {
+            // Conversion failed, handle the error if needed
+          }
+        });
+      });
   }
 
   /**
