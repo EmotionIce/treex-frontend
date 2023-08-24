@@ -12,7 +12,14 @@ describe('Environment', () => {
   beforeEach(() => {
     root = Root.createRoot();
     caption = new Caption('Caption text');
-    environment = new Environment('1', 'content', 'comment', 'summary', root);
+    environment = new Environment(
+      '1',
+      'type',
+      'content',
+      'comment',
+      'summary',
+      root
+    );
   });
 
   it('should create an instance', () => {

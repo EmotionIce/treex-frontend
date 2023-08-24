@@ -80,6 +80,7 @@ export class BackendService {
    * @returns true if the backend has updates, false if not
    */
   public CheckForUpdates(): Observable<boolean> {
+    console.log('checking for remote updates');
     return this.http
       .get<boolean>(`${this.baseUrl}/CheckForUpdates`)
       .pipe(catchError(this.handleError));
@@ -304,7 +305,7 @@ export class BackendService {
       )
       .subscribe({
         next: (hasUpdates: boolean) => {
-          // If backend returns true, log true to the console
+          console.log('polling response', hasUpdates);
           if (hasUpdates) {
             this.dataService.notifyChange();
           }

@@ -9,9 +9,23 @@ describe('Sectioning', () => {
 
   beforeEach(() => {
     root = Root.createRoot();
-    section1 = new Sectioning('1', 'content1', 'comment1', 'summary1', root);
+    section1 = new Sectioning(
+      '1',
+      'Sectioning',
+      'content1',
+      'comment1',
+      'summary1',
+      root
+    );
     root.addChild(section1);
-    section2 = new Sectioning('2', 'content2', 'comment2', 'summary2', section1);
+    section2 = new Sectioning(
+      '2',
+      'Sectioning',
+      'content2',
+      'comment2',
+      'summary2',
+      section1
+    );
   });
 
   it('should create an instance', () => {

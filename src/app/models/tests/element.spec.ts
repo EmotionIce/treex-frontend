@@ -9,7 +9,14 @@ describe('Element', () => {
 
   beforeEach(() => {
     parent = Root.createRoot();
-    element = new TestElement('1', 'content', 'comment', 'summary', parent);
+    element = new TestElement(
+      '1',
+      'type',
+      'content',
+      'comment',
+      'summary',
+      parent
+    );
   });
 
   it('should create an instance', () => {
@@ -18,6 +25,10 @@ describe('Element', () => {
 
   it('should have the correct id', () => {
     expect(element.getId()).toEqual('1');
+  });
+
+  it('should have the correct type', () => {
+    expect(element.getType()).toEqual('type');
   });
 
   it('should have the correct content', () => {
