@@ -295,8 +295,9 @@ export class TreeViewComponent {
   public collapseAll(){
       if(this.diagram != null){
       for(let i = 0 ; i < this.diagram.nodes.length; i++){
-      this.diagram.nodes[i].isExpanded = false;
+        this.diagram.nodes[i].isExpanded = false;
       }
+      this.diagram.dataBind()
     }
   }
 
@@ -363,29 +364,29 @@ export class TreeViewComponent {
           
 
         // Defines the content shown within the Node
+        let nodeID = (defaultnode.data as ElementInfo).elementID
         let nodeContent = (defaultnode.data as ElementInfo).content 
         let nodeIsImage = String((defaultnode.data as ElementInfo).image) != "undefined"
         
-        if(nodeIsImage){
+       
+         if(nodeIsImage){
           nodeBackgroundColor = "#0000AA"
           defaultnode.annotations = [
             {
               content: "Image", style: { color: "white" }
             }
           ]
-        } else {
-        if(nodeContent != null){
-          if(nodeContent === "\n"){
-            defaultnode.height = 10;
-          } else {
+        } else if(nodeContent != null){
             defaultnode.annotations = [
               {
                 content: nodeContent.substring(0,100), style: { color: "white" }
               }
           ]
         }
-      }
-    }
+
+        if(nodeID == "root"){
+          nodeBackgroundColor = '#771111'
+        }
 
     //define expand/collapse Icons for the Nodes
     defaultnode.expandIcon = {
@@ -446,10 +447,6 @@ export class TreeViewComponent {
     public dropElement = (args: any): void => {
             let draggedElementID = (args.element.data as ElementInfo).elementID;
             let targetElementID = (args.target.data as ElementInfo).elementID;
-            //console.log("dragged:")
-            //console.log(draggedElementID)
-            //console.log("target:")
-            //console.log(targetElementID);
             this.moveElement(draggedElementID, targetElementID, null); 
             this.diagram?.doLayout();
     }
