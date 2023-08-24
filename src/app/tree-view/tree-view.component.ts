@@ -206,21 +206,12 @@ export class TreeViewComponent {
       }
     }
 
-    
-    public reloadTree(): void{
-        //window.location.reload();
-        /*this.jsonDatasourceSettings = {
-            id: "elementID",
-            parentId: "parentID",
-            dataSource: new DataManager(this.treeData as JSON[])
-        }*/
-  }
 
   public collapseAll(){
-      if(this.diagram != null){
-      for(let i = 0 ; i < this.diagram.nodes.length; i++){
-        this.diagram.nodes[i].isExpanded = false;
-      }
+    if(this.diagram != null){
+        for(let i = 0 ; i < this.diagram.nodes.length; i++){
+          this.diagram.nodes[i].isExpanded = false;
+        }
       this.diagram.dataBind()
     }
   }
@@ -233,7 +224,6 @@ export class TreeViewComponent {
               let newTreeData = (responseData as ReceivedData).tree
               let processedData = this.processTreeData(newTreeData)
               this.generateNewTree(processedData)
-              this.reloadTree();
             },
             (error) => {
                 //this.reloadTree();
@@ -263,28 +253,6 @@ export class TreeViewComponent {
         defaultnode.constraints = NodeConstraints.Default  /*| NodeConstraints.Tooltip*/ | NodeConstraints.AllowDrop ; // allow all default constraints as well as Dragg & Drop
         defaultnode.constraints &= ~NodeConstraints.Delete; // do not allow deleting a Node
         defaultnode.constraints &= ~NodeConstraints.Rotate; // do not allow rotating a Node
-        
-        //defaultnode.isExpanded = true
-        // let id = defaultnode.id
-        
-        //let annotations: string|undefined = defaultnode.annotations[0].id
-          //if(id != null){
-            //let bounds = document.getElementById(id)?.getBoundingClientRect();
-            //alert(bounds?.height)
-        //}
-
-        //for (let i = 0; i < this.diagram.nodes.length; i++) {
-            
-            /*let node: NodeModel = this.diagram.nodes[i];
-            let annotation: string = node.annotations[0].id;
-            let bounds: any = document
-              .getElementById(node.id + "_" + annotation)
-              .getBoundingClientRect();
-            if (bounds.height > node.height) {
-              node.height = bounds.height + 15;
-              this.diagram.dataBind();*/
-          // } 
-           
           
 
         // Defines the content shown within the Node
