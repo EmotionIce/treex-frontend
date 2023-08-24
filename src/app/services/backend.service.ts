@@ -314,7 +314,7 @@ export class BackendService {
         },
         error: (err) => {
           console.error(err);
-          // Handle any errors that occur during the request
+          // this.startPollingData();  // Uncomment to retry polling on error
         },
       });
   }
