@@ -4,9 +4,9 @@ import {
   ConnectorModel,
   SnapSettingsModel,
   LayoutModel,
+  TreeInfo,
   SnapConstraints,
   NodeConstraints,
-  TreeInfo,
   DiagramComponent,
   Diagram,
   DataBinding,
@@ -29,6 +29,8 @@ import { Element } from '../models/element';
 import { DataManager } from '@syncfusion/ej2-data';
 import { Parent } from '../models/parent';
 Diagram.Inject(DataBinding, HierarchicalTree, LayoutAnimation);
+
+
 
 export interface ElementInfo{
     content: string
@@ -56,6 +58,78 @@ export class TreeViewComponent {
     public diagram: Diagram|null;
     rootInstance: Root;
     public style?: TextStyleModel;
+
+    public Data: Object[] = [
+      {
+        elementID: '000',
+        content: 'Leitung',
+        summary: 'Text Zusammenfassung1',
+        isLeaf: false,
+      },
+      {
+        elementID: '001',
+        content: 'Kapitel 1',
+        parentID: '000',
+        summary: 'Text Zusammenfassung2',
+        isLeaf: false,
+      },
+      {
+        elementID: '002',
+        content: 'Kapitel 1.1',
+        parentID: '001',
+        summary: 'Text Zusammenfassung3',
+        isLeaf: true,
+      },
+      {
+        elementID: '003',
+        content: 'Kapitel 1.2',
+        parentID: '001',
+        summary: 'Text Zusammenfassung4',
+        isLeaf: true,
+      },
+      {
+        elementID: '004',
+        content: 'Kapitel 1.3',
+        parentID: '001',
+        summary: 'Text Zusammenfassung5',
+        isLeaf: true,
+      },
+      {
+        elementID: '005',
+        content: 'Kapitel 2',
+        parentID: '000',
+        summary: 'Text Zusammenfassung6',
+        isLeaf: true,
+      },
+      {
+        elementID: '006',
+        content: 'Kapitel 3',
+        parentID: '000',
+        summary: 'Text Zusammenfassung7',
+        isLeaf: false,
+      },
+      {
+        elementID: '007',
+        content: 'Kapitel 3.1',
+        parentID: '006',
+        summary: 'Text Zusammenfassung8',
+        isLeaf: true,
+      },
+      {
+        elementID: '008',
+        content: 'Kapitel 3.2',
+        parentID: '006',
+        summary: 'Text Zusammenfassung9',
+        isLeaf: true,
+      },
+      {
+        elementID: '009',
+        content: 'Kapitel 3.2.2',
+        parentID: '008',
+        summary: 'Text Zusammenfassung10',
+        isLeaf: true,
+      },
+    ];
 
 
     constructor(private dataService: DataService, private backendService: BackendService, private treeViewSummary: TreeViewSummaryService){
@@ -85,7 +159,8 @@ export class TreeViewComponent {
                 this.generateNewTree(processedData);
             },
             (error) => {
-                //alert("err, could not load tree")
+                alert("err, could not load tree")
+                this.generateNewTree(this.Data)
             })
         }
         private timeoutId: any;
@@ -118,13 +193,19 @@ export class TreeViewComponent {
     // defines how the diagram/tree should look like
     public layoutSettings: LayoutModel = {
         type: 'HierarchicalTree',
+        getLayoutInfo: (node: Node, options: TreeInfo) => {
+          //if (!options.hasSubTree) {
+              options.type = 'Right';
+              options.orientation = 'Vertical';
+        //  }
+        },
         orientation: 'LeftToRight',
         verticalSpacing: 30,
         horizontalSpacing: 40,
         enableAnimation: true,
         margin: {
-            left: 100,
-            top: 100
+            left: 50,
+            top: 50
         }
     }
     
@@ -190,6 +271,7 @@ export class TreeViewComponent {
         if(this.diagram != null){
             this.diagram.dataSourceSettings.dataSource = new DataManager(this.treeData as any);
             this.diagram.dataBind();
+            
         
            for(let i = 0 ; i < this.diagram.nodes.length; i++){
             //this.diagram.nodes[i].isExpanded = false;
@@ -209,6 +291,7 @@ export class TreeViewComponent {
 
   public collapseAll(){
       if(this.diagram != null){
+        alert("collapse...")
       for(let i = 0 ; i < this.diagram.nodes.length; i++){
       this.diagram.nodes[i].isExpanded = false;
       }
@@ -321,7 +404,7 @@ export class TreeViewComponent {
        //defaultnode.style = {fill: '#048785', strokeColor: 'Transparent', strokeWidth: 2}
 
         defaultnode.style = {
-          fill: '#048785',
+          fill: '#107700',
           strokeColor: 'Transparent',
           strokeWidth: 2,
         };
@@ -333,9 +416,13 @@ export class TreeViewComponent {
 
     // Define the connecters of the Nodes
     public getConnectorDefaults(defaultconnector: ConnectorModel) : ConnectorModel{
+        //defaultconnector.targetDecorator?.style = 'None';
         defaultconnector.type = 'Orthogonal';
-        defaultconnector.style = { strokeColor: '#6f409f', strokeWidth: 2}
-        //defaultconnector.targetDecorator = { style: { fill: '6f409f', strokeColor: '6f409f' }};
+        defaultconnector.style = { strokeColor: '#000000', strokeWidth: 2};
+        if(defaultconnector.targetDecorator != undefined){
+          defaultconnector.targetDecorator.shape = 'None';
+        }
+        //defaultconnector.targetDecorator = { style:  { fill: 'ff0000', strokeColor: 'ff0000' }};
         return defaultconnector;
     }
 
@@ -349,6 +436,7 @@ export class TreeViewComponent {
             //console.log("target:")
             //console.log(targetElementID);
             this.moveElement(draggedElementID, targetElementID, null); 
+            this.diagram?.doLayout();
     }
  
 
