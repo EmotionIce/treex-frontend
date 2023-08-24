@@ -336,9 +336,8 @@ export class TreeViewComponent {
         defaultnode.constraints &= ~NodeConstraints.Delete; // do not allow deleting a Node
         defaultnode.constraints &= ~NodeConstraints.Rotate; // do not allow rotating a Node
         
-        //defaultnode.isExpanded = true;
-
-        let id = defaultnode.id
+        //defaultnode.isExpanded = true
+        // let id = defaultnode.id
         
         //let annotations: string|undefined = defaultnode.annotations[0].id
           //if(id != null){
@@ -383,7 +382,9 @@ export class TreeViewComponent {
         x: 0.5,
         y: 0.15,
       },
+      verticalAlignment: 'Center'
     };
+
 
     defaultnode.collapseIcon = {
       shape: 'Plus',
