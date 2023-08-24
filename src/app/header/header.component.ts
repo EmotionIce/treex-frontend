@@ -1,9 +1,15 @@
-import { Component, OnInit, Renderer2, Inject, AfterViewInit} from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Renderer2,
+  Inject,
+  AfterViewInit,
+} from '@angular/core';
 import { DataService } from '../services/data.service';
 import { BackendService } from '../services/backend.service';
 import { Subscription } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
@@ -14,15 +20,22 @@ export class HeaderComponent implements OnInit {
   dataImported: boolean;
   subscription: Subscription = Subscription.EMPTY;
 
-  constructor(private dataService: DataService, private backendService: BackendService, private renderer: Renderer2, @Inject(DOCUMENT) private document: Document) {
+  constructor(
+    private dataService: DataService,
+    private backendService: BackendService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
+  ) {
     // Initialize as false
     this.dataImported = false;
   }
 
   ngOnInit() {
-    this.subscription = this.dataService.currentImportStatus.subscribe(status => {
-      this.dataImported = status;
-    });
+    this.subscription = this.dataService.currentImportStatus.subscribe(
+      (status) => {
+        this.dataImported = status;
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -32,17 +45,24 @@ export class HeaderComponent implements OnInit {
 
   exportData() {
     this.backendService.Export().subscribe((data) => {
-      if(data.success) {
+      if (data.success) {
         alert('Export successful');
       }
     });
   }
 
   ngAfterViewInit() {
-    this.renderer.setStyle(this.document.querySelector('app-settings'), 'display', 'none');
+    const settingsElement = this.document.querySelector('app-settings');
+    if (settingsElement) {
+      this.renderer.setStyle(settingsElement, 'display', 'none');
+    }
   }
 
   openSettings() {
-    this.renderer.setStyle(this.document.querySelector('app-settings'), 'display', 'flex');
+    this.renderer.setStyle(
+      this.document.querySelector('app-settings'),
+      'display',
+      'flex'
+    );
   }
 }

@@ -30,9 +30,15 @@
             <div class="info-section">
               <div class="info-header">Inhalt:</div>
               <div>
-                <div *ngIf=" layerElement.element.constructor.name=='Figure'">
+                <div *ngIf=" layerElement.element.getType() =='Figure'">
                   <img class="displayImage" [ngClass]="{'notFoundPng': isContentEmpty(layerElement?.element)}"
                     [src]="getFigureImage(layerElement?.element) || '-'">
+                  <div class="captionsArray">
+                    <div *ngFor="let caption of getFigureCaptions(layerElement?.element)">
+                      <span class="captionHeader">Bildunterschrift:</span>
+                      <app-latex-render [latexCode]="caption || '-'"></app-latex-render>
+                    </div>
+                  </div>
                 </div>
                 <app-latex-render [latexCode]="layerElement?.element?.getContent() || '-'"></app-latex-render>
               </div>

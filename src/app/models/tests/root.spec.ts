@@ -10,9 +10,16 @@ describe('Root', () => {
 
   beforeEach(() => {
     root = Root.createRoot();
-    child1 = new Child('1', 'content', 'comment', 'summary', root);
-    child2 = new Child('2', 'content', 'comment', 'summary', root);
-    env1 = new Environment('3', 'content', 'comment', 'summary', root);
+    child1 = new Child('1', 'Child', 'content', 'comment', 'summary', root);
+    child2 = new Child('2', 'Child', 'content', 'comment', 'summary', root);
+    env1 = new Environment(
+      '3',
+      'Environment',
+      'content',
+      'comment',
+      'summary',
+      root
+    );
     root.addChild(child1);
     root.addChild(env1);
     env1.addChild(child2);

@@ -31,6 +31,7 @@ export class SettingsComponent {
    * Apply the current theme to the body
    */
   private applyTheme() {
+    if (!this.settings) return;
     if (this.settings.theme === 'dark') {
       this.renderer.removeClass(this.document.body, 'light-theme');
       this.renderer.addClass(this.document.body, 'dark-theme');

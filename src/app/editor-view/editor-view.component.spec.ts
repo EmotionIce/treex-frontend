@@ -7,6 +7,7 @@ import { NavigationPartComponent } from '../navigation-part/navigation-part.comp
 import { EditorPartComponent } from '../editor-part/editor-part.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ErrorPopupComponent } from '../error-popup/error-popup.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('EditorViewComponent', () => {
   let component: EditorViewComponent;
@@ -21,7 +22,7 @@ describe('EditorViewComponent', () => {
         EditorPartComponent,
         ErrorPopupComponent,
       ],
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, MatIconModule],
     });
     fixture = TestBed.createComponent(EditorViewComponent);
     component = fixture.componentInstance;

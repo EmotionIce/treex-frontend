@@ -18,27 +18,13 @@ describe('JsonToModelConverterService', () => {
     expect(service).toBeTruthy();
   });
 
-  // Helper function to compare JSON data with model instance
-  // Helper function to compare JSON data with model instance
   function compareModelAndJson(model: any, json: any): void {
-    // log the jsonified-model and json for debugging
-
-    // Ensure type is same (e.g. Label, Child, Sectioning, etc.)
     expect(model.constructor.name).toEqual(json.type);
-
-    // Ensure ID is same
     expect(model.getId()).toEqual(json.id);
-
-    // Ensure content is same
     expect(model.getContent()).toEqual(json.content);
-
-    // Ensure comments are same
     expect(model.getComment()).toEqual(json.comment);
-
-    // Ensure summary is same
     expect(model.getSummary()).toEqual(json.summary);
 
-    // If there are children, compare them as well
     if (json.children) {
       expect(model.getChildren().length).toEqual(json.children.length);
       for (let i = 0; i < json.children.length; i++) {
@@ -46,45 +32,37 @@ describe('JsonToModelConverterService', () => {
       }
     }
 
-    // Check special fields for certain types
     switch (json.type) {
       case 'Figure':
         expect(JSON.stringify(model.getCaptions())).toEqual(
           JSON.stringify(json.captions)
         );
-        expect(model.getFileLocation()).toEqual(json.fileLocation);
+        expect(model.getImage()).toEqual(json.image);
         break;
     }
   }
 
   it('should correctly convert JSON data to model structure', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000; // If necessary, increase the timeout limit
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
     const root = Root.createRoot();
     root.clear();
     const depth: number = randomInt(2) + 1;
     const elementsPerLayer: number = randomInt(3) + 1;
     const arrayOfJson: Array<any> = generateTestJSON(depth, elementsPerLayer);
 
-    // generate tree using generateTestJSON()
     const json = {
       editor: arrayOfJson,
     };
 
-    //log the stringify-json for debugging
     console.log(JSON.stringify(json));
 
-    // Convert and test
     const result = await service.convert(of(json)).toPromise();
 
-    // test if elements of layer 0 (root children) are correct
     expect(root.getChildren().length).toEqual(json.editor.length);
     for (let i = 0; i < json.editor.length; i++) {
       compareModelAndJson(root.getChildren()[i], json.editor[i]);
     }
   });
-
-  // HELPER FUNCTIONS TO GENERATE RANDOM JSON DATA
-  // HELPER FUNCTIONS TO GENERATE RANDOM JSON DATA
 
   function randomInt(max: number): number {
     return Math.floor(Math.random() * max);
@@ -200,7 +178,6 @@ describe('JsonToModelConverterService', () => {
 
     for (let i = 0; i < elementsPerLayer; i++) {
       if (depth === 0) {
-        // Create a leaf node, which can be any type
         let leafTypes = [
           'Label',
           'Child',
@@ -211,12 +188,10 @@ describe('JsonToModelConverterService', () => {
         let randomType = leafTypes[randomInt(leafTypes.length)];
         result.push(generateNodeJSON(randomType, i));
       } else {
-        // Create a parent node, which can be any type except Label and Child
         let parentTypes = ['Sectioning', 'Environment', 'Figure', 'Input'];
         let randomType = parentTypes[randomInt(parentTypes.length)];
         let parentNode = generateNodeJSON(randomType, i);
 
-        // Generate children nodes recursively
         (parentNode as any).children = generateTestJSON(
           depth - 1,
           elementsPerLayer

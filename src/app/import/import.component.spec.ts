@@ -8,6 +8,7 @@ import { ErrorPopupComponent } from '../error-popup/error-popup.component';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('ImportComponent', () => {
   let component: ImportComponent;
@@ -22,6 +23,7 @@ describe('ImportComponent', () => {
         FormsModule,
         MatInputModule,
         BrowserAnimationsModule,
+        MatIconModule,
       ],
     });
     fixture = TestBed.createComponent(ImportComponent);

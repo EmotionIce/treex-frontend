@@ -114,6 +114,7 @@ export class EditorPartComponent implements OnInit {
           if (value) {
             this.dataService.notifyChange();
             this.dataService.setDataImportStatus(true);
+            this.backendService.startPollingData();
           } else {
             // Conversion failed, handle the error if needed
           }
@@ -657,7 +658,7 @@ export class EditorPartComponent implements OnInit {
       const content = element.getContent();
       const mimeType = element.getMimeType();
 
-      if (content)
+      if (content && mimeType)
         return (
           'data:' + element.getMimeType() + ';base64,' + element.getImage()
         );
@@ -666,10 +667,27 @@ export class EditorPartComponent implements OnInit {
     return notFoundString;
   }
 
+  /**
+   * Checks if the content of the given element is empty.
+   * @param element element to check
+   * @returns true if the content is empty, false otherwise
+   */
   isContentEmpty(element: Element | undefined): boolean {
     if (element instanceof Figure) {
       return !element.getContent();
     }
     return true; // default to true (considering content as empty) if element isn't an instance of Figure
+  }
+
+  /**
+   * Retrieves the captions of the given figure element.
+   * @param element element to get the captions from
+   * @returns an array of captions
+   */
+  getFigureCaptions(element: Element | undefined): string[] {
+    if (element instanceof Figure) {
+      return element.getCaptions().map((caption) => caption.getContent());
+    }
+    return [];
   }
 }

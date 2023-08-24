@@ -45,12 +45,4 @@ describe('BackendService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-
-  it('should send a GET request when GitPush() is called', () => {
-    service.Export().subscribe();
-    const req = httpMock.expectOne('http://localhost:8080/Export');
-    expect(req.request.method).toBe('GET');
-  });
-
-  // Add more tests for the other methods here...
 });

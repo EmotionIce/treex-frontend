@@ -7,7 +7,7 @@ describe('Input', () => {
 
   beforeEach(() => {
     root = Root.createRoot();
-    input = new Input('1', 'content', 'comment', 'summary', root);
+    input = new Input('1', 'type', 'content', 'comment', 'summary', root);
   });
 
   it('should create an instance', () => {
@@ -39,6 +39,7 @@ describe('Input', () => {
   it('should add and remove child elements', () => {
     const child = new Input(
       '2',
+      'childType',
       'childContent',
       'childComment',
       'childSummary',

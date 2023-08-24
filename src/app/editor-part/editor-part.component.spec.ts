@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditorPartComponent } from './editor-part.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('EditorPartComponent', () => {
   let component: EditorPartComponent;
@@ -10,7 +11,7 @@ describe('EditorPartComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [EditorPartComponent],
-      imports: [HttpClientModule],
+      imports: [HttpClientModule, MatIconModule],
     });
     fixture = TestBed.createComponent(EditorPartComponent);
     component = fixture.componentInstance;

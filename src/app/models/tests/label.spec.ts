@@ -5,7 +5,14 @@ describe('Label', () => {
   let label: Label;
 
   beforeEach(() => {
-    label = new Label('1', 'content', 'comment', 'summary', new Environment('0', 'content', 'comment', 'summary', null));
+    label = new Label(
+      '1',
+      'type',
+      'content',
+      'comment',
+      'summary',
+      new Environment('0', 'type', 'content', 'comment', 'summary', null)
+    );
   });
 
   it('should create an instance', () => {
@@ -34,8 +41,8 @@ describe('Label', () => {
     const parent = label.getParent();
     expect(parent).toBeInstanceOf(Environment);
 
-    if(parent instanceof Environment) {
-    expect(parent.getId()).toEqual('0');
+    if (parent instanceof Environment) {
+      expect(parent.getId()).toEqual('0');
     }
   });
 });
