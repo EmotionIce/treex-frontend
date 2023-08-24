@@ -4,11 +4,12 @@ import { Root } from './root';
 export class Input extends Parent {
   constructor(
     id: string,
+    type: string,
     content: string,
     comment: string,
     summary: string,
     parent: Parent | Root | null = null
   ) {
-    super(id, content, comment, summary, parent);
+    super(id, type, content, comment, summary, parent);
   }
 }

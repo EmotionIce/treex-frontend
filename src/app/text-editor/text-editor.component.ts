@@ -17,7 +17,7 @@ import {
       [(ngModel)]="text"
       (input)="adjustTextareaHeight()"
     ></textarea>
-    <button mat-raised-button color="accent" (click)="saveText()">Save</button>
+    <button mat-raised-button color="accent" (click)="saveText()">Speichern</button>
   `,
   styleUrls: ['./text-editor.component.scss'],
 })

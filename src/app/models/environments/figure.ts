@@ -6,21 +6,22 @@ import { Root } from '../root';
 export class Figure extends Environment {
   private image: string;
   private captions: Caption[];
-  private type: string = '';
+  private mimeType: string;
 
   constructor(
     id: string,
+    type: string,
     content: string,
     comment: string,
     summary: string,
     parent: Parent | Root | null = null,
     image: string,
-    type: string
+    mimeType: string
   ) {
-    super(id, content, comment, summary, parent);
+    super(id, type, content, comment, summary, parent);
     this.image = image;
     this.captions = [];
-    this.type = type;
+    this.mimeType = mimeType;
   }
 
   // Getter for image
@@ -42,6 +43,6 @@ export class Figure extends Environment {
   }
 
   public getMimeType(): string {
-    return this.type;
+    return this.mimeType;
   }
 }

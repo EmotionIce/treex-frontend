@@ -52,6 +52,7 @@ interface ReceivedData {
   styleUrls: ['./tree-view.component.scss'],
   //encapsulation: ViewEncapsulation.None
 })
+
 export class TreeViewComponent {
     @ViewChild('diagramComponent')
     public diagramComponent!: DiagramComponent;
@@ -61,79 +62,6 @@ export class TreeViewComponent {
     public diagram: Diagram|null;
     rootInstance: Root;
     public style?: TextStyleModel;
-
-    public Data: Object[] = [
-      {
-        elementID: '000',
-        content: 'Leitung',
-        summary: 'Text Zusammenfassung1',
-        isLeaf: false,
-      },
-      {
-        elementID: '001',
-        content: 'Kapitel 1',
-        parentID: '000',
-        summary: 'Text Zusammenfassung2',
-        isLeaf: false,
-      },
-      {
-        elementID: '002',
-        content: 'Kapitel 1.1',
-        parentID: '001',
-        summary: 'Text Zusammenfassung3',
-        isLeaf: true,
-      },
-      {
-        elementID: '003',
-        content: 'Kapitel 1.2',
-        parentID: '001',
-        summary: 'Text Zusammenfassung4',
-        isLeaf: true,
-      },
-      {
-        elementID: '004',
-        content: 'Kapitel 1.3',
-        parentID: '001',
-        summary: 'Text Zusammenfassung5',
-        isLeaf: true,
-      },
-      {
-        elementID: '005',
-        content: 'Kapitel 2',
-        parentID: '000',
-        summary: 'Text Zusammenfassung6',
-        isLeaf: true,
-      },
-      {
-        elementID: '006',
-        content: 'Kapitel 3',
-        parentID: '000',
-        summary: 'Text Zusammenfassung7',
-        isLeaf: false,
-      },
-      {
-        elementID: '007',
-        content: 'Kapitel 3.1',
-        parentID: '006',
-        summary: 'Text Zusammenfassung8',
-        isLeaf: true,
-      },
-      {
-        elementID: '008',
-        content: 'Kapitel 3.2',
-        parentID: '006',
-        summary: 'Text Zusammenfassung9',
-        isLeaf: true,
-      },
-      {
-        elementID: '009',
-        content: 'Kapitel 3.2.2',
-        parentID: '008',
-        summary: 'Text Zusammenfassung10',
-        isLeaf: true,
-      },
-    ];
-
 
     constructor(private router: Router, private dataService: DataService, private backendService: BackendService, private treeViewSummary: TreeViewSummaryService){
         this.dataService = dataService;
@@ -145,9 +73,7 @@ export class TreeViewComponent {
 
     // When switching to the treeView, get the current treeStructure from the Backend.
     public ngOnInit(){
-
         this.diagram = this.createNewDiagram()
-
             
         console.log("final:")
         console.log(this.diagram)
@@ -162,8 +88,6 @@ export class TreeViewComponent {
                 this.generateNewTree(processedData);
             },
             (error) => {
-                alert("err, could not load tree")
-                this.generateNewTree(this.Data)
             })
         }
         private timeoutId: any;
@@ -404,20 +328,7 @@ export class TreeViewComponent {
     defaultnode.collapseIcon = {
       shape: 'Plus',
     };
-    /*
-        if((defaultnode.data as ElementInfo).isLeaf == true){
-            defaultnode.visible = false;
-        }
-
-        
-        // When loading the tree: only show children of root
-        if((defaultnode.data as ElementInfo).parentID == null){
-            defaultnode.isExpanded = true;
-        } else {
-            defaultnode.isExpanded = false;
-        }*/
-
-       //defaultnode.style = {fill: '#048785', strokeColor: 'Transparent', strokeWidth: 2}
+    
 
         defaultnode.style = {
           fill: nodeBackgroundColor,
