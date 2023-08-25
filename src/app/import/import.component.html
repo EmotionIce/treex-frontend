@@ -36,5 +36,9 @@
   <button mat-raised-button aria-label="Submit" color="accent" class="settings-element" (click)="loadFromGit()">
     Import
   </button>
+
+</div>
+<div class="loading-container" *ngIf="isLoading">
+  <mat-spinner diameter="50"></mat-spinner>
 </div>
 <app-error-popup></app-error-popup>

@@ -29,6 +29,7 @@ import { TextEditorComponent } from './text-editor/text-editor.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ImportComponent } from './import/import.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -83,6 +84,7 @@ import { CommonModule } from '@angular/common';
     MatIconModule,
     MatInputModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     DragDropModule,
     DiagramModule,
     CommonModule,
