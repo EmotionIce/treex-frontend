@@ -11,7 +11,9 @@
 
 
         <div class="element-container"
-          [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID, 'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement)}"
+          [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID, 
+          'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement),
+          'divider-line': trackParentDifferences(layerElement)}"
           (mouseenter)="onElementHover(layerElement.element.getId())" (mouseleave)="onElementHover(null)" cdkDrag
           [cdkDragData]="{ data: layerElement, index: i }" [attr.data-layer-element-id]="layerElement.element.getId()"
           (cdkDragStarted)="onDragStart(layerElement)">
@@ -121,6 +123,8 @@
               (textUpdated)="onCommentUpdated($event)"></app-text-editor>
           </div>
           <div class="drop-placeholder" *cdkDragPlaceholder></div>
+          
+
         </div>
       </div>
 

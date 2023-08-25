@@ -74,6 +74,7 @@ export class EditorPartComponent implements OnInit {
   draggedElement: Element | null = null; //the element that is being dragged
   showAddElementTextEditor: boolean = false;
   newContent: string = '';
+  trackedParent: Parent | null = null; //the parent of layerElement that is currently being rendered
 
   rootInstance: Root;
 
@@ -97,6 +98,33 @@ export class EditorPartComponent implements OnInit {
     private errorPopupService: ErrorPopupService
   ) {
     this.rootInstance = Root.createRoot();
+
+    // Subscribe to the data change event
+    this.backendService.reloadData.subscribe(() => {
+      this.reloadData();
+    });
+  }
+
+  /**
+   * Reloads the data from the backend.
+   */
+  public reloadData() {
+    this.backendService.LoadFullData().subscribe((fullData: Object) => {
+      // Once you have the fullData, pass it to the JsonToModelConverterService's convert method
+      const converted: Observable<boolean> = this.converter.convert(
+        of(fullData)
+      );
+
+      converted.subscribe((value: boolean) => {
+        if (value) {
+          this.dataService.notifyChange();
+          this.dataService.setDataImportStatus(true);
+          this.backendService.startPollingData();
+        } else {
+          // Conversion failed, handle the error if needed
+        }
+      });
+    });
   }
 
   /**
@@ -689,5 +717,27 @@ export class EditorPartComponent implements OnInit {
       return element.getCaptions().map((caption) => caption.getContent());
     }
     return [];
+  }
+
+  /**
+   *
+   * @param layerElement the layerElement that the html is currently displaying
+   * @returns true if the layerElement has a different parent than the previous one had
+   */
+  trackParentDifferences(layerElement: LayerElement): boolean {
+    const parent = layerElement.element.getParent();
+    if (parent && parent instanceof Parent) {
+      //console.log("in derersten if")
+      if (parent === this.trackedParent) {
+        return false;
+      } else {
+        //console.log("zweite if")
+        this.trackedParent = parent;
+        return true;
+      }
+    }
+
+    //console.log("keine if true");
+    return false;
   }
 }
