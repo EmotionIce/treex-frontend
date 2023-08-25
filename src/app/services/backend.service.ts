@@ -305,9 +305,9 @@ export class BackendService {
         takeUntil(this.stopPolling$) // Stops polling when a value is emitted from stopPolling$
       )
       .subscribe({
-        next: (hasUpdates: boolean) => {
+        next: (hasUpdates: any) => {
           console.log('polling response', hasUpdates);
-          if (hasUpdates == true) {
+          if (hasUpdates.hasUpdates == true) {
             console.log('realoding data');
             this.reloadData.emit();
           }
