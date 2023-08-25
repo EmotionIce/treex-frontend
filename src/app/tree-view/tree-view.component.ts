@@ -283,8 +283,10 @@ export class TreeViewComponent {
     if (args.source != null) {
       let nodeID = (args['source'].data as ElementInfo).elementID;
       // change the "active Element" (Element that is shown in Editor) and jump to the Editor
+      if(nodeID != 'root'){
       this.dataService.changeActiveElement(nodeID); 
       this.router.navigate(['Editor']);
+      }
     }
   }
 
