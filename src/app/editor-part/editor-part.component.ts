@@ -101,6 +101,7 @@ export class EditorPartComponent implements OnInit {
 
     // Subscribe to the data change event
     this.backendService.reloadData.subscribe(() => {
+      console.log('Editor part is reloading the data.');
       this.reloadData();
     });
   }

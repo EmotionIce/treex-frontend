@@ -5,6 +5,7 @@ import { DataService } from '../services/data.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 /**
  * Component responsible for handling the importing of LaTeX documents.
@@ -22,6 +23,7 @@ export class ImportComponent implements OnInit {
   gitPassword: string = '';
   gitPath: string = '';
   hidePassword: boolean = true;
+  isLoading: boolean = false;
 
   /**
    * @param {BackendService} backendService - Service for interacting with the backend
@@ -67,23 +69,32 @@ export class ImportComponent implements OnInit {
    * Loads the LaTeX document from a folder path and initiates conversion.
    */
   loadFromFolder() {
+    this.isLoading = true;
     this.saveToLocalStorage();
 
     let backendResponse = this.backendService.LoadFromFolder(this.folderPath);
     let converted: Observable<boolean> =
       this.converter.convert(backendResponse);
 
-    converted.subscribe((data) => {
-      if (!data) return;
-      this.startImpuls();
-      this.backendService.startPollingData();
-    });
+    converted.subscribe(
+      (data) => {
+        this.isLoading = false; // stop the spinner
+        if (!data) return;
+        this.startImpuls();
+        this.backendService.startPollingData();
+      },
+      (error) => {
+        this.isLoading = false; // stop the spinner if there's an error
+        console.error('Error loading from folder:', error);
+      }
+    );
   }
 
   /**
    * Loads the LaTeX document from a git repository and initiates conversion.
    */
   loadFromGit() {
+    this.isLoading = true;
     this.saveToLocalStorage();
 
     let backendResponse: Observable<Object> = this.backendService.LoadFromGit(
@@ -95,11 +106,18 @@ export class ImportComponent implements OnInit {
     let converted: Observable<boolean> =
       this.converter.convert(backendResponse);
 
-    converted.subscribe((data) => {
-      if (!data) return;
-      this.startImpuls();
-      this.backendService.startPollingData();
-    });
+    converted.subscribe(
+      (data) => {
+        this.isLoading = false; // stop the spinner
+        if (!data) return;
+        this.startImpuls();
+        this.backendService.startPollingData();
+      },
+      (error) => {
+        this.isLoading = false; // stop the spinner if there's an error
+        console.error('Error loading from git:', error);
+      }
+    );
   }
 
   /**
