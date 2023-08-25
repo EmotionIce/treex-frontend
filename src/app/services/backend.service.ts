@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { Observable, throwError, interval, Subject } from 'rxjs';
+import { Observable, throwError, interval, Subject, EMPTY } from 'rxjs';
 import { catchError, switchMap, takeUntil } from 'rxjs/operators';
 
 // import composite structure
@@ -13,7 +13,7 @@ import { SettingsService, Settings } from './settings.service';
 import { ErrorPopupService } from './error-popup.service';
 import { DataService } from './data.service';
 
-const POLLING_INTERVAL = 15000; // Time in milliseconds between each poll
+const POLLING_INTERVAL = 10000; // Time in milliseconds between each poll
 
 interface ReceivedData {
   tree: any[];
@@ -304,19 +304,29 @@ export class BackendService {
       this.isPolling = true;
       interval(POLLING_INTERVAL)
         .pipe(
-          switchMap(() => this.CheckForUpdates()),
+          switchMap(() =>
+            this.CheckForUpdates().pipe(
+              catchError((error) => {
+                console.error('Error while checking for updates:', error);
+                // Return a default value or an Observable which emits no items and completes
+                // Here, we'll use the latter:
+                return EMPTY;
+              })
+            )
+          ),
           takeUntil(this.stopPolling$)
         )
         .subscribe({
           next: (hasUpdates: any) => {
             console.log('polling response', hasUpdates);
-            if (hasUpdates.hasUpdates == true) {
+            if (hasUpdates && hasUpdates.hasUpdates) {
               console.log('reloading data');
               this.reloadData.emit();
             }
           },
           error: (err) => {
-            console.error(err);
+            // This should not be reached unless there's an error outside the switchMap
+            console.error('Unexpected error:', err);
           },
         });
     } else {
