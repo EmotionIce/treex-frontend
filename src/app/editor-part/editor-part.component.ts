@@ -691,6 +691,12 @@ export class EditorPartComponent implements OnInit {
     }
     return [];
   }
+
+  /**
+   * 
+   * @param layerElement the layerElement that the html is currently displaying
+   * @returns true if the layerElement has a different parent than the previous one had
+   */
   trackParentDifferences(layerElement: LayerElement): boolean {
     const parent = layerElement.element.getParent();
     if (parent && parent instanceof Parent) {
