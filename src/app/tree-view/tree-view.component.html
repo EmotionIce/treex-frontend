@@ -1,30 +1,12 @@
-
-
-
 <div>
     <button class= "collapseButton" (click) = "collapseAll()">collapse tree</button>
 </div> 
-
-<!--   
-
-<ejs-diagram #diagramComponent
-width = "100%" height = "850px" 
-[dataSourceSettings] = "jsonDatasourceSettings"
-[layout] = "layoutSettings"
-[getNodeDefaults] = "getNodeDefaults"
-[getConnectorDefaults] = "getConnectorDefaults"
-[snapSettings] = "RemoveGridLines"
-(drop) = "drop($event)" 
-(mouseOver) = "onNodeHover($event)"
-(doubleClick)= "doubleClick($event)">
-</ejs-diagram>-->
 
 <!--
 <app-latex-render [latexCode]="'$$\\frac{1}{2}$$'"></app-latex-render> 
 -->
 
-<div id = "diagram" (cdkDropListDropped) = "testEvent($event)" ></div>
-
+<div id = "diagram" (mousup) = "changeElementOrder($event)" ></div>
 
 <app-summary></app-summary>
 <app-error-popup></app-error-popup>
