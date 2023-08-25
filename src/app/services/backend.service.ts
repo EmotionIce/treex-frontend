@@ -13,8 +13,7 @@ import { SettingsService, Settings } from './settings.service';
 import { ErrorPopupService } from './error-popup.service';
 import { DataService } from './data.service';
 
-
-const POLLING_INTERVAL = 5000; // Time in milliseconds between each poll
+const POLLING_INTERVAL = 15000; // Time in milliseconds between each poll
 
 interface ReceivedData {
   tree: any[];
@@ -39,7 +38,7 @@ export class BackendService {
     private http: HttpClient,
     private settingsService: SettingsService,
     private errorPopupService: ErrorPopupService,
-    private dataService: DataService,
+    private dataService: DataService
   ) {
     this.settings = settingsService.getSettings();
     this.handleError = this.handleError.bind(this);
@@ -308,7 +307,8 @@ export class BackendService {
       .subscribe({
         next: (hasUpdates: boolean) => {
           console.log('polling response', hasUpdates);
-          if (hasUpdates) {
+          if (hasUpdates == true) {
+            console.log('realoding data');
             this.reloadData.emit();
           }
         },
