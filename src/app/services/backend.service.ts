@@ -27,6 +27,7 @@ export class BackendService {
   private settings: Settings; //settings object
   private stopPolling$ = new Subject<void>(); // Subject to emit values that will stop polling
   public reloadData: EventEmitter<void> = new EventEmitter();
+  private isPolling: boolean = false;
 
   /**
    * @param http client to send requests to the backend
@@ -299,36 +300,42 @@ export class BackendService {
    * Starts polling the backend for updates
    */
   public startPollingData(): void {
-    interval(POLLING_INTERVAL)
-      .pipe(
-        switchMap(() => this.CheckForUpdates()), // Ensures that checkForUpdates() is called each interval
-        takeUntil(this.stopPolling$) // Stops polling when a value is emitted from stopPolling$
-      )
-      .subscribe({
-        next: (hasUpdates: any) => {
-          console.log('polling response', hasUpdates);
-          if (hasUpdates.hasUpdates == true) {
-            console.log('realoding data');
-            this.reloadData.emit();
-          }
-        },
-        error: (err) => {
-          console.error(err);
-          // this.startPollingData();  // Uncomment to retry polling on error
-        },
-      });
+    if (!this.isPolling) {
+      this.isPolling = true;
+      interval(POLLING_INTERVAL)
+        .pipe(
+          switchMap(() => this.CheckForUpdates()),
+          takeUntil(this.stopPolling$)
+        )
+        .subscribe({
+          next: (hasUpdates: any) => {
+            console.log('polling response', hasUpdates);
+            if (hasUpdates.hasUpdates == true) {
+              console.log('reloading data');
+              this.reloadData.emit();
+            }
+          },
+          error: (err) => {
+            console.error(err);
+          },
+        });
+    } else {
+      console.warn('Polling already started.');
+    }
   }
 
   /**
    * Stops polling the backend for updates
    */
   public stopPollingData(): void {
-    // Emitting a value from stopPolling$ will cause the interval Observable to complete.
-    this.stopPolling$.next();
-    // Clear the stopPolling$ subject to ensure no leftover values
-    this.stopPolling$.complete();
-    // Recreate the stopPolling$ subject for future use
-    this.stopPolling$ = new Subject();
+    if (this.isPolling) {
+      this.stopPolling$.next();
+      this.stopPolling$.complete();
+      this.stopPolling$ = new Subject();
+      this.isPolling = false;
+    } else {
+      console.warn('Polling is not currently active.');
+    }
   }
 
   /**
