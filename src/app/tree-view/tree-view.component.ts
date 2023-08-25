@@ -13,15 +13,12 @@ import {
   ConnectorModel,
   SnapSettingsModel,
   LayoutModel,
-  TreeInfo,
   SnapConstraints,
   NodeConstraints,
-  DiagramComponent,
   Diagram,
   DataBinding,
   HierarchicalTree,
-  LayoutAnimation,
-  TextStyleModel,
+  LayoutAnimation
 } from '@syncfusion/ej2-angular-diagrams';
 
 import { DataService } from '../services/data.service';
@@ -59,13 +56,9 @@ export class TreeViewComponent {
   private static NODE_BACKGROUND_COLOR_DEFAULT = '#107700';
   private static NODE_BACKGROUND_COLOR_IMAGE = '#0000AA';
   private static NODE_BACKGROUND_COLOR_ROOT = '#771111';
-  //lic diagramComponent!: DiagramComponent;
   private treeData?: Object[];
-  //public jsonDatasourceSettings: Object;
-  //public items?: DataManager;
   private diagram: Diagram | null;
   private rootInstance: Root;
-  //private style?: TextStyleModel;
 
   constructor(
     private router: Router, // used in order to switch from TreeView to Editor properly (through double clicking on a node)
@@ -326,7 +319,6 @@ export class TreeViewComponent {
       return summary;
     }
   }
-
 
 
   // This method allows to change the order of Elements in the TreeView by comparing the Y-coordinates.
