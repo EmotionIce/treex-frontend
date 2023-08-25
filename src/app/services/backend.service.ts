@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable, throwError, interval, Subject } from 'rxjs';
@@ -13,6 +13,7 @@ import { SettingsService, Settings } from './settings.service';
 import { ErrorPopupService } from './error-popup.service';
 import { DataService } from './data.service';
 
+
 const POLLING_INTERVAL = 5000; // Time in milliseconds between each poll
 
 interface ReceivedData {
@@ -26,7 +27,8 @@ export class BackendService {
   private baseUrl = 'http://localhost:8080'; //localhost connection to backend
   private settings: Settings; //settings object
   private stopPolling$ = new Subject<void>(); // Subject to emit values that will stop polling
-  
+  public reloadData: EventEmitter<void> = new EventEmitter();
+
   /**
    * @param http client to send requests to the backend
    * @param settingsService service to get or set the current settings
@@ -37,7 +39,7 @@ export class BackendService {
     private http: HttpClient,
     private settingsService: SettingsService,
     private errorPopupService: ErrorPopupService,
-    private dataService: DataService
+    private dataService: DataService,
   ) {
     this.settings = settingsService.getSettings();
     this.handleError = this.handleError.bind(this);
@@ -307,12 +309,12 @@ export class BackendService {
         next: (hasUpdates: boolean) => {
           console.log('polling response', hasUpdates);
           if (hasUpdates) {
-            this.dataService.notifyChange();
+            this.reloadData.emit();
           }
         },
         error: (err) => {
           console.error(err);
-          // Handle any errors that occur during the request
+          // this.startPollingData();  // Uncomment to retry polling on error
         },
       });
   }
