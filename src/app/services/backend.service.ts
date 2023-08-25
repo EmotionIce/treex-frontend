@@ -82,7 +82,6 @@ export class BackendService {
    * @returns true if the backend has updates, false if not
    */
   public CheckForUpdates(): Observable<boolean> {
-    console.log('checking for remote updates');
     return this.http
       .get<boolean>(`${this.baseUrl}/CheckForUpdates`)
       .pipe(catchError(this.handleError));
@@ -98,7 +97,6 @@ export class BackendService {
       exportComment: this.settings.exportComment,
       exportSummary: this.settings.exportSummary,
     };
-    console.log(exportData);
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, {
@@ -149,9 +147,6 @@ export class BackendService {
       newParent: p instanceof Parent ? p.getId() : null,
       previousElement: pc ? pc.getId() : null,
     };
-    console.log('movedata');
-
-    console.log(moveData);
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, {
@@ -244,8 +239,6 @@ export class BackendService {
       parent: parent instanceof Element ? parent.getId() : null,
       previousChild: previousElement.getId(),
     };
-    console.log('addData');
-    console.log(addData);
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, { AddElement: addData })
@@ -318,9 +311,8 @@ export class BackendService {
         )
         .subscribe({
           next: (hasUpdates: any) => {
-            console.log('polling response', hasUpdates);
             if (hasUpdates && hasUpdates.hasUpdates) {
-              console.log('reloading data');
+              console.log('reloading data due to remote changes');
               this.reloadData.emit();
             }
           },

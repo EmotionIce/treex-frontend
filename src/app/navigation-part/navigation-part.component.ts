@@ -108,7 +108,6 @@ export class NavigationPartComponent implements OnInit {
   onNavElementHover(elementID: string | null) {
     //gives the hovered Element to to editorpart so it can highlight its children
     this.hoveredNavElementID = elementID;
-    console.log('hovere gerade über ', elementID);
 
     if (elementID) {
       this.navParentElementIDChange.emit(this.hoveredNavElementID);
@@ -138,14 +137,11 @@ export class NavigationPartComponent implements OnInit {
   highlightElement(layerElement: LayerElement): boolean {
     // checks which element has the same ID as the element that is to be highlighted
     if (this.parentElementID) {
-      //console.log("es wird gehovert");
-      //this.onNavElementHover(layerElement.element.getId());
       const element = this.rootInstance.searchByID(this.parentElementID);
       if (element instanceof Element) {
         const parentElement = element.getParent();
 
         if (parentElement instanceof Element) {
-          //console.log('parentElement is nicht null');
           const highlightParent = parentElement.getId();
 
           return highlightParent === layerElement.element.getId(); //so the parentElement is highlighted when the user hovers elements in editorpart
@@ -160,7 +156,7 @@ export class NavigationPartComponent implements OnInit {
    */
   onDragStart() {
     this.draggedElementID = this.hoveredNavElementID;
-    console.log('draggedElement', this.draggedElementID);
+    console.log('dragging Element: ', this.draggedElementID);
     this.dataService.changeDraggedElement(this.draggedElementID);
     this.draggedElementServiceID = this.draggedElementID;
   }

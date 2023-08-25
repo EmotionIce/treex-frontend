@@ -101,7 +101,6 @@ export class EditorPartComponent implements OnInit {
 
     // Subscribe to the data change event
     this.backendService.reloadData.subscribe(() => {
-      console.log('Editor part is reloading the data.');
       this.reloadData();
     });
   }
@@ -160,7 +159,6 @@ export class EditorPartComponent implements OnInit {
       this.updateEditor();
     });
     this.dataService.currentChange.subscribe((change) => {
-      console.log('Elements changed. Updating editor part.');
       //should elements be changed, the dataservice.notifyChange will call this to update the elements in the editor.
       this.updateEditor();
       if (this.editorParentElementID && this.currentScrollElement) {
@@ -204,10 +202,6 @@ export class EditorPartComponent implements OnInit {
         matchingElement = layerElement;
         const matchingElementID = layerElement.element.getId();
         this.scrollTo(matchingElementID);
-        console.log(
-          'this is the first element that i found',
-          matchingElement.element.getContent()
-        );
         break;
       }
     }
@@ -218,10 +212,7 @@ export class EditorPartComponent implements OnInit {
    */
   updateEditor() {
     this.editorParentElementID = this.dataService.getEditorElement();
-    console.log(
-      'updateEditor was just pressed and the editorParentElementID is this:',
-      this.editorParentElementID
-    );
+
     if (this.editorParentElementID.length === 0) {
       //at the beginning of the program the editor shows the direct children of the root
       this.displayedEditorElements = this.rootInstance.getChildren();
@@ -276,10 +267,7 @@ export class EditorPartComponent implements OnInit {
         if (elementRef) {
           elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' });
         }
-      } else {
-        console.log(`Layer element with ID ${layerElementId} not found.`);
       }
-
       // Reset scroll position of app component
       document.documentElement.scrollTop = 0;
     }, 0); // Adjust the delay as needed
@@ -292,7 +280,6 @@ export class EditorPartComponent implements OnInit {
   onElementHover(elementID: string | null) {
     //gives hoveredElement to editorview
     this.hoveredElementID = elementID;
-    console.log('i can still hover', this.hoveredElementID);
 
     if (elementID) {
       this.parentElementIDChange.emit(this.hoveredElementID);
@@ -307,7 +294,6 @@ export class EditorPartComponent implements OnInit {
    * @returns True if the element is being hovered, false otherwise
    */
   onNavElementHover(layerElement: LayerElement): boolean {
-    //console.log('i got an input from nav', this.navElementHoverID);
     if (this.navElementHoverID) {
       const navElementHover = this.rootInstance.searchByID(
         this.navElementHoverID
@@ -386,7 +372,6 @@ export class EditorPartComponent implements OnInit {
       .convert(backendResponse)
       .subscribe((value: boolean) => {
         if (value) {
-          console.log('move successful');
           this.dataService.notifyChange();
         } else {
           // Conversion failed, handle the error if needed
@@ -628,7 +613,6 @@ export class EditorPartComponent implements OnInit {
   toggleEmptyTextEditor() {
     // Toggles the text editor for a new element
     this.showAddElementTextEditor = !this.showAddElementTextEditor;
-    console.log('new element editor is shown: ', this.showAddElementTextEditor);
 
     if (!this.showAddElementTextEditor) {
       this.newContent = ''; // Clear the new content when hiding the section
@@ -728,17 +712,14 @@ export class EditorPartComponent implements OnInit {
   trackParentDifferences(layerElement: LayerElement): boolean {
     const parent = layerElement.element.getParent();
     if (parent && parent instanceof Parent) {
-      //console.log("in derersten if")
       if (parent === this.trackedParent) {
         return false;
       } else {
-        //console.log("zweite if")
         this.trackedParent = parent;
         return true;
       }
     }
 
-    //console.log("keine if true");
     return false;
   }
 }

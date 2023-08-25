@@ -39,7 +39,7 @@ export class JsonToModelConverterService {
     return jsonData$.pipe(
       map((jsonData) => {
         try {
-          console.log("Received data:");
+          console.log('Received json data:');
           console.log(jsonData);
           const root = Root.createRoot();
           root.clear();
@@ -79,10 +79,24 @@ export class JsonToModelConverterService {
         createdElement = new Child(id, type, content, comment, summary, parent);
         break;
       case 'Sectioning':
-        createdElement = new Sectioning(id, type, content, comment, summary, parent);
+        createdElement = new Sectioning(
+          id,
+          type,
+          content,
+          comment,
+          summary,
+          parent
+        );
         break;
       case 'Environment':
-        createdElement = new Environment(id, type, content, comment, summary, parent);
+        createdElement = new Environment(
+          id,
+          type,
+          content,
+          comment,
+          summary,
+          parent
+        );
         break;
       case 'Figure':
         const { image, captions, mimeType } = item;

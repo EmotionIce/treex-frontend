@@ -54,6 +54,7 @@ describe('JsonToModelConverterService', () => {
       editor: arrayOfJson,
     };
 
+    console.log('received json data: ');
     console.log(JSON.stringify(json));
 
     const result = await service.convert(of(json)).toPromise();
