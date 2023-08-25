@@ -2,11 +2,7 @@
     <button class= "collapseButton" (click) = "collapseAll()">collapse tree</button>
 </div> 
 
-<!--
-<app-latex-render [latexCode]="'$$\\frac{1}{2}$$'"></app-latex-render> 
--->
-
-<div id = "diagram" (mousup) = "changeElementOrder($event)" ></div>
+<div id = "diagram"></div> <!--(mouseup) = "changeElementOrder($event)"-->
 
 <app-summary></app-summary>
 <app-error-popup></app-error-popup>

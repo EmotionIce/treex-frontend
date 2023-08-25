@@ -52,7 +52,6 @@ interface ReceivedData {
 })
 
 export class TreeViewComponent {
-  //@ViewChild('diagramComponent')
   private static NODE_BACKGROUND_COLOR_DEFAULT = '#107700';
   private static NODE_BACKGROUND_COLOR_IMAGE = '#0000AA';
   private static NODE_BACKGROUND_COLOR_ROOT = '#771111';
@@ -115,7 +114,7 @@ export class TreeViewComponent {
   }
 
     // Defines the visual layout of the Diagram/Tree
-    public layoutSettings: LayoutModel = {
+    private layoutSettings: LayoutModel = {
         type: 'HierarchicalTree',
         orientation: 'LeftToRight',
         verticalSpacing: 30,
@@ -154,7 +153,7 @@ export class TreeViewComponent {
         }
 
   // Receives a JSON-Tree as input and updates the diagram accordingly
-  public generateNewTree(newTreeData: Object[]): void {
+  private generateNewTree(newTreeData: Object[]): void {
     this.treeData = newTreeData;
     if (this.diagram != null) {
       this.diagram.dataSourceSettings.dataSource = new DataManager(
@@ -175,7 +174,7 @@ export class TreeViewComponent {
   }
 
   // Tries to move an element, if the move was validated from Backend accept the changes (genereate new Tree)
-  public moveElement(
+  private moveElement(
     elementId: string,
     parentId: string,
     previousChildId: string | null
@@ -199,7 +198,7 @@ export class TreeViewComponent {
   };
 
   // Defines the Nodes in the Diagram
-  public getNodeDefaults(defaultnode: NodeModel): NodeModel {
+  private getNodeDefaults(defaultnode: NodeModel): NodeModel {
     defaultnode.height = 80;
     defaultnode.width = 150;
     let nodeBackgroundColor = TreeViewComponent.NODE_BACKGROUND_COLOR_DEFAULT;
@@ -262,7 +261,7 @@ export class TreeViewComponent {
   }
 
   // Defines the Connecters of the Nodes
-  public getConnectorDefaults(defaultconnector: ConnectorModel): ConnectorModel {
+  private getConnectorDefaults(defaultconnector: ConnectorModel): ConnectorModel {
     defaultconnector.type = 'Orthogonal';
     defaultconnector.style = { strokeColor: '#000000', strokeWidth: 2 };
     if (defaultconnector.targetDecorator != undefined) {
@@ -272,7 +271,7 @@ export class TreeViewComponent {
   }
 
   // Drop event
-  public dropElement = (args: any): void => {
+  private dropElement = (args: any): void => {
     let draggedElementID = (args.element.data as ElementInfo).elementID;
     let targetElementID = (args.target.data as ElementInfo).elementID;
     this.moveElement(draggedElementID, targetElementID, null);
@@ -280,7 +279,7 @@ export class TreeViewComponent {
   };
   
   // Double Click Event
-  public doubleClick = (args: any): void => {
+  private doubleClick = (args: any): void => {
     if (args.source != null) {
       let nodeID = (args['source'].data as ElementInfo).elementID;
       // change the "active Element" (Element that is shown in Editor) and jump to the Editor
@@ -290,7 +289,7 @@ export class TreeViewComponent {
   }
 
   // Show summary when hovering over Node
-  public onNodeHover = (args: any): void => {
+  private onNodeHover = (args: any): void => {
     const node = args.actualObject;
   
     if (node.data != undefined) {
@@ -338,7 +337,6 @@ export class TreeViewComponent {
         let previousElementID = (pc.data as ElementInfo).elementID
         let parent = element.getParent();
         let parentID = "";
-        //console.log((pc.data as ElementInfo).content)
         if(parent instanceof Parent || parent instanceof Element){
           parentID = parent.getId()
         }
