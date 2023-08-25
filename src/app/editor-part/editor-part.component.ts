@@ -74,6 +74,7 @@ export class EditorPartComponent implements OnInit {
   draggedElement: Element | null = null; //the element that is being dragged
   showAddElementTextEditor: boolean = false;
   newContent: string = '';
+  trackedParent: Parent | null = null; //the parent of layerElement that is currently being rendered 
 
   rootInstance: Root;
 
@@ -689,5 +690,23 @@ export class EditorPartComponent implements OnInit {
       return element.getCaptions().map((caption) => caption.getContent());
     }
     return [];
+  }
+  trackParentDifferences(layerElement: LayerElement): boolean {
+    const parent = layerElement.element.getParent();
+    if (parent && parent instanceof Parent) {
+      console.log("in derersten if")
+      if (parent === this.trackedParent) {
+
+        return false;
+      } else {
+        console.log("zweite if")
+        this.trackedParent = parent;
+        return true;
+      }
+    }
+    
+    console.log("keine if true");
+    return false;
+
   }
 }
