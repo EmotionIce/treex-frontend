@@ -34,12 +34,6 @@ import { LatexRenderComponent } from '../latex-render/latex-render.component';
 import { Root } from '../models/root';
 import { Element } from '../models/element';
 
-import { registerLicense } from '@syncfusion/ej2-base';
-registerLicense(
-  'Ngo9BigBOggjHTQxAR8/V1NGaF1cWGhAYVF3WmFZfV1gd19GY1ZVQWY/P1ZhSXxQdk1hW35bcHdRQ2lfUEM='
-);
-
-
 import { DataManager } from '@syncfusion/ej2-data';
 import { Parent } from '../models/parent';
 Diagram.Inject(DataBinding, HierarchicalTree, LayoutAnimation);
@@ -119,6 +113,16 @@ export class TreeViewComponent {
       chooseManualSummary: false,
     };
 
+    // Change the parentID of all previous root nodes to newParent's elementID
+    rootNodes.forEach((root:any) =>{
+      root['parentID'] = newParent.elementID;
+    });
+
+    // Add the new parent to the data and return
+    data.push(newParent);
+    return data;
+  }
+
     // defines how the diagram/tree should look like
     public layoutSettings: LayoutModel = {
         type: 'HierarchicalTree',
@@ -167,21 +171,6 @@ export class TreeViewComponent {
           });
           return diagram;
         }
-    
-    
-    // receives a JSON-Tree as input and updates the diagram accordingly
-    public generateNewTree(newTreeData: Object[]): void{
-        this.treeData = newTreeData;
-        if(this.diagram != null){
-            this.diagram.dataSourceSettings.dataSource = new DataManager(this.treeData as any);
-            this.diagram.dataBind();
-            
-        
-           for(let i = 0 ; i < this.diagram.nodes.length; i++){
-            //this.diagram.nodes[i].isExpanded = false;
-        }
-      }
-    }
 
   // receives a JSON-Tree as input and updates the diagram accordingly
   public generateNewTree(newTreeData: Object[]): void {
@@ -191,10 +180,6 @@ export class TreeViewComponent {
         this.treeData as any
       );
       this.diagram.dataBind();
-
-      for (let i = 0; i < this.diagram.nodes.length; i++) {
-        //this.diagram.nodes[i].isExpanded = false;
-      }
     }
   }
 
@@ -439,3 +424,4 @@ export class TreeViewComponent {
       this.router.navigate(['Editor']);
     }
   }
+}
