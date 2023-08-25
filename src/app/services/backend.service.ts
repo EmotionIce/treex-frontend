@@ -220,6 +220,8 @@ export class BackendService {
       element: e.getId(),
       cascading: this.settings.deleteCascading,
     };
+    console.log('deleting element');
+    console.log(delData);
 
     return this.http
       .post<Array<Object>>(`${this.baseUrl}/api`, { DeleteElement: delData })

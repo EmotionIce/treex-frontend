@@ -244,6 +244,20 @@ export class EditorPartComponent implements OnInit {
             )
         );
         this.cdr.detectChanges();
+      } else {
+        this.displayedEditorElements = this.rootInstance.getElementsOfLayer(
+          this.rootInstance.getChildren()[0]
+        );
+        this.layerElements = this.displayedEditorElements.map(
+          (element) =>
+            new LayerElement(
+              element,
+              this.backendService,
+              this.converter,
+              this.dataService
+            )
+        );
+        this.cdr.detectChanges();
       }
     }
     this.scrollTo(this.editorParentElementID);
