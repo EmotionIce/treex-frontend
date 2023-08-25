@@ -633,7 +633,11 @@ export class EditorPartComponent implements OnInit {
     }
     if (this.showAddElementTextEditor) {
       setTimeout(() => {
-        this.textEditor.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        this.textEditor.nativeElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'start',
+        });
       }, 0);
     }
   }
