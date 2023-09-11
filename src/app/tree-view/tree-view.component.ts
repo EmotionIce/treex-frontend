@@ -176,7 +176,7 @@ export class TreeViewComponent {
   // Tries to move an element, if the move was validated from Backend accept the changes (genereate new Tree)
   private moveElement(
     elementId: string,
-    parentId: string,
+    parentId: string|null,
     previousChildId: string | null
   ) {
     this.backendService
@@ -273,7 +273,10 @@ export class TreeViewComponent {
   // Drop event
   private dropElement = (args: any): void => {
     let draggedElementID = (args.element.data as ElementInfo).elementID;
-    let targetElementID = (args.target.data as ElementInfo).elementID;
+    let targetElementID: string|null = (args.target.data as ElementInfo).elementID;
+    if(targetElementID == "root"){
+      targetElementID = null;
+    }
     this.moveElement(draggedElementID, targetElementID, null);
     this.diagram?.doLayout(); // update/reset tree layout after an Element was dropped
   };
@@ -293,6 +296,7 @@ export class TreeViewComponent {
   // Show summary when hovering over Node
   private onNodeHover = (args: any): void => {
     const node = args.actualObject;
+    console.log(this.rootInstance)
   
     if (node.data != undefined) {
       let summary = this.getSummary(node);
