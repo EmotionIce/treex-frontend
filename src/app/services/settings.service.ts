@@ -38,7 +38,7 @@ export class SettingsService {
     exportComment: true,
     exportSummary: true,
     popupDuration: 5,
-    hostingPort: 8080,
+    hostingPort: 8090,
     showAdvancedSettings: false,
   };
 

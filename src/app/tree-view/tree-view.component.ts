@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 // Removes syncfusion license banner
@@ -18,7 +18,7 @@ import {
   Diagram,
   DataBinding,
   HierarchicalTree,
-  LayoutAnimation
+  LayoutAnimation,
 } from '@syncfusion/ej2-angular-diagrams';
 
 import { DataService } from '../services/data.service';
@@ -48,9 +48,8 @@ interface ReceivedData {
 @Component({
   selector: 'app-tree-view',
   templateUrl: './tree-view.component.html',
-  styleUrls: ['./tree-view.component.scss']
+  styleUrls: ['./tree-view.component.scss'],
 })
-
 export class TreeViewComponent {
   private static NODE_BACKGROUND_COLOR_DEFAULT = '#107700';
   private static NODE_BACKGROUND_COLOR_IMAGE = '#0000AA';
@@ -87,7 +86,6 @@ export class TreeViewComponent {
   }
   private timeoutId: any;
 
-
   // If there is more than one parent in the highest layer (multiple roots) the treeView would display multiple independent trees.
   // In order to prevent that, this method generates a "virtuall Root" that combines the other roots into a single tree
   // and changes the treeData accordingly
@@ -104,7 +102,7 @@ export class TreeViewComponent {
     };
 
     // Change the parentID of all previous root nodes to newParent's elementID
-    rootNodes.forEach((root:any) =>{
+    rootNodes.forEach((root: any) => {
       root['parentID'] = newParent.elementID;
     });
 
@@ -113,44 +111,42 @@ export class TreeViewComponent {
     return data;
   }
 
-    // Defines the visual layout of the Diagram/Tree
-    private layoutSettings: LayoutModel = {
-        type: 'HierarchicalTree',
-        orientation: 'LeftToRight',
-        verticalSpacing: 30,
-        horizontalSpacing: 40,
-        enableAnimation: true,
-        margin: {
-            left: 50,
-            top: 50
-        }
-    }
-    
-    // creates a default diagram 
-    public createNewDiagram(): Diagram{
-        let diagram = new Diagram({
-            width: '100%',
-            height: '800px',
-            snapSettings: { constraints: SnapConstraints.None },
+  // Defines the visual layout of the Diagram/Tree
+  private layoutSettings: LayoutModel = {
+    type: 'HierarchicalTree',
+    orientation: 'LeftToRight',
+    verticalSpacing: 30,
+    horizontalSpacing: 40,
+    enableAnimation: true,
+    margin: {
+      left: 50,
+      top: 50,
+    },
+  };
+  // creates a default diagram
+  public createNewDiagram(): Diagram {
+    let diagram = new Diagram({
+      width: '100%',
+      height: window.innerHeight - 50,
+      snapSettings: { constraints: SnapConstraints.None },
 
-            // Defines the parent/children relationship in the JSON (needed to create the tree) and holds the data of the tree.
-            dataSourceSettings: {
-                id: "elementID",
-                parentId: "parentID",
-                dataSource: new DataManager()
-            },
-        
-            // Assignes fundamental properties of the diagram (like nodes) as well events (like drag and drop)
-            layout: this.layoutSettings,
-            mouseOver: this.onNodeHover,
-            drop: this.dropElement,
-            doubleClick: this.doubleClick,
-            getNodeDefaults: this.getNodeDefaults,
-            getConnectorDefaults: this.getConnectorDefaults
-            
-          });
-          return diagram;
-        }
+      // Defines the parent/children relationship in the JSON (needed to create the tree) and holds the data of the tree.
+      dataSourceSettings: {
+        id: 'elementID',
+        parentId: 'parentID',
+        dataSource: new DataManager(),
+      },
+
+      // Assignes fundamental properties of the diagram (like nodes) as well events (like drag and drop)
+      layout: this.layoutSettings,
+      mouseOver: this.onNodeHover,
+      drop: this.dropElement,
+      doubleClick: this.doubleClick,
+      getNodeDefaults: this.getNodeDefaults,
+      getConnectorDefaults: this.getConnectorDefaults,
+    });
+    return diagram;
+  }
 
   // Receives a JSON-Tree as input and updates the diagram accordingly
   private generateNewTree(newTreeData: Object[]): void {
@@ -176,7 +172,7 @@ export class TreeViewComponent {
   // Tries to move an element, if the move was validated from Backend accept the changes (genereate new Tree)
   private moveElement(
     elementId: string,
-    parentId: string|null,
+    parentId: string | null,
     previousChildId: string | null
   ) {
     this.backendService
@@ -187,8 +183,7 @@ export class TreeViewComponent {
           let processedData = this.processTreeData(newTreeData);
           this.generateNewTree(processedData);
         },
-        (error) => {
-        }
+        (error) => {}
       );
   }
 
@@ -204,13 +199,14 @@ export class TreeViewComponent {
     let nodeBackgroundColor = TreeViewComponent.NODE_BACKGROUND_COLOR_DEFAULT;
 
     defaultnode.constraints =
-      NodeConstraints.Default|NodeConstraints.AllowDrop; // allow all default constraints as well as Dragg & Drop
+      NodeConstraints.Default | NodeConstraints.AllowDrop; // allow all default constraints as well as Dragg & Drop
     defaultnode.constraints &= ~NodeConstraints.Delete; // do not allow deleting a Node
     defaultnode.constraints &= ~NodeConstraints.Rotate; // do not allow rotating a Node
 
     let nodeID = (defaultnode.data as ElementInfo).elementID;
     let nodeContent = (defaultnode.data as ElementInfo).content;
-    let nodeIsImage = String((defaultnode.data as ElementInfo).image) != 'undefined';
+    let nodeIsImage =
+      String((defaultnode.data as ElementInfo).image) != 'undefined';
 
     // Defines the content shown within the Node
     if (nodeIsImage) {
@@ -247,7 +243,7 @@ export class TreeViewComponent {
     };
 
     defaultnode.collapseIcon = {
-      shape: 'Plus'
+      shape: 'Plus',
     };
 
     // Assign style properties of node
@@ -261,7 +257,9 @@ export class TreeViewComponent {
   }
 
   // Defines the Connecters of the Nodes
-  private getConnectorDefaults(defaultconnector: ConnectorModel): ConnectorModel {
+  private getConnectorDefaults(
+    defaultconnector: ConnectorModel
+  ): ConnectorModel {
     defaultconnector.type = 'Orthogonal';
     defaultconnector.style = { strokeColor: '#000000', strokeWidth: 2 };
     if (defaultconnector.targetDecorator != undefined) {
@@ -273,31 +271,31 @@ export class TreeViewComponent {
   // Drop event
   private dropElement = (args: any): void => {
     let draggedElementID = (args.element.data as ElementInfo).elementID;
-    let targetElementID: string|null = (args.target.data as ElementInfo).elementID;
-    if(targetElementID == "root"){
+    let targetElementID: string | null = (args.target.data as ElementInfo)
+      .elementID;
+    if (targetElementID == 'root') {
       targetElementID = null;
     }
     this.moveElement(draggedElementID, targetElementID, null);
     this.diagram?.doLayout(); // update/reset tree layout after an Element was dropped
   };
-  
+
   // Double Click Event
   private doubleClick = (args: any): void => {
     if (args.source != null) {
       let nodeID = (args['source'].data as ElementInfo).elementID;
       // change the "active Element" (Element that is shown in Editor) and jump to the Editor
-      if(nodeID != 'root'){
-      this.dataService.changeActiveElement(nodeID); 
-      this.router.navigate(['Editor']);
+      if (nodeID != 'root') {
+        this.dataService.changeActiveElement(nodeID);
+        this.router.navigate(['Editor']);
       }
     }
-  }
+  };
 
   // Show summary when hovering over Node
   private onNodeHover = (args: any): void => {
     const node = args.actualObject;
-    console.log(this.rootInstance)
-  
+
     if (node.data != undefined) {
       let summary = this.getSummary(node);
       this.treeViewSummary.setSummaryText(summary);
@@ -306,10 +304,9 @@ export class TreeViewComponent {
       clearTimeout(this.timeoutId);
       this.timeoutId = setTimeout(() => {
         this.treeViewSummary.setSummaryText(null);
-      }, 2000);
+      }, 3000);
     }
   };
-
   // Returns the manually created summary of an Element/Node,
   // if there is none it generates and returns the default summary
   private getSummary(node: NodeModel): string {
@@ -325,14 +322,13 @@ export class TreeViewComponent {
     }
   }
 
-
   // This method allows to change the order of Elements in the TreeView by comparing the Y-coordinates.
   // If an Element was dragged above another e.g. it automatically finds out what the previous Element is
   // and executes the moveElement() command to change the elements order.
   // However syncfusion does not provide a "mouseup" event - that is why changeElementOrder() is never used.
   // (If you just want to test this methods functionality you can overwrite the doubleclick event e.g. with this method)
   public changeElementOrder = (args: any) => {
-    const node = args.source; 
+    const node = args.source;
     let pc = null;
     if (node.data != undefined) {
       let element = this.rootInstance.searchByID(
@@ -340,19 +336,19 @@ export class TreeViewComponent {
       );
       if (element != null) {
         pc = this.getPreviousElementByYoffset(element);
-        let previousElementID = (pc.data as ElementInfo).elementID
+        let previousElementID = (pc.data as ElementInfo).elementID;
         let parent = element.getParent();
-        let parentID = "";
-        if(parent instanceof Parent || parent instanceof Element){
-          parentID = parent.getId()
+        let parentID = '';
+        if (parent instanceof Parent || parent instanceof Element) {
+          parentID = parent.getId();
         }
-        this.moveElement(element.getId(), parentID, previousElementID)
+        this.moveElement(element.getId(), parentID, previousElementID);
       }
     }
     this.diagram?.doLayout(); // update/reset tree layout
   };
 
-  // Takes an Element as input and finds the previous Element (Element above) 
+  // Takes an Element as input and finds the previous Element (Element above)
   // by comparing the current Y-values of all significant Elements.
   private getPreviousElementByYoffset(element: Element): NodeModel {
     let parent = element?.getParent();
@@ -372,7 +368,7 @@ export class TreeViewComponent {
     return pc;
   }
 
-  // Takes an id as input and returns the according Node 
+  // Takes an id as input and returns the according Node
   private getNodeByElementID(id: string): NodeModel | null {
     let nodes = this.diagram?.nodes;
     if (nodes != undefined) {

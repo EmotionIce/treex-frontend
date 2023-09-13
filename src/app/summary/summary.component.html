@@ -1,3 +1,3 @@
 <div *ngIf="getSummary()" class="summary-popup">
-    <p>{{ getSummary() }}</p>
-  </div>
+  <app-latex-render [latexCode]="getSummary() || '-'"></app-latex-render>
+</div>

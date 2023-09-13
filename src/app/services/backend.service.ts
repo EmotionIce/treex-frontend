@@ -43,7 +43,10 @@ export class BackendService {
   ) {
     this.settings = settingsService.getSettings();
     this.handleError = this.handleError.bind(this);
-    this.baseUrl += this.settings.hostingPort;
+
+    // enable for dynamic hosting port (search for this term to find all occurences)
+    //this.baseUrl += this.settings.hostingPort;
+    this.baseUrl += '8090';
 
     this.dataService.currentHostingPort.subscribe((newPort) => {
       this.ChangePort(newPort);
@@ -129,7 +132,7 @@ export class BackendService {
    */
   public MoveElementTree(
     e: string,
-    p: string| null,
+    p: string | null,
     pc: string | null
   ): Observable<Array<Object>> {
     let moveData: Object = {

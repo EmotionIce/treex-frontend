@@ -46,7 +46,7 @@ export class DataService {
    */
   currentDraggedElement = this.draggedElement.asObservable();
 
-  private hostingPort = new BehaviorSubject<number>(8080);
+  private hostingPort = new BehaviorSubject<number>(8090);
   /**
    * Emits the current hosting port
    */
