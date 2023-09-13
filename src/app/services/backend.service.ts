@@ -129,7 +129,7 @@ export class BackendService {
    */
   public MoveElementTree(
     e: string,
-    p: string,
+    p: string| null,
     pc: string | null
   ): Observable<Array<Object>> {
     let moveData: Object = {
