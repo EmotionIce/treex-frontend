@@ -57,8 +57,6 @@ h2 {
   //z-index:  // Ensure it's below the popup but above other page contents
 }
 
-// ... (previous code remains unchanged)
-
 .margin-element {
   margin-bottom: 8px;
 
@@ -98,4 +96,9 @@ h2 {
     border-radius: inherit;
     pointer-events: none;
   }
+}
+
+.portWarn {
+  color: var(--danger-color);
+  font-size: small;
 }
