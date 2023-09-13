@@ -1,4 +1,8 @@
 .theme-wrapper {
-    padding-top: 110px;
-    overflow-y: hidden;
+  padding-top: 110px;
+  overflow-y: hidden;
+}
+
+router-outlet {
+  height: 100vh;
 }

@@ -4,6 +4,7 @@
   background-color: var(--background-color);
   color: var(--primary-text-color);
   width: 100%;
+  font-size: 20px;
 }
 
 h2 {
@@ -56,10 +57,45 @@ h2 {
   //z-index:  // Ensure it's below the popup but above other page contents
 }
 
-.margin-element.mat-card {
-  margin-bottom: 20px;
+// ... (previous code remains unchanged)
+
+.margin-element {
+  margin-bottom: 8px;
+
+  // Specific margin for the Advanced Settings Toggle
+  &.advanced-settings-toggle {
+    margin-bottom: 10px;
+  }
 }
 
-.mat-icon {
-  color: var(--accent-color) !important; // White background
+.advanced-settings-button {
+  background-color: var(--background-color);
+  color: var(--primary-text-color);
+  border: none; // Remove border
+  border-radius: 4px; // Rounded corners
+  cursor: pointer; // Cursor style
+  position: relative; // Relative positioning
+
+  // Style for the text inside the button
+  span {
+    vertical-align: middle;
+    margin-right: 8px; // Spacing between text and icon
+  }
+
+  // Style for the icon inside the button
+  mat-icon {
+    vertical-align: middle;
+  }
+
+  &:hover::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: inherit;
+    pointer-events: none;
+  }
 }

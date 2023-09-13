@@ -23,8 +23,8 @@ interface ReceivedData {
   providedIn: 'root', //so every other dependencies can access this service
 })
 export class BackendService {
-  private baseUrl = 'http://localhost:8080'; //localhost connection to backend
   private settings: Settings; //settings object
+  private baseUrl = 'http://localhost:'; //localhost connection to backend
   private stopPolling$ = new Subject<void>(); // Subject to emit values that will stop polling
   public reloadData: EventEmitter<void> = new EventEmitter();
   private isPolling: boolean = false;
@@ -43,6 +43,11 @@ export class BackendService {
   ) {
     this.settings = settingsService.getSettings();
     this.handleError = this.handleError.bind(this);
+    this.baseUrl += this.settings.hostingPort;
+
+    this.dataService.currentHostingPort.subscribe((newPort) => {
+      this.ChangePort(newPort);
+    });
   }
 
   /**
@@ -51,7 +56,7 @@ export class BackendService {
    * @returns the base url of the backend
    */
   public getBaseUrl(): string {
-    return this.baseUrl;
+    return this.baseUrl + this.settings.hostingPort;
   }
 
   /**
@@ -84,6 +89,15 @@ export class BackendService {
   public CheckForUpdates(): Observable<boolean> {
     return this.http
       .get<boolean>(`${this.baseUrl}/CheckForUpdates`)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Sends a get request to change the hosting port from dataservice
+   */
+  public ChangePort(newPort: number): Observable<any> {
+    return this.http
+      .get<Array<Object>>(`${this.baseUrl}/ChangePort?port=${newPort}`)
       .pipe(catchError(this.handleError));
   }
 

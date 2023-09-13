@@ -30,6 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 import { ImportComponent } from './import/import.component';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -85,6 +86,7 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatDividerModule,
     DragDropModule,
     DiagramModule,
     CommonModule,

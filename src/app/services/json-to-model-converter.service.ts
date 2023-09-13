@@ -53,8 +53,6 @@ export class JsonToModelConverterService {
           return true;
         } catch (error) {
           console.error(`Error during conversion: ${(error as Error).message}`);
-          // Use the ErrorPopupService to display the error message
-          this.errorPopupService.setErrorMessage((error as Error).message);
           return false;
         }
       })

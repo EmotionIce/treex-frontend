@@ -1,17 +1,13 @@
-
-
 <div class="editor-view" cdkDropListGroup>
   <div class="navigation-part">
-    <app-navigation-part 
-    [parentElementID]="hoveredParentElementID"
-    (navParentElementIDChange)="onNavParentElementIDChange($event)">
-  </app-navigation-part>
+    <app-navigation-part [parentElementID]="hoveredParentElementID"
+      (navParentElementIDChange)="onNavParentElementIDChange($event)">
+    </app-navigation-part>
   </div>
 
   <div class="editor-part">
-    <app-editor-part
-    
-    (parentElementIDChange)="onHoveredParentElementIDChange($event)"[navElementHoverID]="hoveredNavElement"></app-editor-part>
+    <app-editor-part (parentElementIDChange)="onHoveredParentElementIDChange($event)"
+      [navElementHoverID]="hoveredNavElement"></app-editor-part>
   </div>
 </div>
 

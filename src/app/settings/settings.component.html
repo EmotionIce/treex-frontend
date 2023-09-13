@@ -2,6 +2,7 @@
 <div class="settings-container">
   <h2>Benutzereinstellungen</h2>
 
+  <!-- Normal Settings -->
   <div mat-card class="margin-element">
     <section class="setting">
       <mat-form-field appearance="fill">
@@ -11,14 +12,6 @@
           <mat-option value="dark">Dunkel</mat-option>
         </mat-select>
       </mat-form-field>
-    </section>
-  </div>
-
-  <div mat-card class="margin-element">
-    <section class="setting">
-      <mat-checkbox [(ngModel)]="settings.hideLeavesTree" (change)="updateSettings()">
-        Blätter im Baum ausblenden
-      </mat-checkbox>
     </section>
   </div>
 
@@ -62,15 +55,47 @@
     </section>
   </div>
 
-  <div mat-card class="margin-element">
-    <section class="setting">
-      <mat-form-field class="example-form-field" appearance="fill">
-        <mat-label>Popup-Dauer (Sek.)</mat-label>
-        <input matInput type="number" min="0" [(ngModel)]="settings.popupDuration" title="test">
-        <button *ngIf="settings.popupDuration" matSuffix mat-icon-button aria-label="Submit" (click)="updateSettings()">
-          <mat-icon>check</mat-icon>
-        </button>
-      </mat-form-field>
-    </section>
+  <mat-divider></mat-divider>
+
+  <!-- Advanced Settings Toggle -->
+  <div mat-card class="margin-element advanced-settings-toggle">
+    <button class="advanced-settings-button" (click)="settings.showAdvancedSettings = !settings.showAdvancedSettings">
+      <span>Erweiterte Einstellungen</span> <!-- Wrapped text in a span -->
+      <mat-icon>visibility{{settings.showAdvancedSettings ? '' : '_off'}}</mat-icon>
+    </button>
+  </div>
+
+
+
+  <!-- Advanced Settings -->
+  <div *ngIf="settings.showAdvancedSettings">
+
+    <div mat-card class="margin-element">
+      <section class="setting">
+        <mat-form-field class="example-form-field" appearance="fill">
+          <mat-label>Hosting Port</mat-label>
+          <input matInput type="number" min="0" [(ngModel)]="tempHostingPort"
+            title="Der lokale port auf dem Rechner, auf dem das Frontend gehostet wird">
+          <button matSuffix mat-icon-button
+            aria-label="Der lokale port auf dem Rechner, auf dem das Frontend gehostet wird."
+            (click)="updateSettings()">
+            <mat-icon>check</mat-icon>
+          </button>
+        </mat-form-field>
+      </section>
+    </div>
+
+    <div mat-card class="margin-element">
+      <section class="setting">
+        <mat-form-field class="example-form-field" appearance="fill">
+          <mat-label>Fehleranzeige (Sek.)</mat-label>
+          <input matInput type="number" min="0" [(ngModel)]="tempPopupDuration" title="Dauer der Anzeige von Fehlern">
+          <button matSuffix mat-icon-button aria-label="Dauer der Anzeige von Fehlern." (click)="updateSettings()">
+            <mat-icon>check</mat-icon>
+          </button>
+        </mat-form-field>
+      </section>
+    </div>
+
   </div>
 </div>

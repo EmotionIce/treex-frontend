@@ -13,6 +13,8 @@ export interface Settings {
   exportComment: boolean;
   exportSummary: boolean;
   popupDuration: number;
+  hostingPort: number;
+  showAdvancedSettings: boolean;
   // Other settings go here
 }
 
@@ -36,6 +38,8 @@ export class SettingsService {
     exportComment: true,
     exportSummary: true,
     popupDuration: 5,
+    hostingPort: 8080,
+    showAdvancedSettings: false,
   };
 
   /**
@@ -47,7 +51,10 @@ export class SettingsService {
     // Try to load settings from localStorage on initialization
     const savedSettings = localStorage.getItem('settings');
     if (savedSettings) {
-      this.settings = JSON.parse(savedSettings);
+      this.settings = {
+        ...this.settings, // Keep default settings
+        ...JSON.parse(savedSettings), // Override with saved settings
+      };
     }
   }
 
@@ -66,6 +73,15 @@ export class SettingsService {
    * @param newSettings {Partial<Settings>} the new settings to apply
    */
   updateSettings(newSettings: Partial<Settings>) {
+    // Check if hostingPort has changed
+    if (
+      newSettings.hasOwnProperty('hostingPort') &&
+      this.settings.hostingPort !== newSettings.hostingPort
+    ) {
+      this.dataService.updateHostingPort(newSettings.hostingPort!);
+      console.log('Hosting port changed to ' + newSettings.hostingPort!);
+    }
+
     this.settings = { ...this.settings, ...newSettings };
     // Save the updated settings to localStorage
     localStorage.setItem('settings', JSON.stringify(this.settings));

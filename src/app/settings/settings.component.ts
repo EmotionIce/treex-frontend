@@ -1,6 +1,7 @@
-import { Component, Renderer2, Inject } from '@angular/core';
+import { Component, Renderer2, Inject, Input } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Settings, SettingsService } from '../services/settings.service';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-settings',
@@ -9,6 +10,8 @@ import { Settings, SettingsService } from '../services/settings.service';
 })
 export class SettingsComponent {
   settings: Settings;
+  tempHostingPort: number;
+  tempPopupDuration: number;
 
   constructor(
     private settingsService: SettingsService,
@@ -16,6 +19,8 @@ export class SettingsComponent {
     @Inject(DOCUMENT) private document: Document
   ) {
     this.settings = this.settingsService.getSettings();
+    this.tempHostingPort = this.settings.hostingPort;
+    this.tempPopupDuration = this.settings.popupDuration;
     this.applyTheme();
   }
 
@@ -23,8 +28,23 @@ export class SettingsComponent {
    * Updates the settings
    */
   updateSettings() {
-    this.settingsService.updateSettings(this.settings);
-    this.applyTheme();
+    let hasChanged = false;
+    let newSettings: Settings = { ...this.settings }; // Clone the settings object
+
+    if (this.tempHostingPort !== newSettings.hostingPort) {
+      newSettings.hostingPort = this.tempHostingPort;
+      hasChanged = true;
+    }
+    if (this.tempPopupDuration !== newSettings.popupDuration) {
+      newSettings.popupDuration = this.tempPopupDuration;
+      hasChanged = true;
+    }
+
+    if (hasChanged) {
+      this.settingsService.updateSettings(newSettings); // Update the settings in the service
+      this.settings = newSettings; // Update the settings in the component
+      this.applyTheme();
+    }
   }
 
   /**

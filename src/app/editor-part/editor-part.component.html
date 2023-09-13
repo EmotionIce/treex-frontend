@@ -10,8 +10,7 @@
       <div class="box-and-droparea">
 
 
-        <div class="element-container"
-          [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID, 
+        <div class="element-container" [ngClass]="{'marked-element': layerElement.element.getId() === editorParentElementID,
           'highlighted': hoveredElementID === layerElement.element.getId() || onNavElementHover(layerElement),
           'divider-line': trackParentDifferences(layerElement)}"
           (mouseenter)="onElementHover(layerElement.element.getId())" (mouseleave)="onElementHover(null)" cdkDrag
@@ -34,7 +33,7 @@
               <div>
                 <div *ngIf=" layerElement.element.getType() =='Figure'">
                   <img class="displayImage" [ngClass]="{'notFoundPng': isContentEmpty(layerElement?.element)}"
-                    [src]="getFigureImage(layerElement?.element) || '-'">
+                    [src]="getFigureImage(layerElement?.element) || '-'" alt="Image">
                   <div class="captionsArray">
                     <div *ngFor="let caption of getFigureCaptions(layerElement?.element)">
                       <span class="captionHeader">Bildunterschrift:</span>
@@ -123,7 +122,7 @@
               (textUpdated)="onCommentUpdated($event)"></app-text-editor>
           </div>
           <div class="drop-placeholder" *cdkDragPlaceholder></div>
-          
+
 
         </div>
       </div>

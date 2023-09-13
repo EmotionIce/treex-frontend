@@ -46,6 +46,12 @@ export class DataService {
    */
   currentDraggedElement = this.draggedElement.asObservable();
 
+  private hostingPort = new BehaviorSubject<number>(8080);
+  /**
+   * Emits the current hosting port
+   */
+  currentHostingPort = this.hostingPort.asObservable();
+
   /**
    * Initializes the service
    */
@@ -102,6 +108,14 @@ export class DataService {
    */
   setDataImportStatus(status: boolean) {
     this.isDataImported.next(status);
+  }
+
+  /**
+   * Updates the hosting port
+   * @param port the new hosting port
+   */
+  updateHostingPort(port: number) {
+    this.hostingPort.next(port);
   }
 
   /**
